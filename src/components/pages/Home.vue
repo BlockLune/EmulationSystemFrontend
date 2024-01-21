@@ -6,7 +6,7 @@
         label-position="left"
     >
         <el-form-item>
-            <el-text>边缘设备检测及近场通信系统 登录界面</el-text>
+            <el-text>{{ EMULATION_SYSTEM_NAME }} 登录界面</el-text>
         </el-form-item>
         <el-form-item label="用户名" prop="username">
             <el-input v-model="loginForm.username" placeholder="输入用户名"/>
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, inject } from 'vue';
 import type { FormInstance } from 'element-plus';
 
 const loginFormRef = ref<FormInstance>()
@@ -46,4 +46,5 @@ const clearForm = (formEl: FormInstance | undefined) => {
     formEl.resetFields()
 }
 
+const EMULATION_SYSTEM_NAME = inject<string>('EMULATION_SYSTEM_NAME');
 </script>
