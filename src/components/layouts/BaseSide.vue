@@ -1,5 +1,5 @@
 <template>
-  <el-menu mode="vertical">
+  <el-menu mode="vertical" @select="handleMenuSelect">
     <el-menu-item index="1">
       <template #title>
         <el-icon><HomeFilled /></el-icon>
@@ -81,4 +81,11 @@ import {
   UserFilled,
   WarnTriangleFilled,
 } from "@element-plus/icons-vue";
+import { ref } from 'vue';
+const emits = defineEmits(['changeDisplay']);
+const selected = ref('');
+const handleMenuSelect = (index: string) => {
+  selected.value = index;
+  emits('changeDisplay', selected.value)
+}
 </script>

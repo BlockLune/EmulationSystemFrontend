@@ -2,9 +2,13 @@
   <el-config-provider namespace="ep">
     <BaseHeader />
     <el-container class="main-container">
-      <BaseSide />
+      <BaseSide @changeDisplay="handleDisplayChange"/>
       <el-container class="content-container">
-        <Home />
+        <Home v-if="display === '1'" />
+        <AttackDefenceExercise v-if="display === '4'" />
+        <Role v-if="display === '6-1'" />
+        <User v-if="display === '6-2'" />
+        <Config v-if="display === '6-3'" />
       </el-container>
     </el-container>
   </el-config-provider>
@@ -24,3 +28,11 @@
   padding: 20px;
 }
 </style>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+const display = ref('');
+const handleDisplayChange = (value: string) => {
+  display.value = value;
+}
+</script>

@@ -7,8 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AttackDefenceExercise: typeof import('./components/pages/AttackDefenceExercise.vue')['default']
     BaseHeader: typeof import('./components/layouts/BaseHeader.vue')['default']
     BaseSide: typeof import('./components/layouts/BaseSide.vue')['default']
+    Config: typeof import('./components/pages/SystemSettings/Config.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
@@ -39,5 +41,9 @@ declare module 'vue' {
     Home: typeof import('./components/pages/Home.vue')['default']
     Login: typeof import('./components/Login.vue')['default']
     Logos: typeof import('./components/Logos.vue')['default']
+    Role: typeof import('./components/pages/SystemSettings/Role.vue')['default']
+    RoleSettings: typeof import('./components/pages/SystemSettings/RoleSettings.vue')['default']
+    User: typeof import('./components/pages/SystemSettings/User.vue')['default']
+    UserSettings: typeof import('./components/pages/SystemSettings/UserSettings.vue')['default']
   }
 }
