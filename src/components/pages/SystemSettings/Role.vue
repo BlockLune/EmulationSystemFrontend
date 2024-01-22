@@ -180,6 +180,24 @@ const closeAddDialogSubmitForm = (formEl: FormInstance | undefined) => {
   roles.value.push(newRole);
 };
 
+// edit and delete operation helper
+let roleIndex = -1;
+const findRoleIndex = (row: Role): number => {
+  for (let i = 0; i < roles.value.length; ++i) {
+    const curRole = roles.value.at(i);
+    if (curRole!.name === row.name) {
+      if (isPermissionsEqual(curRole!.permissions, row.permissions)) {
+        if (curRole!.createdAt === row.createdAt) {
+          if (curRole!.updatedAt === row.updatedAt) {
+            roleIndex = i;
+          }
+        }
+      }
+    }
+  }
+  return roleIndex;
+};
+
 // edit role
 const editRoleFormRef = ref<FormInstance>();
 const editRoleForm = reactive({
@@ -187,7 +205,6 @@ const editRoleForm = reactive({
   permissions: [] as string[],
 });
 const editDialogVisible = ref(false);
-let roleIndex = -1;
 const isPermissionsEqual = (
   arr1: Array<String>,
   arr2: Array<String>
@@ -207,23 +224,7 @@ const showEditDialog = (row: Role) => {
   for (const permission of row.permissions) {
     editRoleForm.permissions.push(permission);
   }
-
-  for (let i = 0; i < roles.value.length; ++i) {
-    const curRole = roles.value.at(i);
-    if (curRole!.name === row.name) {
-      if (isPermissionsEqual(curRole!.permissions, row.permissions)) {
-        if (curRole!.createdAt === row.createdAt) {
-          if (curRole!.updatedAt === row.updatedAt) {
-            roleIndex = i;
-          }
-        }
-      }
-    }
-  }
-  if (roleIndex === -1) {
-    console.log("ERROR: role not found");
-    return;
-  }
+  roleIndex = findRoleIndex(row); // update role index
   editDialogVisible.value = true;
 };
 const clearEditDialogForm = (formEl: FormInstance | undefined) => {
@@ -243,7 +244,12 @@ const closeEditDialogSubmitForm = (formEl: FormInstance | undefined) => {
   roles.value.at(roleIndex)!.permissions = editRoleForm.permissions;
   roles.value.at(roleIndex)!.updatedAt = getTime();
 };
-const deleteRow = (role: Role) => {
-  console.log("删除: ", role);
+
+// delete role
+const deleteRow = (row: Role) => {
+  roleIndex = findRoleIndex(row); // update role index
+  roles.value = roles.value.filter(
+    (element) => roles.value.indexOf(element) !== roleIndex
+  );
 };
 </script>
