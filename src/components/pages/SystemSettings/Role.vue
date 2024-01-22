@@ -154,17 +154,20 @@ const addDialogVisible = ref(false);
 const showAddDialog = () => {
   addDialogVisible.value = true;
 };
-const clearAddDialogForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
+const clearNewRoleForm = () => {
   newRoleForm.name = "";
   newRoleForm.permissions = [];
+};
+const clearAddDialog = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+  clearNewRoleForm();
 };
 const closeAddDialogNoSubmitForm = (formEl: FormInstance | undefined) => {
   addDialogVisible.value = false;
   //console.log("closeAddDialogNoSubmitForm() called.");
   if (!formEl) return;
-  clearAddDialogForm(formEl);
+  clearAddDialog(formEl);
 };
 const closeAddDialogSubmitForm = (formEl: FormInstance | undefined) => {
   addDialogVisible.value = false;
@@ -178,7 +181,7 @@ const closeAddDialogSubmitForm = (formEl: FormInstance | undefined) => {
     updatedAt: getTime(),
   };
   roles.value.push(newRole);
-  clearAddDialogForm(formEl);
+  clearAddDialog(formEl);
 };
 
 // edit and delete operation helper
@@ -228,16 +231,19 @@ const showEditDialog = (row: Role) => {
   roleIndex = findRoleIndex(row); // update role index
   editDialogVisible.value = true;
 };
-const clearEditDialogForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
+const clearEditRoleForm = () => {
   editRoleForm.name = "";
   editRoleForm.permissions = [];
+};
+const clearEditDialog = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+  clearEditRoleForm();
 };
 const closeEditDialogNoSubmitForm = (formEl: FormInstance | undefined) => {
   editDialogVisible.value = false;
   if (!formEl) return;
-  clearEditDialogForm(formEl);
+  clearEditDialog(formEl);
 };
 const closeEditDialogSubmitForm = (formEl: FormInstance | undefined) => {
   editDialogVisible.value = false;
