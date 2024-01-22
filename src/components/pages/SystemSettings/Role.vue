@@ -178,6 +178,7 @@ const closeAddDialogSubmitForm = (formEl: FormInstance | undefined) => {
     updatedAt: getTime(),
   };
   roles.value.push(newRole);
+  clearAddDialogForm(formEl);
 };
 
 // edit and delete operation helper
