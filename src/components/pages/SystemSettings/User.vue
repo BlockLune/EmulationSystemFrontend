@@ -1,34 +1,44 @@
-
 <template>
   <!-- 新增用户 -->
   <el-button type="primary" @click="showAddDialog">新增</el-button>
   <el-dialog v-model="addDialogVisible" title="新增用户" width="30%">
     <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
     <el-form
-      ref="newconfigFormRef"
-      :model="newconfigForm"
-      label="70px"
+      ref="newUserFormRef"
+      :model="newUserForm"
+      label="100px"
       label-position="left"
     >
       <el-form-item label="用户名称" prop="name">
-        <el-input v-model="newconfigForm.name" placeholder="单行输入" />
+        <el-input v-model="newUserForm.username" placeholder="单行输入" />
       </el-form-item>
-      <el-form-item label="角色名称" prop="permissions">
-        <el-input v-model="newconfigForm.permissions" placeholder="单行输入" />
+      <el-form-item label="角色名称" prop="role">
+        <el-select
+          v-model="newUserForm.role"
+          placeholder="请选择"
+          style="width: 100px"
+        >
+          <el-option
+            v-for="item in roleOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </el-form-item>
-      <el-form-item label="登录名称" prop="note">
-        <el-input v-model="newconfigForm.note" placeholder="单行输入" />
+      <el-form-item label="登录名" prop="loginName">
+        <el-input v-model="newUserForm.loginName" placeholder="单行输入" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button
           type="primary"
-          @click="closeAddDialogSubmitForm(newconfigFormRef)"
+          @click="closeAddDialogSubmitForm(newUserFormRef)"
         >
           确定
         </el-button>
-        <el-button @click="closeAddDialogNoSubmitForm(newconfigFormRef)"
+        <el-button @click="closeAddDialogNoSubmitForm(newUserFormRef)"
           >取消</el-button
         >
       </span>
@@ -36,15 +46,20 @@
   </el-dialog>
 
   <!-- 表格主体 -->
-  <el-table :data="roles" stripe style="width: 100%">
-    <el-table-column prop="name" label="用户名称"></el-table-column>
-    <el-table-column prop="permissions" label="角色名称">
+  <el-table :data="users" stripe style="width: 100%">
+    <el-table-column prop="username" label="用户名称"></el-table-column>
+    <el-table-column prop="role" label="角色名称"></el-table-column>
+    <el-table-column prop="loginName" label="登录名"></el-table-column>
+    <el-table-column prop="status" label="用户状态">
       <template #default="{ row }">
-        <span>{{ formatPermissions(row.permissions) }}</span>
+        <el-switch
+          v-model="row.status"
+          active-text="启用"
+          inactive-text="禁用"
+        />
       </template>
     </el-table-column>
-    <el-table-column prop="createdAt" label="创建时间"></el-table-column>
-    <el-table-column prop="updatedAt" label="更新时间"></el-table-column>
+    <el-table-column prop="lastLoginAt" label="最近登录时间"></el-table-column>
     <el-table-column label="操作">
       <template #default="{ row }">
         <el-button link type="primary" @click="showEditDialog(row)"
@@ -67,30 +82,30 @@
   <!-- 编辑用户 -->
   <el-dialog v-model="editDialogVisible" title="编辑用户" width="30%">
     <el-form
-      ref="editRoleFormRef"
-      :model="editRoleForm"
+      ref="editUserFormRef"
+      :model="editUserForm"
       label="70px"
       label-position="left"
     >
-      <el-form-item label="用户名称" prop="name">
-        <el-input v-model="editRoleForm.name" />
+      <el-form-item label="用户名称" prop="username">
+        <el-input v-model="editUserForm.username" />
       </el-form-item>
-      <el-form-item label="角色名称" prop="permissions">
-        <el-input v-model="editRoleForm.permissions" />
+      <el-form-item label="角色名" prop="role">
+        <el-input v-model="editUserForm.role" />
       </el-form-item>
-      <el-form-item label="登录名称" prop="note">
-        <el-input v-model="editRoleForm.note" />
+      <el-form-item label="登录名称" prop="loginName">
+        <el-input v-model="editUserForm.loginName" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button
           type="primary"
-          @click="closeEditDialogSubmitForm(editRoleFormRef)"
+          @click="closeEditDialogSubmitForm(editUserFormRef)"
         >
           确定
         </el-button>
-        <el-button @click="closeEditDialogNoSubmitForm(editRoleFormRef)"
+        <el-button @click="closeEditDialogNoSubmitForm(editUserFormRef)"
           >取消</el-button
         >
       </span>
@@ -100,23 +115,36 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { FormInstance } from "element-plus";
+import { ElSelect, FormInstance } from "element-plus";
 
-interface Role {
-  name: string;
-  permissions: string[];
-  note: string[];
-  createdAt: string;
-  updatedAt: string;
+interface User {
+  username: string;
+  role: string;
+  loginName: string;
+  status: boolean;
+  lastLoginAt: string;
 }
 
+const roleOptions = [
+  { value: "管理员", label: "管理员" },
+  { value: "测试员", label: "测试员" },
+];
+
 // for debugging
-const roles = ref<Role[]>([
+const users = ref<User[]>([
   {
-    name: "张三",
-    permissions: ["管理员"],
-    createdAt: "2023-12-31",
-    updatedAt: "2024-01-01",
+    username: "张三",
+    role: "管理员",
+    loginName: "zhang san",
+    status: true,
+    lastLoginAt: "2023-12-02 00:00:00",
+  },
+  {
+    username: "王武",
+    role: "测试员",
+    loginName: "wang wu",
+    status: false,
+    lastLoginAt: "2023-12-02 00:00:00",
   },
 ]);
 
@@ -125,101 +153,122 @@ const getTime = (): string => {
   return `${datetime.getFullYear()}-${datetime.getMonth() + 1}-${datetime.getDate()}`;
 };
 
-const formatPermissions = (permissions: string[]): string => {
-  return permissions.join("、");
+const getUserStatus = (row: User) => {
+  return row.status ? "启用" : "禁用";
 };
 
-// add new role
-const newconfigFormRef = ref<FormInstance>();
-const newconfigForm = reactive({
-  name: "",
-  permissions: [] as string[],
+// add new user
+const newUserFormRef = ref<FormInstance>();
+const newUserForm = reactive({
+  username: "",
+  role: "",
+  loginName: "",
+  status: true, // 新增用户默认启用
+  lastLoginAt: "",
 });
 
 const addDialogVisible = ref(false);
 const showAddDialog = () => {
   addDialogVisible.value = true;
 };
-const clearnewconfigForm = () => {
-  newconfigForm.name = "";
-  newconfigForm.permissions = [];
+const clearNewConfigForm = () => {
+  newUserForm.username = "";
+  newUserForm.role = "";
+  newUserForm.loginName = "";
+  newUserForm.status = false;
+  newUserForm.lastLoginAt = "";
 };
 const clearAddDialog = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  clearnewconfigForm();
+  clearNewConfigForm();
 };
 const closeAddDialogNoSubmitForm = (formEl: FormInstance | undefined) => {
   addDialogVisible.value = false;
-  //console.log("closeAddDialogNoSubmitForm() called.");
   if (!formEl) return;
   clearAddDialog(formEl);
 };
 const closeAddDialogSubmitForm = (formEl: FormInstance | undefined) => {
   addDialogVisible.value = false;
   if (!formEl) return;
-  //console.log("closeAddDialogSubmitForm() called.");
-  //console.log(newconfigForm);
-  const newRole: Role = {
-    name: newconfigForm.name,
-    permissions: newconfigForm.permissions,
-    createdAt: getTime(),
-    updatedAt: getTime(),
+  const newUser: User = {
+    username: newUserForm.username,
+    role: newUserForm.role,
+    loginName: newUserForm.loginName,
+    status: newUserForm.status,
+    lastLoginAt: newUserForm.lastLoginAt,
   };
-  roles.value.push(newRole);
+  users.value.push(newUser);
   clearAddDialog(formEl);
 };
 
 // edit and delete operation helper
-let roleIndex = -1;
-const findRoleIndex = (row: Role): number => {
-  for (let i = 0; i < roles.value.length; ++i) {
-    const curRole = roles.value.at(i);
-    if (curRole!.name === row.name) {
-      if (isPermissionsEqual(curRole!.permissions, row.permissions)) {
-        if (curRole!.createdAt === row.createdAt) {
-          if (curRole!.updatedAt === row.updatedAt) {
-            roleIndex = i;
-          }
-        }
-      }
-    }
+function deepEqual<T>(obj1: T, obj2: T): boolean {
+  if (obj1 === obj2) {
+    return true;
   }
-  return roleIndex;
-};
+  if (
+    typeof obj1 !== "object" ||
+    obj1 === null ||
+    typeof obj2 !== "object" ||
+    obj2 === null
+  ) {
+    return false;
+  }
 
-// edit role
-const editRoleFormRef = ref<FormInstance>();
-const editRoleForm = reactive({
-  name: "",
-  permissions: [] as string[],
-});
-const editDialogVisible = ref(false);
-const isPermissionsEqual = (
-  arr1: Array<String>,
-  arr2: Array<String>
-): boolean => {
-  const set1 = new Set(arr1);
-  const set2 = new Set(arr2);
-  if (set1.size !== set2.size) return false;
-  for (const item of set1) {
-    if (!set2.has(item)) {
+  const keys1 = Object.keys(obj1) as Array<keyof T>;
+  const keys2 = Object.keys(obj2) as Array<keyof T>;
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (const key of keys1) {
+    if (!keys2.includes(key)) {
+      return false;
+    }
+
+    if (!deepEqual(obj1[key], obj2[key])) {
       return false;
     }
   }
+
   return true;
-};
-const showEditDialog = (row: Role) => {
-  editRoleForm.name = row.name;
-  for (const permission of row.permissions) {
-    editRoleForm.permissions.push(permission);
+}
+let userIndex = -1;
+const findUserIndex = (row: User): number => {
+  for (let i = 0; i < users.value.length; ++i) {
+    const curUser = users.value.at(i);
+    if (deepEqual<User>(curUser!, row)) {
+      userIndex = i;
+      break;
+    }
   }
-  roleIndex = findRoleIndex(row); // update role index
+  console.log(userIndex);
+  return userIndex;
+};
+
+// edit user
+const editUserFormRef = ref<FormInstance>();
+const editUserForm = reactive({
+  username: "",
+  role: "",
+  loginName: "",
+  status: false,
+});
+const editDialogVisible = ref(false);
+const showEditDialog = (row: User) => {
+  editUserForm.username = row.username;
+  editUserForm.role = row.role;
+  editUserForm.loginName = row.loginName;
+  userIndex = findUserIndex(row); // update role index
   editDialogVisible.value = true;
 };
 const clearEditRoleForm = () => {
-  editRoleForm.name = "";
-  editRoleForm.permissions = [];
+  editUserForm.username = "";
+  editUserForm.role = "";
+  editUserForm.loginName = "";
+  editUserForm.status = false;
 };
 const clearEditDialog = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -234,15 +283,17 @@ const closeEditDialogNoSubmitForm = (formEl: FormInstance | undefined) => {
 const closeEditDialogSubmitForm = (formEl: FormInstance | undefined) => {
   editDialogVisible.value = false;
   if (!formEl) return;
-  roles.value.at(roleIndex)!.permissions = editRoleForm.permissions;
-  roles.value.at(roleIndex)!.updatedAt = getTime();
+  users.value.at(userIndex)!.username = editUserForm.username;
+  users.value.at(userIndex)!.role = editUserForm.role;
+  users.value.at(userIndex)!.loginName = editUserForm.loginName;
+  users.value.at(userIndex)!.status = editUserForm.status;
 };
 
-// delete role
-const deleteRow = (row: Role) => {
-  roleIndex = findRoleIndex(row); // update role index
-  roles.value = roles.value.filter(
-    (element) => roles.value.indexOf(element) !== roleIndex
+// delete user
+const deleteRow = (row: User) => {
+  userIndex = findUserIndex(row); // update role index
+  users.value = users.value.filter(
+    (element) => users.value.indexOf(element) !== userIndex
   );
 };
 </script>
