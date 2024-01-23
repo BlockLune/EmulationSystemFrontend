@@ -102,7 +102,6 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { FormInstance } from "element-plus";
-import { config } from "process";
 
 interface Config {
   key: string;
