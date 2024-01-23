@@ -3,7 +3,6 @@
     <BaseHeader />
     <el-container class="main-container">
       <BaseSide @changeDisplay="handleDisplayChange" />
-
       <el-container class="content-container">
         <Home v-if="display === '1'" />
         <AttackDefenceExercise v-if="display === '4'" />

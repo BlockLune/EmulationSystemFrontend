@@ -3,28 +3,17 @@
   <el-button type="primary" @click="showAddDialog">新增</el-button>
   <el-dialog v-model="addDialogVisible" title="新增用户" width="30%">
     <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
-    <el-form
-      ref="newUserFormRef"
-      :model="newUserForm"
-      label="100px"
-      label-position="left"
-    >
+    <el-form ref="newUserFormRef" :model="newUserForm" label-position="left">
       <el-form-item label="用户名称" prop="name">
         <el-input v-model="newUserForm.username" placeholder="单行输入" />
       </el-form-item>
       <el-form-item label="角色名称" prop="role">
-        <el-select
+        <el-select-v2
           v-model="newUserForm.role"
+          :options="roleOptions"
           placeholder="请选择"
           style="width: 300px"
-        >
-          <el-option
-            v-for="item in roleOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
+        />
       </el-form-item>
       <el-form-item label="登录名" prop="loginName">
         <el-input v-model="newUserForm.loginName" placeholder="单行输入" />
