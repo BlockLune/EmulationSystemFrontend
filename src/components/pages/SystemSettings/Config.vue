@@ -13,11 +13,11 @@
       <el-form-item label="配置项" prop="name">
         <el-input v-model="newconfigForm.name" placeholder="单行输入" />
       </el-form-item>
-      <el-form-item label="配置值">
-        <el-input v-model="newconfigForm.name" placeholder="单行输入" />
+      <el-form-item label="配置值" prop="permissions">
+        <el-input v-model="newconfigForm.permissions" placeholder="单行输入" />
       </el-form-item>
-      <el-form-item label="备注">
-        <el-input v-model="newconfigForm.name" placeholder="多行输入" />
+      <el-form-item label="备注" prop="note">
+        <el-input v-model="newconfigForm.note" placeholder="多行输入" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -75,11 +75,11 @@
       <el-form-item label="配置值" prop="name">
         <el-input v-model="editRoleForm.name" />
       </el-form-item>
-      <el-form-item label="配置项">
-        <el-input v-model="editRoleForm.name" />
+      <el-form-item label="配置项" prop="permissions">
+        <el-input v-model="editRoleForm.permissions" />
       </el-form-item>
-      <el-form-item label="备注">
-        <el-input v-model="editRoleForm.name" />
+      <el-form-item label="备注" prop="note">
+        <el-input v-model="editRoleForm.note" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -105,6 +105,7 @@ import { FormInstance } from "element-plus";
 interface Role {
   name: string;
   permissions: string[];
+  note: string[];
   createdAt: string;
   updatedAt: string;
 }

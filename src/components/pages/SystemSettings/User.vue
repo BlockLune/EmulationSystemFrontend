@@ -1,34 +1,34 @@
 
 <template>
-  <!-- 新增角色 -->
+  <!-- 新增用户 -->
   <el-button type="primary" @click="showAddDialog">新增</el-button>
-  <el-dialog v-model="addDialogVisible" title="新增角色" width="30%">
+  <el-dialog v-model="addDialogVisible" title="新增用户" width="30%">
     <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
     <el-form
-      ref="newRoleFormRef"
-      :model="newRoleForm"
+      ref="newconfigFormRef"
+      :model="newconfigForm"
       label="70px"
       label-position="left"
     >
       <el-form-item label="用户名称" prop="name">
-        <el-input v-model="newRoleForm.name" placeholder="单行输入" />
+        <el-input v-model="newconfigForm.name" placeholder="单行输入" />
       </el-form-item>
-      <el-form-item label="角色名称" prop="name">
-        <el-input v-model="newRoleForm.name" placeholder="单行输入" />
+      <el-form-item label="角色名称" prop="permissions">
+        <el-input v-model="newconfigForm.permissions" placeholder="单行输入" />
       </el-form-item>
-      <el-form-item label="登录名称" prop="name">
-        <el-input v-model="newRoleForm.name" placeholder="单行输入" />
+      <el-form-item label="登录名称" prop="note">
+        <el-input v-model="newconfigForm.note" placeholder="单行输入" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button
           type="primary"
-          @click="closeAddDialogSubmitForm(newRoleFormRef)"
+          @click="closeAddDialogSubmitForm(newconfigFormRef)"
         >
           确定
         </el-button>
-        <el-button @click="closeAddDialogNoSubmitForm(newRoleFormRef)"
+        <el-button @click="closeAddDialogNoSubmitForm(newconfigFormRef)"
           >取消</el-button
         >
       </span>
@@ -37,13 +37,14 @@
 
   <!-- 表格主体 -->
   <el-table :data="roles" stripe style="width: 100%">
-    <el-table-column prop="name" label="角色名称"></el-table-column>
-    <el-table-column prop="permissions" label="登录名">
+    <el-table-column prop="name" label="用户名称"></el-table-column>
+    <el-table-column prop="permissions" label="角色名称">
       <template #default="{ row }">
         <span>{{ formatPermissions(row.permissions) }}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="updatedAt" label="最近登录时间"></el-table-column>
+    <el-table-column prop="createdAt" label="创建时间"></el-table-column>
+    <el-table-column prop="updatedAt" label="更新时间"></el-table-column>
     <el-table-column label="操作">
       <template #default="{ row }">
         <el-button link type="primary" @click="showEditDialog(row)"
@@ -63,27 +64,22 @@
     </el-table-column>
   </el-table>
 
-  <!-- 编辑角色 -->
-  <el-dialog v-model="editDialogVisible" title="编辑角色" width="30%">
+  <!-- 编辑用户 -->
+  <el-dialog v-model="editDialogVisible" title="编辑用户" width="30%">
     <el-form
       ref="editRoleFormRef"
       :model="editRoleForm"
       label="70px"
       label-position="left"
     >
-      <el-form-item label="角色名称" prop="name">
-        <el-input v-model="editRoleForm.name" disabled />
+      <el-form-item label="用户名称" prop="name">
+        <el-input v-model="editRoleForm.name" />
       </el-form-item>
-      <el-form-item label="权限">
-        <el-checkbox-group v-model="editRoleForm.permissions">
-          <el-checkbox label="仿真靶场管理" />
-          <el-checkbox label="靶场管理" />
-          <el-checkbox label="容器管理" />
-          <el-checkbox label="镜像管理" />
-          <el-checkbox label="攻防演练" />
-          <el-checkbox label="漏洞库管理" />
-          <el-checkbox label="系统管理" />
-        </el-checkbox-group>
+      <el-form-item label="角色名称" prop="permissions">
+        <el-input v-model="editRoleForm.permissions" />
+      </el-form-item>
+      <el-form-item label="登录名称" prop="note">
+        <el-input v-model="editRoleForm.note" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -109,6 +105,7 @@ import { FormInstance } from "element-plus";
 interface Role {
   name: string;
   permissions: string[];
+  note: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -116,16 +113,10 @@ interface Role {
 // for debugging
 const roles = ref<Role[]>([
   {
-    name: "角色A",
-    permissions: ["仿真靶场管理"],
+    name: "张三",
+    permissions: ["管理员"],
     createdAt: "2023-12-31",
     updatedAt: "2024-01-01",
-  },
-  {
-    name: "角色B",
-    permissions: ["攻防演练", "系统管理"],
-    createdAt: "2023-12-30",
-    updatedAt: "2024-01-02",
   },
 ]);
 
@@ -139,8 +130,8 @@ const formatPermissions = (permissions: string[]): string => {
 };
 
 // add new role
-const newRoleFormRef = ref<FormInstance>();
-const newRoleForm = reactive({
+const newconfigFormRef = ref<FormInstance>();
+const newconfigForm = reactive({
   name: "",
   permissions: [] as string[],
 });
@@ -149,14 +140,14 @@ const addDialogVisible = ref(false);
 const showAddDialog = () => {
   addDialogVisible.value = true;
 };
-const clearNewRoleForm = () => {
-  newRoleForm.name = "";
-  newRoleForm.permissions = [];
+const clearnewconfigForm = () => {
+  newconfigForm.name = "";
+  newconfigForm.permissions = [];
 };
 const clearAddDialog = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  clearNewRoleForm();
+  clearnewconfigForm();
 };
 const closeAddDialogNoSubmitForm = (formEl: FormInstance | undefined) => {
   addDialogVisible.value = false;
@@ -168,10 +159,10 @@ const closeAddDialogSubmitForm = (formEl: FormInstance | undefined) => {
   addDialogVisible.value = false;
   if (!formEl) return;
   //console.log("closeAddDialogSubmitForm() called.");
-  //console.log(newRoleForm);
+  //console.log(newconfigForm);
   const newRole: Role = {
-    name: newRoleForm.name,
-    permissions: newRoleForm.permissions,
+    name: newconfigForm.name,
+    permissions: newconfigForm.permissions,
     createdAt: getTime(),
     updatedAt: getTime(),
   };
