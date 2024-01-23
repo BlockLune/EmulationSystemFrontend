@@ -1,3 +1,4 @@
+
 <template>
   <!-- 新增角色 -->
   <el-button type="primary" @click="showAddDialog">新增</el-button>
@@ -9,19 +10,14 @@
       label="70px"
       label-position="left"
     >
-      <el-form-item label="角色名称" prop="name">
+      <el-form-item label="配置项" prop="name">
         <el-input v-model="newRoleForm.name" placeholder="单行输入" />
       </el-form-item>
-      <el-form-item label="权限">
-        <el-checkbox-group v-model="newRoleForm.permissions">
-          <el-checkbox label="仿真靶场管理" />
-          <el-checkbox label="靶场管理" />
-          <el-checkbox label="容器管理" />
-          <el-checkbox label="镜像管理" />
-          <el-checkbox label="攻防演练" />
-          <el-checkbox label="漏洞库管理" />
-          <el-checkbox label="系统管理" />
-        </el-checkbox-group>
+      <el-form-item label="配置值">
+        <el-input v-model="newRoleForm.name" placeholder="单行输入" />
+      </el-form-item>
+      <el-form-item label="备注">
+        <el-input v-model="newRoleForm.name" placeholder="多行输入" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -41,8 +37,8 @@
 
   <!-- 表格主体 -->
   <el-table :data="roles" stripe style="width: 100%">
-    <el-table-column prop="name" label="角色名称"></el-table-column>
-    <el-table-column prop="permissions" label="权限">
+    <el-table-column prop="name" label="配置项"></el-table-column>
+    <el-table-column prop="permissions" label="配置值">
       <template #default="{ row }">
         <span>{{ formatPermissions(row.permissions) }}</span>
       </template>
@@ -76,19 +72,14 @@
       label="70px"
       label-position="left"
     >
-      <el-form-item label="角色名称" prop="name">
-        <el-input v-model="editRoleForm.name" disabled />
+      <el-form-item label="配置值" prop="name">
+        <el-input v-model="editRoleForm.name" />
       </el-form-item>
-      <el-form-item label="权限">
-        <el-checkbox-group v-model="editRoleForm.permissions">
-          <el-checkbox label="仿真靶场管理" />
-          <el-checkbox label="靶场管理" />
-          <el-checkbox label="容器管理" />
-          <el-checkbox label="镜像管理" />
-          <el-checkbox label="攻防演练" />
-          <el-checkbox label="漏洞库管理" />
-          <el-checkbox label="系统管理" />
-        </el-checkbox-group>
+      <el-form-item label="配置项">
+        <el-input v-model="editRoleForm.name" />
+      </el-form-item>
+      <el-form-item label="备注">
+        <el-input v-model="editRoleForm.name" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -121,16 +112,10 @@ interface Role {
 // for debugging
 const roles = ref<Role[]>([
   {
-    name: "角色A",
-    permissions: ["仿真靶场管理"],
+    name: "stasticjobinterval",
+    permissions: ["5"],
     createdAt: "2023-12-31",
     updatedAt: "2024-01-01",
-  },
-  {
-    name: "角色B",
-    permissions: ["攻防演练", "系统管理"],
-    createdAt: "2023-12-30",
-    updatedAt: "2024-01-02",
   },
 ]);
 
