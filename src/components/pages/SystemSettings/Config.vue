@@ -1,34 +1,34 @@
 
 <template>
-  <!-- 新增角色 -->
+  <!-- 新增配置 -->
   <el-button type="primary" @click="showAddDialog">新增</el-button>
-  <el-dialog v-model="addDialogVisible" title="新增角色" width="30%">
+  <el-dialog v-model="addDialogVisible" title="新增配置" width="30%">
     <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
     <el-form
-      ref="newRoleFormRef"
-      :model="newRoleForm"
+      ref="newconfigFormRef"
+      :model="newconfigForm"
       label="70px"
       label-position="left"
     >
       <el-form-item label="配置项" prop="name">
-        <el-input v-model="newRoleForm.name" placeholder="单行输入" />
+        <el-input v-model="newconfigForm.name" placeholder="单行输入" />
       </el-form-item>
       <el-form-item label="配置值">
-        <el-input v-model="newRoleForm.name" placeholder="单行输入" />
+        <el-input v-model="newconfigForm.name" placeholder="单行输入" />
       </el-form-item>
       <el-form-item label="备注">
-        <el-input v-model="newRoleForm.name" placeholder="多行输入" />
+        <el-input v-model="newconfigForm.name" placeholder="多行输入" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button
           type="primary"
-          @click="closeAddDialogSubmitForm(newRoleFormRef)"
+          @click="closeAddDialogSubmitForm(newconfigFormRef)"
         >
           确定
         </el-button>
-        <el-button @click="closeAddDialogNoSubmitForm(newRoleFormRef)"
+        <el-button @click="closeAddDialogNoSubmitForm(newconfigFormRef)"
           >取消</el-button
         >
       </span>
@@ -129,8 +129,8 @@ const formatPermissions = (permissions: string[]): string => {
 };
 
 // add new role
-const newRoleFormRef = ref<FormInstance>();
-const newRoleForm = reactive({
+const newconfigFormRef = ref<FormInstance>();
+const newconfigForm = reactive({
   name: "",
   permissions: [] as string[],
 });
@@ -139,14 +139,14 @@ const addDialogVisible = ref(false);
 const showAddDialog = () => {
   addDialogVisible.value = true;
 };
-const clearNewRoleForm = () => {
-  newRoleForm.name = "";
-  newRoleForm.permissions = [];
+const clearnewconfigForm = () => {
+  newconfigForm.name = "";
+  newconfigForm.permissions = [];
 };
 const clearAddDialog = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  clearNewRoleForm();
+  clearnewconfigForm();
 };
 const closeAddDialogNoSubmitForm = (formEl: FormInstance | undefined) => {
   addDialogVisible.value = false;
@@ -158,10 +158,10 @@ const closeAddDialogSubmitForm = (formEl: FormInstance | undefined) => {
   addDialogVisible.value = false;
   if (!formEl) return;
   //console.log("closeAddDialogSubmitForm() called.");
-  //console.log(newRoleForm);
+  //console.log(newconfigForm);
   const newRole: Role = {
-    name: newRoleForm.name,
-    permissions: newRoleForm.permissions,
+    name: newconfigForm.name,
+    permissions: newconfigForm.permissions,
     createdAt: getTime(),
     updatedAt: getTime(),
   };

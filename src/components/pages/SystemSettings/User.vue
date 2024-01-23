@@ -1,4 +1,4 @@
-User
+
 <template>
   <!-- 新增角色 -->
   <el-button type="primary" @click="showAddDialog">新增</el-button>
@@ -10,19 +10,14 @@ User
       label="70px"
       label-position="left"
     >
+      <el-form-item label="用户名称" prop="name">
+        <el-input v-model="newRoleForm.name" placeholder="单行输入" />
+      </el-form-item>
       <el-form-item label="角色名称" prop="name">
         <el-input v-model="newRoleForm.name" placeholder="单行输入" />
       </el-form-item>
-      <el-form-item label="权限">
-        <el-checkbox-group v-model="newRoleForm.permissions">
-          <el-checkbox label="仿真靶场管理" />
-          <el-checkbox label="靶场管理" />
-          <el-checkbox label="容器管理" />
-          <el-checkbox label="镜像管理" />
-          <el-checkbox label="攻防演练" />
-          <el-checkbox label="漏洞库管理" />
-          <el-checkbox label="系统管理" />
-        </el-checkbox-group>
+      <el-form-item label="登录名称" prop="name">
+        <el-input v-model="newRoleForm.name" placeholder="单行输入" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -43,13 +38,12 @@ User
   <!-- 表格主体 -->
   <el-table :data="roles" stripe style="width: 100%">
     <el-table-column prop="name" label="角色名称"></el-table-column>
-    <el-table-column prop="permissions" label="权限">
+    <el-table-column prop="permissions" label="登录名">
       <template #default="{ row }">
         <span>{{ formatPermissions(row.permissions) }}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="createdAt" label="创建时间"></el-table-column>
-    <el-table-column prop="updatedAt" label="更新时间"></el-table-column>
+    <el-table-column prop="updatedAt" label="最近登录时间"></el-table-column>
     <el-table-column label="操作">
       <template #default="{ row }">
         <el-button link type="primary" @click="showEditDialog(row)"
@@ -260,4 +254,4 @@ const deleteRow = (row: Role) => {
     (element) => roles.value.indexOf(element) !== roleIndex
   );
 };
-</script>`````
+</script>
