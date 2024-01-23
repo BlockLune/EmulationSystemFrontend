@@ -260,7 +260,7 @@ const closeEditDialogSubmitForm = (formEl: FormInstance | undefined) => {
   configs.value.at(configIndex)!.updatedAt = getTime();
 };
 
-// delete role
+// delete config
 const deleteRow = (row: Config) => {
   configIndex = findConfigIndex(row); // update role index
   configs.value = configs.value.filter(
