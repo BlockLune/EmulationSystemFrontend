@@ -2,7 +2,8 @@
   <el-config-provider namespace="ep">
     <BaseHeader />
     <el-container class="main-container">
-      <BaseSide @changeDisplay="handleDisplayChange"/>
+      <BaseSide @changeDisplay="handleDisplayChange" />
+
       <el-container class="content-container">
         <Home v-if="display === '1'" />
         <AttackDefenceExercise v-if="display === '4'" />
@@ -30,13 +31,13 @@
 </style>
 
 <script lang="ts" setup>
-import { ref, provide } from 'vue';
+import { ref, provide } from "vue";
 
-const display = ref('');
+const display = ref("");
 const handleDisplayChange = (value: string) => {
   display.value = value;
-}
+};
 
 const EMULATION_SYSTEM_NAME = ref<string>("边缘设备检测及近场通信系统");
-provide('EMULATION_SYSTEM_NAME', EMULATION_SYSTEM_NAME);
+provide("EMULATION_SYSTEM_NAME", EMULATION_SYSTEM_NAME);
 </script>

@@ -16,7 +16,7 @@
         <el-select
           v-model="newUserForm.role"
           placeholder="请选择"
-          style="width: 100px"
+          style="width: 300px"
         >
           <el-option
             v-for="item in roleOptions"

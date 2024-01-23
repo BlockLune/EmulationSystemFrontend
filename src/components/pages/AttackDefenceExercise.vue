@@ -1,3 +1,1 @@
-<template>
-    AttackDefenceExercise TODO
-</template>
+<template>AttackDefenceExercise TODO</template>
