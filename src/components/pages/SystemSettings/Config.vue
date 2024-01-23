@@ -1,34 +1,38 @@
-
 <template>
   <!-- 新增配置 -->
   <el-button type="primary" @click="showAddDialog">新增</el-button>
   <el-dialog v-model="addDialogVisible" title="新增配置" width="30%">
     <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
     <el-form
-      ref="newconfigFormRef"
-      :model="newconfigForm"
+      ref="newConfigFormRef"
+      :model="newConfigForm"
       label="70px"
       label-position="left"
     >
-      <el-form-item label="配置项" prop="name">
-        <el-input v-model="newconfigForm.name" placeholder="单行输入" />
+      <el-form-item label="配置项" prop="key">
+        <el-input v-model="newConfigForm.key" placeholder="单行输入" />
       </el-form-item>
-      <el-form-item label="配置值" prop="permissions">
-        <el-input v-model="newconfigForm.permissions" placeholder="单行输入" />
+      <el-form-item label="配置值" prop="value">
+        <el-input v-model="newConfigForm.value" placeholder="单行输入" />
       </el-form-item>
       <el-form-item label="备注" prop="note">
-        <el-input v-model="newconfigForm.note" placeholder="多行输入" />
+        <el-input
+          v-model="newConfigForm.note"
+          placeholder="多行输入"
+          :rows="4"
+          type="textarea"
+        />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button
           type="primary"
-          @click="closeAddDialogSubmitForm(newconfigFormRef)"
+          @click="closeAddDialogSubmitForm(newConfigFormRef)"
         >
           确定
         </el-button>
-        <el-button @click="closeAddDialogNoSubmitForm(newconfigFormRef)"
+        <el-button @click="closeAddDialogNoSubmitForm(newConfigFormRef)"
           >取消</el-button
         >
       </span>
@@ -36,13 +40,10 @@
   </el-dialog>
 
   <!-- 表格主体 -->
-  <el-table :data="roles" stripe style="width: 100%">
-    <el-table-column prop="name" label="配置项"></el-table-column>
-    <el-table-column prop="permissions" label="配置值">
-      <template #default="{ row }">
-        <span>{{ formatPermissions(row.permissions) }}</span>
-      </template>
-    </el-table-column>
+  <el-table :data="configs" stripe style="width: 100%">
+    <el-table-column prop="key" label="配置项"></el-table-column>
+    <el-table-column prop="value" label="配置值"></el-table-column>
+    <el-table-column prop="note" label="备注"></el-table-column>
     <el-table-column prop="createdAt" label="创建时间"></el-table-column>
     <el-table-column prop="updatedAt" label="更新时间"></el-table-column>
     <el-table-column label="操作">
@@ -67,30 +68,30 @@
   <!-- 编辑角色 -->
   <el-dialog v-model="editDialogVisible" title="编辑角色" width="30%">
     <el-form
-      ref="editRoleFormRef"
-      :model="editRoleForm"
+      ref="editConfigFormRef"
+      :model="editConfigForm"
       label="70px"
       label-position="left"
     >
-      <el-form-item label="配置值" prop="name">
-        <el-input v-model="editRoleForm.name" />
+      <el-form-item label="配置值" prop="key">
+        <el-input v-model="editConfigForm.key" disabled />
       </el-form-item>
-      <el-form-item label="配置项" prop="permissions">
-        <el-input v-model="editRoleForm.permissions" />
+      <el-form-item label="配置项" prop="value">
+        <el-input v-model="editConfigForm.value" />
       </el-form-item>
       <el-form-item label="备注" prop="note">
-        <el-input v-model="editRoleForm.note" />
+        <el-input v-model="editConfigForm.note" :rows="4" type="textarea" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button
           type="primary"
-          @click="closeEditDialogSubmitForm(editRoleFormRef)"
+          @click="closeEditDialogSubmitForm(editConfigFormRef)"
         >
           确定
         </el-button>
-        <el-button @click="closeEditDialogNoSubmitForm(editRoleFormRef)"
+        <el-button @click="closeEditDialogNoSubmitForm(editConfigFormRef)"
           >取消</el-button
         >
       </span>
@@ -101,20 +102,22 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { FormInstance } from "element-plus";
+import { config } from "process";
 
-interface Role {
-  name: string;
-  permissions: string[];
-  note: string[];
+interface Config {
+  key: string;
+  value: number;
+  note: string;
   createdAt: string;
   updatedAt: string;
 }
 
 // for debugging
-const roles = ref<Role[]>([
+const configs = ref<Config[]>([
   {
-    name: "stasticjobinterval",
-    permissions: ["5"],
+    key: "example_key",
+    value: 7,
+    note: "",
     createdAt: "2023-12-31",
     updatedAt: "2024-01-01",
   },
@@ -125,101 +128,120 @@ const getTime = (): string => {
   return `${datetime.getFullYear()}-${datetime.getMonth() + 1}-${datetime.getDate()}`;
 };
 
-const formatPermissions = (permissions: string[]): string => {
-  return permissions.join("、");
-};
-
-// add new role
-const newconfigFormRef = ref<FormInstance>();
-const newconfigForm = reactive({
-  name: "",
-  permissions: [] as string[],
+// add new config
+const newConfigFormRef = ref<FormInstance>();
+const newConfigForm = reactive({
+  key: "",
+  value: 0,
+  note: "",
 });
 
 const addDialogVisible = ref(false);
 const showAddDialog = () => {
   addDialogVisible.value = true;
 };
-const clearnewconfigForm = () => {
-  newconfigForm.name = "";
-  newconfigForm.permissions = [];
+const clearNewConfigForm = () => {
+  newConfigForm.key = "";
+  newConfigForm.value = 0;
+  newConfigForm.note = "";
 };
 const clearAddDialog = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  clearnewconfigForm();
+  clearNewConfigForm();
 };
 const closeAddDialogNoSubmitForm = (formEl: FormInstance | undefined) => {
   addDialogVisible.value = false;
-  //console.log("closeAddDialogNoSubmitForm() called.");
   if (!formEl) return;
   clearAddDialog(formEl);
 };
 const closeAddDialogSubmitForm = (formEl: FormInstance | undefined) => {
   addDialogVisible.value = false;
   if (!formEl) return;
-  //console.log("closeAddDialogSubmitForm() called.");
-  //console.log(newconfigForm);
-  const newRole: Role = {
-    name: newconfigForm.name,
-    permissions: newconfigForm.permissions,
+  const newConfig: Config = {
+    key: newConfigForm.key,
+    value: newConfigForm.value,
+    note: newConfigForm.note,
     createdAt: getTime(),
     updatedAt: getTime(),
   };
-  roles.value.push(newRole);
+  configs.value.push(newConfig);
   clearAddDialog(formEl);
 };
 
 // edit and delete operation helper
-let roleIndex = -1;
-const findRoleIndex = (row: Role): number => {
-  for (let i = 0; i < roles.value.length; ++i) {
-    const curRole = roles.value.at(i);
-    if (curRole!.name === row.name) {
-      if (isPermissionsEqual(curRole!.permissions, row.permissions)) {
-        if (curRole!.createdAt === row.createdAt) {
-          if (curRole!.updatedAt === row.updatedAt) {
-            roleIndex = i;
-          }
-        }
-      }
-    }
+function deepEqual<T>(obj1: T, obj2: T): boolean {
+  if (obj1 === obj2) {
+    return true;
   }
-  return roleIndex;
-};
+  if (
+    typeof obj1 !== "object" ||
+    obj1 === null ||
+    typeof obj2 !== "object" ||
+    obj2 === null
+  ) {
+    return false;
+  }
 
-// edit role
-const editRoleFormRef = ref<FormInstance>();
-const editRoleForm = reactive({
-  name: "",
-  permissions: [] as string[],
-});
-const editDialogVisible = ref(false);
-const isPermissionsEqual = (
-  arr1: Array<String>,
-  arr2: Array<String>
-): boolean => {
-  const set1 = new Set(arr1);
-  const set2 = new Set(arr2);
-  if (set1.size !== set2.size) return false;
-  for (const item of set1) {
-    if (!set2.has(item)) {
+  const keys1 = Object.keys(obj1) as Array<keyof T>;
+  const keys2 = Object.keys(obj2) as Array<keyof T>;
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (const key of keys1) {
+    if (!keys2.includes(key)) {
+      return false;
+    }
+
+    if (!deepEqual(obj1[key], obj2[key])) {
       return false;
     }
   }
+
   return true;
-};
-const showEditDialog = (row: Role) => {
-  editRoleForm.name = row.name;
-  for (const permission of row.permissions) {
-    editRoleForm.permissions.push(permission);
+}
+
+let configIndex = -1;
+const findConfigIndex = (row: Config): number => {
+  const configForFinding: Config = {
+    key: row.key,
+    value: row.value,
+    note: row.note,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
+  };
+  for (let i = 0; i < configs.value.length; ++i) {
+    const curConfig = configs.value.at(i);
+    if (deepEqual<Config>(curConfig!, configForFinding)) {
+      configIndex = i;
+      break;
+    }
   }
-  roleIndex = findRoleIndex(row); // update role index
+  console.log(configIndex);
+  return configIndex;
+};
+
+// edit config
+const editConfigFormRef = ref<FormInstance>();
+const editConfigForm = reactive({
+  key: "",
+  value: 0,
+  note: "",
+});
+const editDialogVisible = ref(false);
+const showEditDialog = (row: Config) => {
+  editConfigForm.key = row.key;
+  editConfigForm.value = row.value;
+  editConfigForm.note = row.note;
+  configIndex = findConfigIndex(row); // update role index
   editDialogVisible.value = true;
 };
 const clearEditRoleForm = () => {
-  editRoleForm.name = "";
-  editRoleForm.permissions = [];
+  editConfigForm.key = "";
+  editConfigForm.value = 0;
+  editConfigForm.note = "";
 };
 const clearEditDialog = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -234,15 +256,16 @@ const closeEditDialogNoSubmitForm = (formEl: FormInstance | undefined) => {
 const closeEditDialogSubmitForm = (formEl: FormInstance | undefined) => {
   editDialogVisible.value = false;
   if (!formEl) return;
-  roles.value.at(roleIndex)!.permissions = editRoleForm.permissions;
-  roles.value.at(roleIndex)!.updatedAt = getTime();
+  configs.value.at(configIndex)!.value = editConfigForm.value;
+  configs.value.at(configIndex)!.note = editConfigForm.note;
+  configs.value.at(configIndex)!.updatedAt = getTime();
 };
 
 // delete role
-const deleteRow = (row: Role) => {
-  roleIndex = findRoleIndex(row); // update role index
-  roles.value = roles.value.filter(
-    (element) => roles.value.indexOf(element) !== roleIndex
+const deleteRow = (row: Config) => {
+  configIndex = findConfigIndex(row); // update role index
+  configs.value = configs.value.filter(
+    (element) => configs.value.indexOf(element) !== configIndex
   );
 };
 </script>
