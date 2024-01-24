@@ -32,6 +32,7 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElText: typeof import('element-plus/es')['ElText']
+    EmulationRangeCheckboxGroup: typeof import('./components/pages/SystemSettings/Role/EmulationRangeCheckboxGroup.vue')['default']
     Home: typeof import('./components/pages/Home.vue')['default']
     Role: typeof import('./components/pages/SystemSettings/Role.vue')['default']
     User: typeof import('./components/pages/SystemSettings/User.vue')['default']
