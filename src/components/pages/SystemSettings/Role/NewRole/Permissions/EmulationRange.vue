@@ -1,10 +1,8 @@
 <template>
     <el-checkbox v-model="isAll" :indeterminate="isIndeterminate" @change="handleAllChange">仿真靶场管理</el-checkbox>
-    <el-checkbox-group v-model="checkedOptions" @change="handleIndeterminateChange">
-        <el-checkbox v-for="option in options" :key="option" :label="option">{{
-            option
-        }}</el-checkbox>
-    </el-checkbox-group>
+    <el-checkbox v-model="permissionRange" @change="updateRange">靶场管理</el-checkbox>
+    <el-checkbox v-model="permissionContainer" @change="updateContainer">容器管理</el-checkbox>
+    <el-checkbox v-model="permissionMirror" @change="updateMirror">镜像管理</el-checkbox>
 </template>
 
 <script lang="ts" setup>
@@ -12,31 +10,39 @@ import { ref, defineProps, defineEmits, onBeforeMount } from 'vue';
 import { CheckboxValueType } from 'element-plus';
 
 const props = defineProps<{
-    range: Boolean,
-    container: Boolean,
-    mirror: Boolean,
+    range: boolean,
+    container: boolean,
+    mirror: boolean,
 }>();
 const emit = defineEmits([
     'update:range',
     'update:container',
     'update:mirror',
 ]);
-const updateRange = (value: boolean) => {
-    emit('update:range', value);
+const updateRange = (value: CheckboxValueType) => {
+    emit('update:range', permissionRange.value);
+    // handleIndeterminateChange();
 };
-const updateContainer = (value: boolean) => {
-    emit('update:container', value);
+const updateContainer = () => {
+    emit('update:container', permissionContainer.value);
 };
-const updateMirror = (value: boolean) => {
-    emit('update:mirror', value);
+const updateMirror = () => {
+    emit('update:mirror', permissionMirror.value);
 };
 
 const isAll = ref(false);
 const isIndeterminate = ref(false);
+const permissionRange = ref(false);
+const permissionContainer = ref(false);
+const permissionMirror = ref(false);
 const checkedOptions = ref([] as string[]);
 const options: string[] = ['靶场管理', '容器管理', '镜像管理'];
 
 onBeforeMount(() => {
+    if (props.range) permissionRange.value = true;
+    if (props.container) permissionContainer.value = true;
+    if (props.mirror) permissionMirror.value = true;
+
     if (props.range)
         checkedOptions.value.push('靶场管理');
     if (props.container)

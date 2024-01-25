@@ -1,12 +1,18 @@
 <template>
-    <EmulationRange :range="permissionsStatus.range" :container="permissionsStatus.container"
-        :mirror="permissionsStatus.mirror" />
-    <el-checkbox v-model="permissionsStatus.attackDefense">攻防演练</el-checkbox>
+    <EmulationRange v-model:range="permissionsStatus.range" v-model:container="permissionsStatus.container"
+        v-model:mirror="permissionsStatus.mirror" @update:range="(range) => { permissionsStatus.range = range }"
+        @update:container="(container) => {
+            permissionsStatus.container = container;
+        }" @update:mirror="(mirror) => {
+    permissionsStatus.mirror = mirror;
+}" />
+    <el-checkbox v-model="permissionsStatus.attackDefense" @change="handleChange">攻防演练</el-checkbox>
     <el-checkbox v-model="permissionsStatus.loopholes">漏洞库管理</el-checkbox>
     <el-checkbox v-model="permissionsStatus.system">系统管理</el-checkbox>
 </template>
 
 <script lang="ts" setup>
+import { containsProp } from '@vueuse/core';
 import EmulationRange from './EmulationRange.vue';
 import { ref, defineProps, onBeforeMount } from 'vue';
 
@@ -52,4 +58,8 @@ onBeforeMount(() => {
         permissionsStatus.value.system = true;
     }
 });
+
+const handleChange = () => {
+    console.log(permissionsStatus.value);
+};
 </script>
