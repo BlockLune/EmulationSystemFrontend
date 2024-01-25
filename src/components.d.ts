@@ -7,6 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    All: typeof import('./components/pages/SystemSettings/Role/NewRole/Permissions/All.vue')['default']
+    AllPermissions: typeof import('./components/pages/SystemSettings/Role/NewRole/Permissions/AllPermissions.vue')['default']
     AttackDefenceExercise: typeof import('./components/pages/AttackDefenceExercise.vue')['default']
     BaseHeader: typeof import('./components/layouts/BaseHeader.vue')['default']
     BaseSide: typeof import('./components/layouts/BaseSide.vue')['default']
@@ -25,6 +27,8 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
+    ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
+    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSelectV2: typeof import('element-plus/es')['ElSelectV2']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
@@ -32,8 +36,13 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElText: typeof import('element-plus/es')['ElText']
+    ElTree: typeof import('element-plus/es')['ElTree']
+    EmulationRange: typeof import('./components/pages/SystemSettings/Role/NewRole/Permissions/EmulationRange.vue')['default']
     EmulationRangeCheckboxGroup: typeof import('./components/pages/SystemSettings/Role/EmulationRangeCheckboxGroup.vue')['default']
+    Form: typeof import('./components/pages/SystemSettings/Role/NewRole/Form.vue')['default']
     Home: typeof import('./components/pages/Home.vue')['default']
+    NewRole: typeof import('./components/pages/SystemSettings/Role/NewRole/NewRole.vue')['default']
+    PermissionsCheckboxes: typeof import('./components/pages/SystemSettings/Role/newRole/PermissionsCheckboxes.vue')['default']
     Role: typeof import('./components/pages/SystemSettings/Role.vue')['default']
     User: typeof import('./components/pages/SystemSettings/User.vue')['default']
   }
