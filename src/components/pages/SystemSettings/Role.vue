@@ -1,33 +1,5 @@
 <template>
-  <!-- 新增角色 -->
-  <el-button type="primary" @click="showAddDialog">新增</el-button>
-  <el-dialog v-model="addDialogVisible" title="新增角色" width="30%">
-    <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
-    <el-form ref="newRoleFormRef" :model="newRoleForm" label="70px" label-position="left">
-      <el-form-item label="角色名称" prop="name">
-        <el-input v-model="newRoleForm.name" placeholder="单行输入" />
-      </el-form-item>
-      <el-form-item label="权限">
-        <el-checkbox-group v-model="newRoleForm.permissions">
-          <el-checkbox label="仿真靶场管理" />
-          <el-checkbox label="靶场管理" />
-          <el-checkbox label="容器管理" />
-          <el-checkbox label="镜像管理" />
-          <el-checkbox label="攻防演练" />
-          <el-checkbox label="漏洞库管理" />
-          <el-checkbox label="系统管理" />
-        </el-checkbox-group>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="primary" @click="closeAddDialogSubmitForm(newRoleFormRef)">
-          确定
-        </el-button>
-        <el-button @click="closeAddDialogNoSubmitForm(newRoleFormRef)">取消</el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <NewRole />
 
   <!-- 表格主体 -->
   <el-table :data="roles" stripe style="width: 100%">
@@ -85,6 +57,7 @@
 import { ref, reactive } from "vue";
 import { FormInstance } from "element-plus";
 import EmulationRangeCheckboxGroup from "./Role/EmulationRangeCheckboxGroup.vue";
+import NewRole from './Role/NewRole/NewRole.vue';
 
 interface Role {
   name: string;

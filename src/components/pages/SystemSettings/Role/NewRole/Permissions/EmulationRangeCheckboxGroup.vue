@@ -25,7 +25,12 @@ const props = defineProps<{
   container: boolean;
   mirror: boolean;
 }>();
-const emit = defineEmits(["update:range", "update:container", "update:mirror"]);
+const emit = defineEmits([
+  "update:range",
+  "update:container",
+  "update:mirror",
+  "change",
+]);
 const updateRange = () => {
   emit("update:range", permissionRange.value);
   handleIndeterminateChange();
@@ -41,7 +46,6 @@ const updateMirror = () => {
 
 const isAll = ref(false);
 const isIndeterminate = ref(false);
-
 // const options = ref({
 //     range: {
 //         cnName: '靶场管理',
@@ -134,6 +138,7 @@ const handleAllChange = (val: CheckboxValueType) => {
   checkedOptions.value = val ? allOptions : ([] as string[]);
   isIndeterminate.value = false;
   updateTruthValuesBasedOnArray();
+  emit('change');
 };
 const handleIndeterminateChange = () => {
   updateArrayBasedOnTruthValues();
@@ -141,5 +146,6 @@ const handleIndeterminateChange = () => {
   const allCount = allOptions.length;
   isAll.value = checkedCount === allCount;
   isIndeterminate.value = checkedCount > 0 && checkedCount < allCount;
+  emit('change');
 };
 </script>

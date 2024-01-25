@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <el-config-provider namespace="ep">
     <BaseHeader />
     <el-container class="main-container">
@@ -12,10 +12,6 @@
       </el-container>
     </el-container>
   </el-config-provider>
-</template> -->
-
-<template>
-  <All :permissions="['靶场管理', '镜像管理', '漏洞库管理']" />
 </template>
 
 <style>
@@ -34,7 +30,6 @@
 
 <script lang="ts" setup>
 import { ref, provide } from 'vue';
-import All from './components/pages/SystemSettings/Role/NewRole/Permissions/All.vue';
 
 const display = ref("");
 const handleDisplayChange = (value: string) => {

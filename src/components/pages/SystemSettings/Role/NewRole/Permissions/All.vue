@@ -1,5 +1,5 @@
 <template>
-  <EmulationRange
+  <EmulationRangeCheckboxGroup
     v-model:range="permissionsStatus.range"
     v-model:container="permissionsStatus.container"
     v-model:mirror="permissionsStatus.mirror"
@@ -18,17 +18,24 @@
         permissionsStatus.mirror = mirror;
       }
     "
+    @change="handleChange"
   />
-  <el-checkbox v-model="permissionsStatus.attackDefense">攻防演练</el-checkbox>
-  <el-checkbox v-model="permissionsStatus.loopholes">漏洞库管理</el-checkbox>
-  <el-checkbox v-model="permissionsStatus.system">系统管理</el-checkbox>
+  <el-checkbox v-model="permissionsStatus.attackDefense" @change="handleChange"
+    >攻防演练</el-checkbox
+  >
+  <el-checkbox v-model="permissionsStatus.loopholes" @change="handleChange"
+    >漏洞库管理</el-checkbox
+  >
+  <el-checkbox v-model="permissionsStatus.system" @change="handleChange"
+    >系统管理</el-checkbox
+  >
 </template>
 
 <script lang="ts" setup>
-import EmulationRange from "./EmulationRange.vue";
-import { ref, defineProps, onBeforeMount } from "vue";
+import EmulationRangeCheckboxGroup from "./EmulationRangeCheckboxGroup.vue";
+import { ref, onBeforeMount } from "vue";
 
-interface AllPermissions {
+interface PermissionsStatus {
   range: boolean;
   container: boolean;
   mirror: boolean;
@@ -41,7 +48,9 @@ const props = defineProps<{
   permissions: string[];
 }>();
 
-const permissionsStatus = ref<AllPermissions>({
+const emit = defineEmits(["update:permissions"]);
+
+const permissionsStatus = ref<PermissionsStatus>({
   range: false,
   container: false,
   mirror: false,
@@ -72,6 +81,15 @@ onBeforeMount(() => {
 });
 
 const handleChange = () => {
-  console.log(permissionsStatus.value);
+  // console.log(permissionsStatus.value);
+  emit(
+    "update:permissions",
+    permissionsStatus.value.range,
+    permissionsStatus.value.container,
+    permissionsStatus.value.mirror,
+    permissionsStatus.value.attackDefense,
+    permissionsStatus.value.loopholes,
+    permissionsStatus.value.system
+  );
 };
 </script>
