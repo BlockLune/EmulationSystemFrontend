@@ -15,7 +15,7 @@
 </template> -->
 
 <template>
-  <EmulationRange :range="true" :container="true" :mirror="true"></EmulationRange>
+  <All :permissions="['靶场管理', '镜像管理', '漏洞库管理']" />
 </template>
 
 <style>
@@ -33,8 +33,8 @@
 </style>
 
 <script lang="ts" setup>
-import { ref, provide } from "vue";
-import EmulationRange from './components/pages/SystemSettings/Role/NewRole/Permissions/EmulationRange.vue';
+import { ref, provide } from 'vue';
+import All from './components/pages/SystemSettings/Role/NewRole/Permissions/All.vue';
 
 const display = ref("");
 const handleDisplayChange = (value: string) => {
