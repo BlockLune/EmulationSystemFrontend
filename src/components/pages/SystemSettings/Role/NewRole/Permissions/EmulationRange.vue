@@ -1,17 +1,3 @@
-
-import { progressProps } from 'element-plus';
-
-import { progressProps } from 'element-plus';
-
-import { progressProps } from 'element-plus';
-
-import { valueEquals } from 'element-plus';
-
-import { valueEquals } from 'element-plus';
-
-import { onBeforeMount } from 'vue';
-
-import { onBeforeMount } from 'vue';
 <template>
     <el-checkbox v-model="isAll" :indeterminate="isIndeterminate" @change="handleAllChange">仿真靶场管理</el-checkbox>
     <el-checkbox-group v-model="checkedOptions" @change="handleIndeterminateChange">
@@ -23,12 +9,13 @@ import { onBeforeMount } from 'vue';
 
 <script lang="ts" setup>
 import { ref, defineProps, defineEmits, onBeforeMount } from 'vue';
+import { CheckboxValueType } from 'element-plus';
 
-const props = defineProps({
-    range: boolean,
-    container: boolean,
-    mirror: boolean,
-});
+const props = defineProps<{
+    range: Boolean,
+    container: Boolean,
+    mirror: Boolean,
+}>();
 const emit = defineEmits([
     'update:range',
     'update:container',
@@ -51,21 +38,29 @@ const options: string[] = ['靶场管理', '容器管理', '镜像管理'];
 
 onBeforeMount(() => {
     if (props.range)
-        checkedOptions.value.append('靶场管理');
+        checkedOptions.value.push('靶场管理');
     if (props.container)
-        checkedOptions.value.append('容器管理');
+        checkedOptions.value.push('容器管理');
     if (props.mirror)
-        checkedOptions.value.append('镜像管理');
+        checkedOptions.value.push('镜像管理');
 
-    if checkedOptions.value
-
+    if (checkedOptions.value.length === options.length) {
+        isAll.value = true;
+        isIndeterminate.value = false;
+    } else if (checkedOptions.value.length === 0) {
+        isAll.value = false;
+        isIndeterminate.value = false;
+    } else {
+        isAll.value = false;
+        isIndeterminate.value = true;
+    }
 });
 
-const handleAllChange = (val: boolean) => {
+const handleAllChange = (val: CheckboxValueType) => {
     checkedOptions.value = val ? options : [] as string[];
     isIndeterminate.value = false;
 }
-const handleIndeterminateChange = (value: string[]) => {
+const handleIndeterminateChange = (value: CheckboxValueType[]) => {
     const checkedCount = value.length;
     const allCount = options.length;
     isAll.value = checkedCount === allCount;

@@ -15,7 +15,7 @@
 </template> -->
 
 <template>
-  <All />
+  <EmulationRange :range="true" :container="true" :mirror="true"></EmulationRange>
 </template>
 
 <style>
@@ -34,7 +34,7 @@
 
 <script lang="ts" setup>
 import { ref, provide } from "vue";
-import All from './components/pages/SystemSettings/Role/NewRole/Permissions/All.vue';
+import EmulationRange from './components/pages/SystemSettings/Role/NewRole/Permissions/EmulationRange.vue';
 
 const display = ref("");
 const handleDisplayChange = (value: string) => {
