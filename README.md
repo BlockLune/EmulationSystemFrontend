@@ -6,5 +6,15 @@
 
 ```bash
 npm install
-npm run dev
+npm run dev    # 开发
+npm run build  # 部署
 ```
+
+生成的部署文件位于 `./dist/`。
+
+## 贡献者
+
+- [@10PAULODYBALA](https://github.com/10PAULODYBALA)
+- [@BlockLune](https://github.com/BlockLune)
+- [@haozihuilaile](https://github.com/haozihuilaile)
+- [@kongdqdsqd](https://github.com/kongdqdsqd)
