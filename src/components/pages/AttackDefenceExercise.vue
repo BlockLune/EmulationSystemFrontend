@@ -1,1 +1,0 @@
-<template>AttackDefenceExercise TODO</template>

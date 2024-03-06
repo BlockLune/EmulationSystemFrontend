@@ -6,43 +6,44 @@
         <span>主页</span>
       </template>
     </el-menu-item>
-    <el-menu-item index="2" disabled>
+    <el-menu-item index="2" >
       <template #title>
         <el-icon><InfoFilled /></el-icon>
         <span>态势感知</span>
       </template>
     </el-menu-item>
-    <el-sub-menu index="3" disabled>
+    <el-sub-menu index="3">
       <template #title>
         <el-icon><Management /></el-icon>
         <span>仿真靶场管理</span>
       </template>
-      <el-menu-item index="3-1" disabled>
-        <template #title>
-          <el-icon><Management /></el-icon>
-          <span>靶场管理</span>
-        </template>
-      </el-menu-item>
-      <el-menu-item index="3-2" disabled>
-        <template #title>
-          <el-icon><Management /></el-icon>
-          <span>容器管理</span>
-        </template>
-      </el-menu-item>
-      <el-menu-item index="3-3" disabled>
+      <el-menu-item index="3-1">
         <template #title>
           <el-icon><Management /></el-icon>
           <span>镜像管理</span>
         </template>
       </el-menu-item>
-    </el-sub-menu>
-    <el-menu-item index="4">
+      <el-menu-item index="3-2">
+        <template #title>
+          <el-icon><Management /></el-icon>
+          <span>容器管理</span>
+        </template>
+      </el-menu-item>
+      <el-menu-item index="3-3">
+        <template #title>
+          <el-icon><Management /></el-icon>
+          <span>攻防演练</span>
+        </template>
+      </el-menu-item>
+      <el-menu-item index="3-4">
       <template #title>
         <el-icon><Flag /></el-icon>
-        <span>攻防演练</span>
+        <span>靶场管理</span>
       </template>
     </el-menu-item>
-    <el-sub-menu index="5" disabled>
+    </el-sub-menu>
+    
+    <el-sub-menu index="5" >
       <template #title>
         <el-icon><WarnTriangleFilled /></el-icon>
         <span>漏洞库管理</span>

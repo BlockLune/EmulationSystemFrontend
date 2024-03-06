@@ -7,10 +7,11 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AttackDefenceExercise: typeof import('./components/pages/AttackDefenceExercise.vue')['default']
+    AttackDefenceExercise: typeof import('./components/pages/Simulation range/Role/AttackDefenceExercise.vue')['default']
     BaseHeader: typeof import('./components/layouts/BaseHeader.vue')['default']
     BaseSide: typeof import('./components/layouts/BaseSide.vue')['default']
     Config: typeof import('./components/pages/SystemSettings/Config.vue')['default']
+    Container: typeof import('./components/pages/Simulation range/Role/container.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
@@ -23,9 +24,7 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
-    ElOption: typeof import('element-plus/es')['ElOption']
     ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
-    ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSelectV2: typeof import('element-plus/es')['ElSelectV2']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
@@ -34,6 +33,8 @@ declare module 'vue' {
     ElText: typeof import('element-plus/es')['ElText']
     EmulationRangeCheckboxGroup: typeof import('./components/pages/SystemSettings/Role/EmulationRangeCheckboxGroup.vue')['default']
     Home: typeof import('./components/pages/Home.vue')['default']
+    Mirror: typeof import('./components/pages/Simulation range/Role/Mirror.vue')['default']
+    Range: typeof import('./components/pages/Simulation range/Role/range.vue')['default']
     Role: typeof import('./components/pages/SystemSettings/Role.vue')['default']
     User: typeof import('./components/pages/SystemSettings/User.vue')['default']
   }

@@ -5,7 +5,10 @@
       <BaseSide @changeDisplay="handleDisplayChange" />
       <el-container class="content-container">
         <Home v-if="display === '1'" />
-        <AttackDefenceExercise v-if="display === '4'" />
+        <range v-if="display === '3-4'" />
+        <container v-if="display === '3-2'" />
+        <Mirror v-if="display === '3-1'" />
+        <AttackDefenceExercise v-if="display === '3-3'" />
         <Role v-if="display === '6-1'" />
         <User v-if="display === '6-2'" />
         <Config v-if="display === '6-3'" />
