@@ -1,18 +1,18 @@
 <template>
     <!-- 新增用户 -->
-    <el-button type="primary" @click="showAddDialog">上传镜像</el-button>
-    <el-dialog v-model="addDialogVisible" title="上传镜像" width="30%">
+    <el-button type="primary" @click="showAddDialog">新增靶机容器</el-button>
+    <el-dialog v-model="addDialogVisible" title="新增靶机容器" width="30%">
       <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
       <el-form ref="newUserFormRef" :model="newUserForm" label-position="left">
-        <el-form-item label="镜像名称" prop="name">
-          <el-input v-model="newUserForm.username" placeholder="单行输入" />
+        <el-form-item label="容器名称" prop="name">
+          <el-input v-model="newUserForm.ContainerName" placeholder="单行输入" />
         </el-form-item>
-        <el-form-item label="版本号" prop="role">
-          <el-input v-model="newUserForm.role" placeholder="单行输入" />
+        <el-form-item label="靶场名称" prop="role">
+          <el-input v-model="newUserForm.TargetName" placeholder="单行输入" />
         </el-form-item>
-        <el-form-item label="资源类型" prop="loginName">
+        <el-form-item label="资源类型" prop="StartTime">      //本段所有StartTime待修改
           <el-select-v2
-            v-model="newUserForm.loginName"
+            v-model="newUserForm.StartTime"
             :options="roleOptions"
             placeholder="请选择"
             style="width: 300px"
@@ -38,28 +38,16 @@
   
     <!-- 表格主体 -->
     <el-table :data="users" stripe style="width: 100%">
-      <el-table-column prop="username" label="镜像名称"></el-table-column>
-      <el-table-column prop="role" label="版本名称"></el-table-column>
-      <el-table-column prop="loginName" label="镜像类型"></el-table-column>
-      <el-table-column prop="lastLoginAt" label="上传时间"></el-table-column>
-      <el-table-column prop="lastModifyAt" label="修改时间"></el-table-column>
-      <el-table-column label="操作">
-        <template #default="{ row }">
-          <el-button link type="primary" @click="showEditDialog(row)"
-            >更新</el-button
-          >
-          <el-popconfirm
-            title="确认删除？"
-            confirm-button-text="确认"
-            cancel-button-text="取消"
-            @confirm="deleteRow(row)"
-          >
-            <template #reference>
-              <el-button link type="danger">删除</el-button>
-            </template>
-          </el-popconfirm>
-        </template>
-      </el-table-column>
+      <el-table-column prop="ContainerName" label="容器名称"></el-table-column>
+      <el-table-column prop="TargetName" label="靶场名称"></el-table-column>
+      <el-table-column prop="StartTime" label="容器启动时间"></el-table-column>
+      <el-table-column prop="EndTime" label="容器终止时间"></el-table-column>
+      <el-table-column prop="LastTime" label="容器持续时间（秒）"></el-table-column>
+      <el-table-column prop="status" label="容器状态"></el-table-column>
+      <el-table-column prop="mirror" label="关联镜像"></el-table-column>
+      <el-table-column prop="type" label="容器类型"></el-table-column>
+      <el-table-column prop="attack" label="攻击次数"></el-table-column>
+      <el-table-column prop="defence" label="防御次数"></el-table-column>
     </el-table>
   
     <!-- 更新镜像 -->
@@ -70,14 +58,14 @@
         label="70px"
         label-position="left"
       >
-        <el-form-item label="镜像名称" prop="username">
-          <el-input v-model="editUserForm.username" />
+        <el-form-item label="镜像名称" prop="ContainerName">
+          <el-input v-model="editUserForm.ContainerName" />
         </el-form-item>
-        <el-form-item label="版本号" prop="role">
-          <el-input v-model="editUserForm.role" />
+        <el-form-item label="版本号" prop="TargetName">
+          <el-input v-model="editUserForm.TargetName" />
         </el-form-item>
-        <el-form-item label="资源类型" prop="loginName">
-          <el-input v-model="editUserForm.loginName" />
+        <el-form-item label="资源类型" prop="loginName">           //StartTime待修改
+          <el-input v-model="editUserForm.StartTime" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -101,11 +89,16 @@
   import { ElSelect, FormInstance } from "element-plus";
   
   interface User {
-    username: string;
-    role: string;
-    loginName: string;
-    lastLoginAt: string;
-    lastModifyAt: string;
+    ContainerName: string;
+    TargetName: string;
+    StartTime: string;
+    EndTime: string;
+    LastTime: string;
+    status: string;
+    mirror: string;
+    type: string;
+    attack: string;
+    defence: string;
   }
   
   const roleOptions = [
@@ -119,39 +112,64 @@
   // for debugging
   const users = ref<User[]>([
     {
-      username: "test",
-      role: "v1",
-      loginName: "漏洞挖掘",
-      lastLoginAt: "2023-12-02 00:00:00",
-      lastModifyAt:"2023-12-02 00:00:00",
+      ContainerName: "容器A",
+      TargetName: "靶场A",
+      StartTime: "2023-12-24 12:00:00",
+      EndTime: "2023-12-24 12:05:00",
+      LastTime:"300",
+      status: "运行中",
+      mirror: "",
+      type: "漏洞挖掘容器",
+      attack: "/",
+      defence: "1000",
     },
     {
-      username: "test",
-      role: "v2",
-      loginName: "靶机镜像",
-      lastLoginAt: "2023-12-02 00:00:00",
-      lastModifyAt: "2023-12-02 00:00:00",
+      ContainerName: "容器B",
+      TargetName: "靶场A",
+      StartTime: "",
+      EndTime: "",
+      LastTime: "",
+      status: "已停止",
+      mirror: "",
+      type: "漏洞元数据容器",
+      attack: "1500",
+      defence: "/",
     },
     {
-      username: "",
-      role: "",
-      loginName: "网络攻击镜像",
-      lastLoginAt: "2023-12-02 00:00:00",
-      lastModifyAt: "2023-12-02 00:00:00",
+      ContainerName: "容器C",
+      TargetName: "靶场A",
+      StartTime: "",
+      EndTime: "",
+      LastTime: "",
+      status: "",
+      mirror: "",
+      type: "网络攻击容器",
+      attack: "2000",
+      defence: "/",
     },
     {
-      username: "",
-      role: "",
-      loginName: "网络防御镜像",
-      lastLoginAt: "2023-12-02 00:00:00",
-      lastModifyAt: "2023-12-02 00:00:00",
+      ContainerName: "容器D",
+      TargetName: "靶场A",
+      StartTime: "",
+      EndTime: "",
+      LastTime: "",
+      status: "",
+      mirror: "",
+      type: "网络防御容器",
+      attack: "/",
+      defence: "1500",
     },
     {
-      username: "",
-      role: "",
-      loginName: "包含漏洞数据镜像",
-      lastLoginAt: "2023-12-02 00:00:00",
-      lastModifyAt: "2023-12-02 00:00:00",
+      ContainerName: "",
+      TargetName: "",
+      StartTime: "",
+      EndTime: "",
+      LastTime: "",
+      status: "",
+      mirror: "",
+      type: "靶机容器",
+      attack: "",
+      defence: "",
     },
   ]);
   
@@ -163,11 +181,16 @@
   // add new user
   const newUserFormRef = ref<FormInstance>();
   const newUserForm = reactive({
-    username: "",
-    role: "",
-    loginName: "",
-    lastLoginAt: "",
-    lastModifyAt:"",
+    ContainerName: "",
+    TargetName: "",
+    StartTime: "",
+    EndTime: "",
+    LastTime: "",
+    status: "",
+    mirror: "",
+    type: "",
+    attack: "",
+    defence: "",
   });
   
   const addDialogVisible = ref(false);
@@ -175,11 +198,16 @@
     addDialogVisible.value = true;
   };
   const clearNewConfigForm = () => {
-    newUserForm.username = "";
-    newUserForm.role = "";
-    newUserForm.loginName = "";
-    newUserForm.lastLoginAt = "";
-    newUserForm.lastModifyAt = "";
+    newUserForm.ContainerName = "";
+    newUserForm.TargetName = "";
+    newUserForm.StartTime = "";
+    newUserForm.EndTime = "";
+    newUserForm.LastTime = "";
+    newUserForm.status = "";
+    newUserForm.mirror = "";
+    newUserForm.type = "";
+    newUserForm.attack = "";
+    newUserForm.defence = "";
   };
   const clearAddDialog = (formEl: FormInstance | undefined) => {
     if (!formEl) return;
@@ -195,12 +223,16 @@
     addDialogVisible.value = false;
     if (!formEl) return;
     const newUser: User = {
-      username: newUserForm.username,
-      role: newUserForm.role,
-      loginName: newUserForm.loginName,
-      lastLoginAt: newUserForm.lastLoginAt,
-      lastModifyAt: newUserForm.lastModifyAt,
-     
+      ContainerName: newUserForm.ContainerName,
+      TargetName: newUserForm.TargetName,
+      StartTime: newUserForm.StartTime,
+      EndTime: newUserForm.EndTime,
+      LastTime: newUserForm.LastTime,
+      status: newUserForm.status,
+      mirror: newUserForm.mirror,
+      type: newUserForm.type,
+      attack: newUserForm.attack,
+      defence: newUserForm.defence,
     };
     users.value.push(newUser);
     clearAddDialog(formEl);
@@ -252,25 +284,25 @@
     return userIndex;
   };
   
-  // edit user
+  // edit user                                          //以下所有StartTime均待修改！！！！！！！！！！！！！！！！！！！！！！1
   const editUserFormRef = ref<FormInstance>();
   const editUserForm = reactive({
-    username: "",
-    role: "",
-    loginName: "",
+    ContainerName: "",
+    TargetName: "",
+    StartTime: "",
   });
   const editDialogVisible = ref(false);
   const showEditDialog = (row: User) => {
-    editUserForm.username = row.username;
-    editUserForm.role = row.role;
-    editUserForm.loginName = row.loginName;
+    editUserForm.ContainerName = row.ContainerName;
+    editUserForm.TargetName = row.TargetName;
+    editUserForm.StartTime = row.StartTime;
     userIndex = findUserIndex(row); // update role index
     editDialogVisible.value = true;
   };
   const clearEditRoleForm = () => {
-    editUserForm.username = "";
-    editUserForm.role = "";
-    editUserForm.loginName = "";
+    editUserForm.ContainerName = "";
+    editUserForm.TargetName = "";
+    editUserForm.StartTime = "";
   };
   const clearEditDialog = (formEl: FormInstance | undefined) => {
     if (!formEl) return;
@@ -285,9 +317,9 @@
   const closeEditDialogSubmitForm = (formEl: FormInstance | undefined) => {
     editDialogVisible.value = false;
     if (!formEl) return;
-    users.value.at(userIndex)!.username = editUserForm.username;
-    users.value.at(userIndex)!.role = editUserForm.role;
-    users.value.at(userIndex)!.loginName = editUserForm.loginName;
+    users.value.at(userIndex)!.ContainerName = editUserForm.ContainerName;
+    users.value.at(userIndex)!.TargetName = editUserForm.TargetName;
+    users.value.at(userIndex)!.StartTime = editUserForm.StartTime;
   };
   
   // delete user
