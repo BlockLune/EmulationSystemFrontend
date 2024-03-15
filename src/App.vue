@@ -9,6 +9,7 @@
         <container v-if="display === '3-2'" />
         <Mirror v-if="display === '3-1'" />
         <AttackDefenceExercise v-if="display === '3-3'" />
+        <LoopHoleController v-if="display === '5'" />
         <Role v-if="display === '6-1'" />
         <User v-if="display === '6-2'" />
         <Config v-if="display === '6-3'" />

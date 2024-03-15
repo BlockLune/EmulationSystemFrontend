@@ -43,12 +43,12 @@
     </el-menu-item>
     </el-sub-menu>
     
-    <el-sub-menu index="5" >
+    <el-menu-item index="5" >
       <template #title>
         <el-icon><WarnTriangleFilled /></el-icon>
         <span>漏洞库管理</span>
       </template>
-    </el-sub-menu>
+    </el-menu-item>
     <el-sub-menu index="6">
       <template #title>
         <el-icon><Tools /></el-icon>
