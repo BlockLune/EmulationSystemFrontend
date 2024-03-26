@@ -85,7 +85,7 @@
 import { ref, reactive } from "vue";
 import { FormInstance } from "element-plus";
 import EmulationRangeCheckboxGroup from "./Role/EmulationRangeCheckboxGroup.vue";
-
+import {deleteRole} from "~/services/api";
 interface Role {
   name: string;
   permissions: string[];
@@ -233,5 +233,6 @@ const deleteRow = (row: Role) => {
   roles.value = roles.value.filter(
     (element) => roles.value.indexOf(element) !== roleIndex
   );
+  deleteRole(roleIndex)
 };
 </script>
