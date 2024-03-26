@@ -1,2 +1,2 @@
-export const baseApiUrl = "47.120.40.118:8888";
+export const baseApiUrl = "http://www.wuyouchachong.com/epsm/api";
 export const token = "Bearer";

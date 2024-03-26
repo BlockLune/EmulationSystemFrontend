@@ -36,6 +36,7 @@ declare module 'vue' {
     ElText: typeof import('element-plus/es')['ElText']
     ElTimeSelect: typeof import('element-plus/es')['ElTimeSelect']
     EmulationRangeCheckboxGroup: typeof import('./components/pages/Simulation range/Role/EmulationRangeCheckboxGroup.vue')['default']
+    Equipmentvulnerabilitymining: typeof import('./components/pages/Simulation range/Role/Equipmentvulnerabilitymining.vue')['default']
     Home: typeof import('./components/pages/Home.vue')['default']
     LoopHoleCard: typeof import('./components/pages/LoopHole/LoopHoleCard.vue')['default']
     LoopHoleController: typeof import('./components/pages/LoopHole/LoopHoleController.vue')['default']

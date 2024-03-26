@@ -23,15 +23,15 @@ interface Role {
 export const roles = [] as Role[];
 
 export const loginReq = (loginName: string, password: string) => {
-    const loginInstance = axios.create({
-        data: {
+
+    const postData = {
             loginName: loginName,
             password: password,
-        }
-    });
-    loginInstance.post('/system/user/login')
+    }
+    axios.post('/system/user/login',postData)
         .then((response) => {
             apikey.value = token + ' ' + response.data;
+            console.log(apikey.value)
         });
 };
 
