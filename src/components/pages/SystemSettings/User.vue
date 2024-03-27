@@ -45,6 +45,7 @@
           v-model="row.status"
           active-text="启用"
           inactive-text="禁用"
+          @change=""
         />
       </template>
     </el-table-column>
@@ -145,6 +146,10 @@ const getTime = (): string => {
 const getUserStatus = (row: User) => {
   return row.status ? "启用" : "禁用";
 };
+
+const changeUserStatus = () => {
+  changeUserStatus()
+}
 
 // add new user
 const newUserFormRef = ref<FormInstance>();
@@ -284,5 +289,6 @@ const deleteRow = (row: User) => {
   users.value = users.value.filter(
     (element) => users.value.indexOf(element) !== userIndex
   );
+
 };
 </script>
