@@ -4,10 +4,12 @@
     "@vueuse/core": "^10.7.2",
     "axios": "^1.6.5",
     "element-plus": "^2.3.12",
+    "json-bigint": "^1.0.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
     "@iconify-json/ep": "^1.1.12",
+    "@types/json-bigint": "^1.0.4",
     "@types/node": "^20.6.0",
     "@vitejs/plugin-vue": "^4.3.4",
     "sass": "^1.66.1",

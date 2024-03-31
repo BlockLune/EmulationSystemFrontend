@@ -30,27 +30,42 @@
   </el-dialog>
 
   <!-- 表格主体 -->
-  <el-table :data="roles" stripe style="width: 100%">
-    <el-table-column prop="id" label="角色ID"></el-table-column>
-    <el-table-column prop="name" label="角色名称"></el-table-column>
-    <el-table-column prop="auth" label="权限">
-<!--      <template #default="{ row }">-->
-<!--        <span>{{ formatPermissions(row.auth) }}</span>-->
-<!--      </template>-->
-    </el-table-column>
-    <el-table-column prop="createTime" label="创建时间"></el-table-column>
-    <el-table-column prop="updateTime" label="更新时间"></el-table-column>
-    <el-table-column label="操作">
-      <template #default="{ row }">
-        <el-button link type="primary" @click="showEditDialog(row)">编辑</el-button>
-        <el-popconfirm title="确认删除？" confirm-button-text="确认" cancel-button-text="取消" @confirm="deleteRow(row)">
-          <template #reference>
-            <el-button link type="danger">删除</el-button>
-          </template>
-        </el-popconfirm>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div style="width: 100%">
+    <el-table :data="roles.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
+              stripe style="width: 100%">
+      <el-table-column prop="id" label="角色ID"></el-table-column>
+      <el-table-column prop="name" label="角色名称"></el-table-column>
+      <el-table-column prop="auth" label="权限">
+        <!--      <template #default="{ row }">-->
+        <!--        <span>{{ formatPermissions(row.auth) }}</span>-->
+        <!--      </template>-->
+      </el-table-column>
+      <el-table-column prop="createTime" label="创建时间"></el-table-column>
+      <el-table-column prop="updateTime" label="更新时间"></el-table-column>
+      <el-table-column label="操作">
+        <template #default="{ row }">
+          <el-button link type="primary" @click="showEditDialog(row)">编辑</el-button>
+          <el-popconfirm title="确认删除？" confirm-button-text="确认" cancel-button-text="取消" @confirm="deleteRow(row)">
+            <template #reference>
+              <el-button link type="danger">删除</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[5, 10, 20, 30, 40]"
+        :small="small"
+        :disabled="disabled"
+        :background="background"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="roles.length"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+    />
+  </div>
 
   <!-- 编辑角色 -->
   <el-dialog v-model="editDialogVisible" title="编辑角色" width="30%">
@@ -60,14 +75,14 @@
       </el-form-item>
       <el-form-item label="权限">
         <el-radio-group v-model="editRoleForm.auth">
-          <el-radio label="仿真靶场管理" />
-          <el-radio label="靶场管理" />
-          <el-radio label="容器管理" />
-          <el-radio label="镜像管理" />
+          <el-radio value="仿真靶场管理">仿真靶场管理</el-radio>
+          <el-radio value="靶场管理">靶场管理</el-radio>
+          <el-radio value="容器管理">容器管理</el-radio>
+          <el-radio value="镜像管理">镜像管理</el-radio>
 <!--          <emulation-range-checkbox-group />-->
-          <el-radio label="攻防演练" />
-          <el-radio label="漏洞库管理" />
-          <el-radio label="系统管理" />
+          <el-radio value="攻防演练">攻防演练</el-radio>
+          <el-radio value="漏洞库管理">漏洞库管理</el-radio>
+          <el-radio value="系统管理">系统管理</el-radio>
         </el-radio-group>
       </el-form-item>
     </el-form>
@@ -83,16 +98,90 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, reactive, onMounted} from "vue";
-import { FormInstance } from "element-plus";
+import axios from 'axios';
+import {onMounted, ref, reactive} from "vue";
+import {ElMessage, FormInstance} from "element-plus";
 import EmulationRangeCheckboxGroup from "./Role/EmulationRangeCheckboxGroup.vue";
-import { deleteRole, listRoles, updateRole, roless, addRole } from "~/services/api";
+import JSONBIG from 'json-bigint'
 
 onMounted(() => {
   listRoles()
 })
 
-let roles = reactive(roless)
+axios.defaults.transformResponse = [
+  function (data) {
+    const json = JSONBIG({
+      storeAsString: true
+    })
+    const res = json.parse(data)
+    return res
+  }
+]
+
+const roles = ref([])
+
+const listRoles = () => {
+  roles.value = []
+  axios({
+    headers: {
+      Authorization: localStorage.getItem('Authorization')
+    },
+    method: 'get',
+    url: '/system/role/listRoles'
+  }).then((response) => {
+    for (const role of response.data.data) {
+      roles.value.push(role);
+    }
+  });
+};
+
+const deleteRole = (roleId: string) => {
+  axios({
+    method: 'post',
+    url: '/system/role/deleteRole',
+    headers: {
+      'Authorization': localStorage.getItem('Authorization'),
+    },
+    data: {
+      roleId: roleId
+    }
+  }).then((response) => {
+    ElMessage(response.data.message)
+  });
+}
+
+const addRole = (roleName: string, auth: string) => {
+  axios({
+    method: 'post',
+    url: '/system/role/createRole',
+    headers: {
+      'Authorization': localStorage.getItem('Authorization'),
+    },
+    data: {
+      roleName: roleName,
+      auth: auth
+    }
+  }).then((response) => {
+    ElMessage(response.data.message)
+  });
+}
+
+const updateRole = (auth: string, roleId: number, roleName: string) => {
+  axios({
+    method: 'post',
+    url: '/system/role/updateRole',
+    headers: {
+      'Authorization': localStorage.getItem('Authorization'),
+    },
+    data: {
+      auth: auth,
+      roleId: roleId,
+      roleName: roleName
+    }
+  }).then((response) => {
+    ElMessage(response.data.message)
+  });
+};
 
 let addDialogVisible = ref(false)
 
@@ -107,26 +196,52 @@ const editRoleForm = reactive({
   name: '',
   auth: ''
 })
+
 let rowData
 const showEditDialog = (row) => {
   editDialogVisible.value = true
+  editRoleForm.name = row.name
+  editRoleForm.auth = row.auth
   rowData = row
 }
 
 const closeEditDialogSubmitForm = () => {
-  editDialogVisible.value = true
-  editRoleForm.name = rowData.name
-  editRoleForm.auth = rowData.auth
   updateRole(editRoleForm.auth, rowData.id, editRoleForm.name)
+  window.setTimeout(() => {
+    listRoles()
+  }, 250)
+  editDialogVisible.value = false
 }
 
 const closeAddDialogSubmitForm = () => {
   addRole(newRoleForm.name, newRoleForm.auth)
+  window.setTimeout(() => {
+    listRoles()
+  }, 250)
+  newRoleForm.name = ''
+  newRoleForm.auth = ''
   addDialogVisible.value = false
 }
 
 const deleteRow = (row) => {
   deleteRole(row.id)
+  window.setTimeout(() => {
+    listRoles()
+  }, 250)
+
 }
 
+const small = ref(false)
+const background = ref(true)
+const disabled = ref(false)
+const pageSize = ref(5)
+const currentPage = ref(1)
+
+const handleSizeChange = (val: number) => {
+  pageSize.value = val
+}
+
+const handleCurrentChange = (val: number) => {
+  currentPage.value = val
+}
 </script>

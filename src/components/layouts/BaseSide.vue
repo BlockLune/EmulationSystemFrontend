@@ -42,7 +42,7 @@
       </template>
     </el-menu-item>
     </el-sub-menu>
-    
+
     <el-menu-item index="5" >
       <template #title>
         <el-icon><WarnTriangleFilled /></el-icon>
