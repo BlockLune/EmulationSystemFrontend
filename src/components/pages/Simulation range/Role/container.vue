@@ -36,7 +36,7 @@
             type="primary"
             @click="closeAddDialogSubmitForm()"
         >
-          上传
+          添加
         </el-button>
         <el-button @click="addDialogVisible = false"
         >取消</el-button
@@ -122,10 +122,6 @@ const options = [
 ];
 
 const datas = ref<Data[]>([]);
-
-const form = reactive<any>({
-  fileList: [],
-})
 
 const listData = () => {
   datas.value = []
@@ -217,7 +213,7 @@ const closeAddDialogSubmitForm = () => {
   add(newForm.imageId)
   window.setTimeout(() => {
     listData()
-  }, 250)
+  }, 450)
   newForm.imageId = ''
   addDialogVisible.value = false
 }

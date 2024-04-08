@@ -6,6 +6,7 @@
       <el-container class="content-container">
         <Home v-if="display === '1'" />
         <range v-if="display === '3-4'" />
+        <LoopHoleDig v-if="display === '3-5'" />
         <container v-if="display === '3-2'" />
         <Mirror v-if="display === '3-1'" />
         <AttackDefenceExercise v-if="display === '3-3'" />

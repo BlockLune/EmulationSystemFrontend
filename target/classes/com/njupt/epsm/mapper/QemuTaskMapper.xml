@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njupt.epsm.mapper.QemuTaskMapper">
+    <resultMap id="BaseResultMap" type="com.njupt.epsm.po.QemuTask">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="plugin_id" jdbcType="BIGINT" property="pluginId"/>
+        <result column="container_id" jdbcType="VARCHAR" property="containerId"/>
+        <result column="task_status" jdbcType="VARCHAR" property="taskStatus"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.njupt.epsm.po.QemuTask">
+        INSERT INTO qemu_task
+        (id,plugin_id,container_id,task_status,create_time,update_time)
+        VALUES
+            (#{id,jdbcType=BIGINT},#{pluginId,jdbcType=BIGINT},#{containerId,jdbcType=VARCHAR},
+             #{taskStatus,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM qemu_task
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM qemu_task
+    </select>
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT * FROM qemu_task
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByPluginId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT * FROM qemu_task
+        WHERE plugin_id = #{pluginId,jdbcType=BIGINT}
+    </select>
+    <update id="updateStatusByContainerId" parameterType="com.njupt.epsm.po.QemuTask">
+        UPDATE qemu_task
+        <set>
+            <if test="taskStatus != null">
+                task_status = #{taskStatus,jdbcType=VARCHAR},
+            </if>
+            update_time = now(),
+        </set>
+        WHERE container_id = #{containerId,jdbcType=VARCHAR}
+    </update>
+</mapper>

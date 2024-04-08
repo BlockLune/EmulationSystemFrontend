@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njupt.epsm.mapper.LoopHoleMapper">
+    <resultMap id="BaseResultMap" type="com.njupt.epsm.po.LoopHole">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="hole_name" jdbcType="VARCHAR" property="holeName"/>
+        <result column="level" jdbcType="DOUBLE" property="level"/>
+        <result column="category_id" jdbcType="BIGINT" property="categoryId"/>
+        <result column="metadata" jdbcType="BIGINT" property="metadata"/>
+        <result column="relate_exercise_id" jdbcType="BIGINT" property="relateExerciseId"/>
+        <result column="relate_image_id" jdbcType="BIGINT" property="relateImageId"/>
+        <result column="relate_container_id" jdbcType="BIGINT" property="relateContainerId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.njupt.epsm.po.LoopHole">
+        INSERT INTO loop_hole
+        (id,hole_name,level,category_id,metadata,relate_exercise_id,
+         relate_image_id,relate_container_id,create_time,update_time)
+        VALUES
+        (#{id,jdbcType=BIGINT},#{holeName,jdbcType=VARCHAR},#{level,jdbcType=DOUBLE},
+         #{categoryId,jdbcType=BIGINT},#{metadata,jdbcType=VARCHAR},#{relateExerciseId,jdbcType=BIGINT},
+         #{relateImageId,jdbcType=BIGINT},#{relateContainerId,jdbcType=BIGINT},
+         #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM loop_hole
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <update id="updateById" parameterType="com.njupt.epsm.po.LoopHole">
+        UPDATE loop_hole
+        <set>
+            <if test="holeName != null">
+                hole_name = #{holeName,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=DOUBLE},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=BIGINT}
+            </if>
+            <if test="metadata != null">
+                metadata = #{metadata,jdbcType=VARCHAR},
+            </if>
+            <if test="relateExerciseId != null">
+                relate_exercise_id = #{relateExerciseId,jdbcType=BIGINT}
+            </if>
+            <if test="relateImageId != null">
+                relate_image_id = #{relateImageId,jdbcType=BIGINT}
+            </if>
+            <if test="relateContainerId != null">
+                relate_container_id = #{relateContainerId,jdbcType=BIGINT}
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="countLoopHoleByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM loop_hole
+        WHERE hole_name = #{hole_name,jdbcType=VARCHAR}
+    </select>
+    <select id="countLoopHoleByCategory" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        SELECT count(*) FROM loop_hole
+        WHERE category_id = #{categoryId,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM loop_hole
+    </select>
+    <select id="selectByCategory" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT * FROM loop_hole
+        WHERE category_id = #{categoryId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByImage" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT * FROM loop_hole
+        WHERE relate_image_id = #{relateImageId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByExercise" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT * FROM loop_hole
+        WHERE relate_exercise_id = #{relateExerciseId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByContainer" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT * FROM loop_hole
+        WHERE relate_container_id = #{relateContainerId,jdbcType=BIGINT}
+    </select>
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT * FROM loop_hole
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+</mapper>

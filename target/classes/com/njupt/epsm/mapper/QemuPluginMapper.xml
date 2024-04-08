@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njupt.epsm.mapper.QemuPluginMapper">
+    <resultMap id="BaseResultMap" type="com.njupt.epsm.po.QemuPlugin">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="qemu_plugin_name" jdbcType="VARCHAR" property="qemuPluginName"/>
+        <result column="version" jdbcType="VARCHAR" property="version"/>
+        <result column="repository" jdbcType="VARCHAR" property="repository"/>
+        <result column="image_id" jdbcType="VARCHAR" property="imageId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.njupt.epsm.po.QemuPlugin">
+        INSERT INTO qemu_plugin
+        (id,qemu_plugin_name,version,repository,image_id,create_time,update_time)
+        VALUES
+            (#{id,jdbcType=BIGINT},#{qemuPluginName,jdbcType=VARCHAR},#{version,jdbcType=VARCHAR},
+             #{repository,jdbcType=VARCHAR},#{imageId,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM qemu_plugin
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM qemu_plugin
+    </select>
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT * FROM qemu_plugin
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM qemu_plugin
+        WHERE qemu_plugin_name LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+    </select>
+</mapper>

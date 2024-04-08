@@ -183,9 +183,9 @@ const updateRole = (auth: string, roleId: number, roleName: string) => {
   });
 };
 
-let addDialogVisible = ref(false)
+const addDialogVisible = ref(false)
 
-let editDialogVisible = ref(false)
+const editDialogVisible = ref(false)
 
 const newRoleForm = reactive({
   name: '',

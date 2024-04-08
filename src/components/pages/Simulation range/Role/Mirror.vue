@@ -37,17 +37,17 @@
                 style="width: 300px"
             />
           </el-form-item>
-          <el-form-item label="资源类型(.tar文件)" prop="resourceType">
+          <el-form-item label="资源类型(压缩包文件)" prop="resourceType">
             <el-upload
-                ref="uploadRef"
-                :limit="1"
-                :auto-upload="false"
+                :on-change="handleChange"
+                class="upload-demo"
                 action=""
-                accept=".tar"
-                :show-file-list="true"
-                v-model:file-list="form.files"
+                :auto-upload="false"
             >
-              <el-button type="primary">选择文件</el-button>
+              <template #trigger>
+                <el-button type="primary">选择文件</el-button>
+              </template>
+
             </el-upload>
           </el-form-item>
         </el-form>
@@ -142,13 +142,7 @@ const mirrorOptions = [
   { value: "4", label: "靶机镜像" },
 ];
 
-const formData = new FormData();
-
 const mirrors = ref<Mirror[]>([]);
-
-const form = reactive<any>({
-  fileList: [],
-})
 
 const listMirrors = () => {
   mirrors.value = []
@@ -224,20 +218,17 @@ const deleteMirror = (id: string) => {
 }
 
 const addMirror = (formData) => {
-  axios({
-    method: 'post',
-    url: '/image/uploadImage',
+  axios.post('/image/uploadImage', formData, {
     headers: {
+      'Content-Type': 'multipart/form-data',
       'Authorization': localStorage.getItem('Authorization'),
-      'Content-Type': 'multipart/form-data'
-    },
-    data: formData
+    }
   }).then((response) => {
     ElMessage(response.data.message)
   });
 }
 
-let addDialogVisible = ref(false)
+const addDialogVisible = ref(false)
 
 const queryForm = reactive({
   imageName: '',
@@ -250,10 +241,16 @@ const newMirrorForm = reactive({
   version: ''
 })
 
-const uploadRef = ref<UploadInstance>()
+const uploadedFile = ref(null)
+
+const formData = new FormData();
+
+const handleChange = (file) => {
+  uploadedFile.value = file.raw
+}
 
 const closeAddDialogSubmitForm = () => {
-  formData.append('file', form.fileList[0])
+  formData.append('file', uploadedFile.value)
   formData.append('imageName', newMirrorForm.imageName)
   formData.append('imageType', newMirrorForm.imageType)
   formData.append('version', newMirrorForm.version)
@@ -264,7 +261,6 @@ const closeAddDialogSubmitForm = () => {
   newMirrorForm.imageName = ''
   newMirrorForm.imageType = ''
   newMirrorForm.version = ''
-  uploadRef.value?.clearFiles()
   addDialogVisible.value = false
 }
 
@@ -273,7 +269,6 @@ const deleteRow = (row) => {
   window.setTimeout(() => {
     listMirrors()
   }, 250)
-
 }
 
 const small = ref(false)

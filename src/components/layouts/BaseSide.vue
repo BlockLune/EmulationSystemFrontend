@@ -40,7 +40,13 @@
         <el-icon><Flag /></el-icon>
         <span>靶场管理</span>
       </template>
-    </el-menu-item>
+      </el-menu-item>
+      <el-menu-item index="3-5">
+      <template #title>
+        <el-icon><Management /></el-icon>
+        <span>设备漏洞挖掘</span>
+      </template>
+      </el-menu-item>
     </el-sub-menu>
 
     <el-menu-item index="5" >
