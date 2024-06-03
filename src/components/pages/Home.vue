@@ -50,8 +50,8 @@
 <script lang="ts" setup>
 import { ref, reactive, inject } from "vue";
 import type { FormInstance } from "element-plus";
-import { loginReq, showHome } from "../../services/api";
-// import { loginReq } from "../../services/api";
+import { loginReq } from "../../services/api";
+import { useRouter } from "vue-router";
 
 const loginFormRef = ref<FormInstance>();
 const loginForm = reactive({
@@ -62,6 +62,8 @@ const loginForm = reactive({
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   loginReq(loginForm.username, loginForm.password);
+  const router = useRouter();
+  router.push("/simulation_range");
 };
 
 const clearForm = (formEl: FormInstance | undefined) => {

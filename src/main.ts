@@ -15,7 +15,7 @@ import "uno.css";
 // If you want to use ElMessage, import it.
 import "element-plus/theme-chalk/src/message.scss";
 
-import { createMemoryHistory, createRouter } from "vue-router";
+import { createWebHashHistory, createRouter } from "vue-router";
 
 import Home from "./components/pages/Home.vue";
 import SituationAwareness from "./components/pages/SituationAwareness.vue";
@@ -29,7 +29,6 @@ import Loophole from "./components/pages/Loophole/LoopHoleController.vue";
 import SettingsRole from "./components/pages/SystemSettings/Role.vue";
 import SettingsUser from "./components/pages/SystemSettings/User.vue";
 import SettingsConfig from "./components/pages/SystemSettings/Config.vue";
-
 
 const routes = [
   { path: "/", component: Home },
@@ -46,7 +45,7 @@ const routes = [
   { path: "/settings/config", component: SettingsConfig },
 ];
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHashHistory(),
   routes,
 });
 
