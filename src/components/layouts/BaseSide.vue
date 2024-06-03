@@ -22,19 +22,25 @@
         </template>
         <el-menu-item index="3-1">
           <template #title>
-            <el-icon><Management /></el-icon>
+            <el-icon>
+              <div class="i-fluent:cd-16-filled"></div>
+            </el-icon>
             <span>镜像管理</span>
           </template>
         </el-menu-item>
         <el-menu-item index="3-2">
           <template #title>
-            <el-icon><Management /></el-icon>
+            <el-icon>
+              <div class="i-clarity:container-solid"></div>
+            </el-icon>
             <span>容器管理</span>
           </template>
         </el-menu-item>
         <el-menu-item index="3-3">
           <template #title>
-            <el-icon><Management /></el-icon>
+            <el-icon>
+              <div class="i-material-symbols:swords"></div>
+            </el-icon>
             <span>攻防演练</span>
           </template>
         </el-menu-item>
@@ -46,13 +52,17 @@
         </el-menu-item>
         <el-menu-item index="3-5">
           <template #title>
-            <el-icon><Management /></el-icon>
+            <el-icon>
+              <div class="i-mingcute:shovel-fill"></div>
+            </el-icon>
             <span>设备漏洞挖掘</span>
           </template>
         </el-menu-item>
         <el-menu-item index="3-6">
           <template #title>
-            <el-icon><Management /></el-icon>
+            <el-icon>
+              <div class="i-mingcute:task-2-fill"></div>
+            </el-icon>
             <span>任务管理</span>
           </template>
         </el-menu-item>
@@ -70,7 +80,7 @@
           <span>系统管理</span>
         </template>
         <el-menu-item index="6-1">
-          <el-icon><Avatar /></el-icon>
+          <el-icon><div class="i-mingcute:lock-fill"></div></el-icon>
           <span>角色管理</span>
         </el-menu-item>
         <el-menu-item index="6-2">

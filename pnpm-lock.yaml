@@ -17,6 +17,9 @@ importers:
       axios:
         specifier: ^1.6.5
         version: 1.7.2
+      echarts:
+        specifier: ^5.5.0
+        version: 5.5.0
       element-plus:
         specifier: ^2.3.12
         version: 2.7.4(vue@3.4.27(typescript@5.4.5))
@@ -30,15 +33,33 @@ importers:
         specifier: ^4.3.2
         version: 4.3.2(vue@3.4.27(typescript@5.4.5))
     devDependencies:
+      '@iconify-json/clarity':
+        specifier: ^1.1.13
+        version: 1.1.13
       '@iconify-json/ep':
         specifier: ^1.1.12
         version: 1.1.15
+      '@iconify-json/fluent':
+        specifier: ^1.1.56
+        version: 1.1.56
+      '@iconify-json/hugeicons':
+        specifier: ^1.1.0
+        version: 1.1.0
+      '@iconify-json/material-symbols':
+        specifier: ^1.1.81
+        version: 1.1.81
+      '@iconify-json/mingcute':
+        specifier: ^1.1.17
+        version: 1.1.17
       '@types/json-bigint':
         specifier: ^1.0.4
         version: 1.0.4
       '@types/node':
         specifier: ^20.6.0
         version: 20.14.0
+      '@unocss/preset-icons':
+        specifier: ^0.60.4
+        version: 0.60.4
       '@vitejs/plugin-vue':
         specifier: ^4.3.4
         version: 4.6.2(vite@4.5.3(@types/node@20.14.0)(sass@1.77.4))(vue@3.4.27(typescript@5.4.5))
@@ -256,8 +277,23 @@ packages:
   '@floating-ui/utils@0.2.2':
     resolution: {integrity: sha512-J4yDIIthosAsRZ5CPYP/jQvUAQtlZTTD/4suA08/FEnlxqW3sKS9iAhgsa9VYLZ6vDHn/ixJgIqRQPotoBjxIw==}
 
+  '@iconify-json/clarity@1.1.13':
+    resolution: {integrity: sha512-VoXlDP1ZYBhFMgW1axPQEUn5UFw5jAzmxG5Oolm+Oe7n4FnhGEBS2pYoEOs4tVXaN+LOSfvNAZF59rsGZOcBcg==}
+
   '@iconify-json/ep@1.1.15':
     resolution: {integrity: sha512-96JBJQrJhxYy+j+KE5lqyE+Y6O+06fVUdMaHJ1Rb9+bbOjI1tw6EwYl9H4SB6Hkf7zB80VX6GgG0yH0Z0c8K1Q==}
+
+  '@iconify-json/fluent@1.1.56':
+    resolution: {integrity: sha512-RkelgY3wU198JI4mwGHMWTjPylWpNkOvyA3LamVJYZDsBVhndvTIThFeOGswfV3HeD95wCOkmXWupCpIxIAo7A==}
+
+  '@iconify-json/hugeicons@1.1.0':
+    resolution: {integrity: sha512-MzzShBJQsOB92kzPMBe2dI35m0BrR7Z7yEQ0Al84ULQ46PRAAu+RBkqmTzqY+T2uBB1PeGe8sPs+8lGRXClGjg==}
+
+  '@iconify-json/material-symbols@1.1.81':
+    resolution: {integrity: sha512-DJhgiZQ935K2pG/ZhChLOA0tcQFZn8jCc1SVhiPY1cdjPslyamD569zaBm4Op5cAf6ouK8m6W85YVV8hXBLMgg==}
+
+  '@iconify-json/mingcute@1.1.17':
+    resolution: {integrity: sha512-WTKnn5OicUo18dE3rkJs00sUjOIAui8Ut9yZSXamRfjzmLxuX9FKqYQAbFXaV6lw0T4QwBQ8/y4ftaWl/1Entg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -373,6 +409,9 @@ packages:
   '@unocss/core@0.55.7':
     resolution: {integrity: sha512-c+bWe844Xjlwc1EPwHj0+n3LpntJG7ELPbEOOxNIG+CQdcEX0l1G0rkM8+nKstJ9WJmgpf1HdJQLVMF62HXvhw==}
 
+  '@unocss/core@0.60.4':
+    resolution: {integrity: sha512-6tz8KTzC30oB0YikwRQoIpJ6Y6Dg+ZiK3NfCIsH+UX11bh2J2M53as2EL/5VQCqtiUn3YP0ZEzR2d1AWX78RCA==}
+
   '@unocss/extractor-arbitrary-variants@0.55.7':
     resolution: {integrity: sha512-imK2g/frlo5Ag0uVB+C/Psyo5+9AnqhoRAgYa6gyrQ/TJnrnwf+M3jFngU9evIMHw92vig1DGfPa2ZId901DwQ==}
 
@@ -390,6 +429,9 @@ packages:
 
   '@unocss/preset-icons@0.55.7':
     resolution: {integrity: sha512-JXLOHkyEKKAjLTqjAxYfhwln05WXilGg3jctkZWKpMNawPaonrGt3kZT12YMuMmOryxk7UcyKB0dtYc+p3QYvw==}
+
+  '@unocss/preset-icons@0.60.4':
+    resolution: {integrity: sha512-UN/dj+nhI3+S06YxCZQPLw3GZy780iaE71dysyhDMdh+Qq2KFVs3d94mr1427fjz/3Y8ZyXkgqyhCFr7UT0bMQ==}
 
   '@unocss/preset-mini@0.55.7':
     resolution: {integrity: sha512-ZCskE2uprjGkpQezEPM6KPMf84rIZEUNc1p2DxWVHaFUPRV24/JSNsO4PsKrQgNIb2dLQxzPNlMzQJI7ssdBXQ==}
@@ -702,6 +744,9 @@ packages:
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
+
+  echarts@5.5.0:
+    resolution: {integrity: sha512-rNYnNCzqDAPCr4m/fqyUFv7fD9qIsd50S6GDFgO1DxZhncCsNsG7IfUlAlvZe5oSEQxtsjnHiUuppzccry93Xw==}
 
   electron-to-chromium@1.4.788:
     resolution: {integrity: sha512-ubp5+Ev/VV8KuRoWnfP2QF2Bg+O2ZFdb49DiiNbz2VmgkIqrnyYaqIOqj8A6K/3p1xV0QcU5hBQ1+BmB6ot1OA==}
@@ -1331,6 +1376,9 @@ packages:
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
+  tslib@2.3.0:
+    resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==}
+
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
@@ -1567,6 +1615,9 @@ packages:
   zhead@2.2.4:
     resolution: {integrity: sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==}
 
+  zrender@5.5.0:
+    resolution: {integrity: sha512-O3MilSi/9mwoovx77m6ROZM7sXShR/O/JIanvzTwjN3FORfLSr81PsUGd7jlaYOeds9d8tw82oP44+3YucVo+w==}
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
@@ -1680,7 +1731,27 @@ snapshots:
 
   '@floating-ui/utils@0.2.2': {}
 
+  '@iconify-json/clarity@1.1.13':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/ep@1.1.15':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/fluent@1.1.56':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/hugeicons@1.1.0':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/material-symbols@1.1.81':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/mingcute@1.1.17':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -1826,6 +1897,8 @@ snapshots:
 
   '@unocss/core@0.55.7': {}
 
+  '@unocss/core@0.60.4': {}
+
   '@unocss/extractor-arbitrary-variants@0.55.7':
     dependencies:
       '@unocss/core': 0.55.7
@@ -1852,6 +1925,14 @@ snapshots:
     dependencies:
       '@iconify/utils': 2.1.24
       '@unocss/core': 0.55.7
+      ofetch: 1.3.4
+    transitivePeerDependencies:
+      - supports-color
+
+  '@unocss/preset-icons@0.60.4':
+    dependencies:
+      '@iconify/utils': 2.1.24
+      '@unocss/core': 0.60.4
       ofetch: 1.3.4
     transitivePeerDependencies:
       - supports-color
@@ -2224,6 +2305,11 @@ snapshots:
   duplexer@0.1.2: {}
 
   eastasianwidth@0.2.0: {}
+
+  echarts@5.5.0:
+    dependencies:
+      tslib: 2.3.0
+      zrender: 5.5.0
 
   electron-to-chromium@1.4.788: {}
 
@@ -2863,6 +2949,8 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
+  tslib@2.3.0: {}
+
   tslib@2.6.2: {}
 
   typescript@5.4.5: {}
@@ -3084,3 +3172,7 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zhead@2.2.4: {}
+
+  zrender@5.5.0:
+    dependencies:
+      tslib: 2.3.0
