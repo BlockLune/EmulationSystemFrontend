@@ -48,6 +48,8 @@ declare module 'vue' {
     Mirror: typeof import('./components/pages/Simulation range/Role/Mirror.vue')['default']
     Range: typeof import('./components/pages/Simulation range/Role/range.vue')['default']
     Role: typeof import('./components/pages/SystemSettings/Role.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     User: typeof import('./components/pages/SystemSettings/User.vue')['default']
   }
 }
