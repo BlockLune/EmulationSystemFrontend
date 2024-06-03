@@ -142,6 +142,7 @@ interface Config {
   configValue: string;
   createTime: string;
   id: string;
+  remark: string;
   updateTime: string;
 }
 
@@ -254,7 +255,7 @@ const editConfigForm = reactive({
 });
 const editDialogVisible = ref(false);
 
-const showEditDialog = (row) => {
+const showEditDialog = (row: Config) => {
   editDialogVisible.value = true;
   editConfigForm.configId = row.id;
   editConfigForm.configItem = row.configName;

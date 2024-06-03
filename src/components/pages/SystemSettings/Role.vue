@@ -134,12 +134,20 @@
 <script lang="ts" setup>
 import axios from "axios";
 import { onMounted, ref, reactive } from "vue";
-import { ElMessage, FormInstance } from "element-plus";
+import { ElMessage } from "element-plus";
 import JSONBIG from "json-bigint";
 
 onMounted(() => {
   listRoles();
 });
+
+interface Role {
+  auth: string;
+  createTime: string;
+  id: string;
+  name: string;
+  updateTime: string;
+}
 
 axios.defaults.transformResponse = [
   function (data) {
@@ -151,7 +159,7 @@ axios.defaults.transformResponse = [
   },
 ];
 
-const roles = ref([]);
+const roles = ref<Role[]>([]);
 
 const listRoles = () => {
   roles.value = [];
@@ -199,7 +207,7 @@ const addRole = (roleName: string, auth: string) => {
   });
 };
 
-const updateRole = (auth: string, roleId: number, roleName: string) => {
+const updateRole = (auth: string, roleId: string, roleName: string) => {
   axios({
     method: "post",
     url: "/system/role/updateRole",
@@ -208,7 +216,7 @@ const updateRole = (auth: string, roleId: number, roleName: string) => {
     },
     data: {
       auth: auth,
-      roleId: roleId,
+      roleId: Number(roleId),
       roleName: roleName,
     },
   }).then((response) => {
@@ -230,8 +238,8 @@ const editRoleForm = reactive({
   auth: "",
 });
 
-let rowData;
-const showEditDialog = (row) => {
+let rowData: Role;
+const showEditDialog = (row: Role) => {
   editDialogVisible.value = true;
   editRoleForm.name = row.name;
   editRoleForm.auth = row.auth;
@@ -256,7 +264,7 @@ const closeAddDialogSubmitForm = () => {
   addDialogVisible.value = false;
 };
 
-const deleteRow = (row) => {
+const deleteRow = (row: Role) => {
   deleteRole(row.id);
   window.setTimeout(() => {
     listRoles();

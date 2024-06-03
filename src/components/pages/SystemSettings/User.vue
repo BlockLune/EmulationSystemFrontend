@@ -242,7 +242,7 @@ const changeUserStatus = (status: string, userId: string) => {
   });
 };
 
-const changeStatus = (row) => {
+const changeStatus = (row: User) => {
   changeUserStatus(row.status, row.id);
 };
 
@@ -281,7 +281,7 @@ const editUserForm = reactive({
 });
 const editDialogVisible = ref(false);
 
-const showEditDialog = (row) => {
+const showEditDialog = (row: User) => {
   editDialogVisible.value = true;
   editUserForm.loginName = row.loginName;
   editUserForm.roleId = row.roleId;
