@@ -1,11 +1,9 @@
 <template>
-  <!--  <el-form v-show="showHome"-->
-  <!--  <el-text>{{ EMULATION_SYSTEM_NAME }} 登录界面</el-text>-->
-  <div style="width: 100%; display: flex; flex-direction: row">
+  <div class="flex flex-row w-full">
     <div style="width: 70%; margin-top: 5%; margin-left: 1%">
       <h1>{{ EMULATION_SYSTEM_NAME }}</h1>
     </div>
-    <div style="width: 30%; height: 99.5vh">
+    <div class="w-40%" style="height: 99.5vh">
       <el-card
         style="width: 99.5%; height: 99.9%"
         body-style="margin-top: 40%;"
@@ -48,10 +46,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, inject } from "vue";
+import { ref, reactive, inject, onMounted } from "vue";
 import type { FormInstance } from "element-plus";
 import { loginReq } from "../../services/api";
 import { useRouter } from "vue-router";
+const router = useRouter();
 
 const loginFormRef = ref<FormInstance>();
 const loginForm = reactive({
@@ -62,8 +61,7 @@ const loginForm = reactive({
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   loginReq(loginForm.username, loginForm.password);
-  const router = useRouter();
-  router.push("/simulation_range");
+  router.push("/situation_awareness");
 };
 
 const clearForm = (formEl: FormInstance | undefined) => {
@@ -72,4 +70,11 @@ const clearForm = (formEl: FormInstance | undefined) => {
 };
 
 const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
+
+onMounted(() => {
+  if (localStorage.getItem("Authorization") !== null) {
+    console.log("Login success!");
+    router.push("/situation_awareness");
+  }
+});
 </script>
