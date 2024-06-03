@@ -5,7 +5,8 @@
     "axios": "^1.6.5",
     "element-plus": "^2.3.12",
     "json-bigint": "^1.0.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "@iconify-json/ep": "^1.1.12",
