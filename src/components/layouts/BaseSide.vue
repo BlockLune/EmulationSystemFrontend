@@ -6,7 +6,7 @@
         <span>主页</span>
       </template>
     </el-menu-item>
-    <el-menu-item index="2" >
+    <el-menu-item index="2">
       <template #title>
         <el-icon><InfoFilled /></el-icon>
         <span>态势感知</span>
@@ -36,20 +36,20 @@
         </template>
       </el-menu-item>
       <el-menu-item index="3-4">
-      <template #title>
-        <el-icon><Flag /></el-icon>
-        <span>靶场管理</span>
-      </template>
+        <template #title>
+          <el-icon><Flag /></el-icon>
+          <span>靶场管理</span>
+        </template>
       </el-menu-item>
       <el-menu-item index="3-5">
-      <template #title>
-        <el-icon><Management /></el-icon>
-        <span>设备漏洞挖掘</span>
-      </template>
+        <template #title>
+          <el-icon><Management /></el-icon>
+          <span>设备漏洞挖掘</span>
+        </template>
       </el-menu-item>
     </el-sub-menu>
 
-    <el-menu-item index="5" >
+    <el-menu-item index="5">
       <template #title>
         <el-icon><WarnTriangleFilled /></el-icon>
         <span>漏洞库管理</span>
@@ -61,7 +61,7 @@
         <span>系统管理</span>
       </template>
       <el-menu-item index="6-1">
-        <el-icon><Avatar /></el-icon>
+        <el-icon><Lock /></el-icon>
         <span>角色管理</span>
       </el-menu-item>
       <el-menu-item index="6-2">
@@ -78,21 +78,21 @@
 
 <script lang="ts" setup>
 import {
-  Avatar,
   Flag,
   Histogram,
   HomeFilled,
   InfoFilled,
+  Lock,
   Management,
   Tools,
   UserFilled,
   WarnTriangleFilled,
 } from "@element-plus/icons-vue";
-import { ref } from 'vue';
-const emits = defineEmits(['changeDisplay']);
-const selected = ref('');
+import { ref } from "vue";
+const emits = defineEmits(["changeDisplay"]);
+const selected = ref("");
 const handleMenuSelect = (index: string) => {
   selected.value = index;
-  emits('changeDisplay', selected.value)
-}
+  emits("changeDisplay", selected.value);
+};
 </script>
