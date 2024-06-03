@@ -17,13 +17,15 @@ import "element-plus/theme-chalk/src/message.scss";
 
 import { createMemoryHistory, createRouter } from "vue-router";
 import Home from "./components/pages/Home.vue";
+import SituationAwareness from "./components/pages/SituationAwareness.vue";
+
 const routes = [
   { path: "/", component: Home },
-  { path: "", component: },
-  { path: "", component: },
-  { path: "", component: },
-  { path: "", component: },
-  { path: "", component: },
+  { path: "/situation_awareness", component: SituationAwareness },
+  // { path: "", component: },
+  // { path: "", component: },
+  // { path: "", component: },
+  // { path: "", component: },
 ];
 const router = createRouter({
   history: createMemoryHistory(),
