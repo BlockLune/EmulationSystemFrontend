@@ -3,13 +3,13 @@
   <el-button type="primary" @click="addDialogVisible = true">新增</el-button>
   <el-dialog v-model="addDialogVisible" title="新增角色" width="30%">
     <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
-    <el-form ref="newRoleFormRef" :model="newRoleForm" label="70px" label-position="left">
+    <el-form ref="newRoleFormRef" :model="newRoleForm" label="70px" label-position="left" label-width="auto">
       <el-form-item label="角色名称" prop="name">
         <el-input v-model="newRoleForm.name" placeholder="单行输入" />
       </el-form-item>
       <el-form-item label="权限">
         <el-radio-group v-model="newRoleForm.auth">
-          <el-radio value="仿真靶场管理">仿真靶场管理</el-radio>
+<!--          <el-radio value="仿真靶场管理">仿真靶场管理</el-radio>-->
           <el-radio value="靶场管理">靶场管理</el-radio>
           <el-radio value="容器管理">容器管理</el-radio>
           <el-radio value="镜像管理">镜像管理</el-radio>
@@ -56,7 +56,7 @@
     <el-pagination
         v-model:current-page="currentPage"
         v-model:page-size="pageSize"
-        :page-sizes="[5, 10, 20, 30, 40]"
+        :page-sizes="[10, 20, 30, 40]"
         :small="small"
         :disabled="disabled"
         :background="background"
@@ -103,12 +103,13 @@ import {onMounted, ref, reactive} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import EmulationRangeCheckboxGroup from "./Role/EmulationRangeCheckboxGroup.vue";
 import JSONBIG from 'json-bigint'
+import instance from "~/services/api";
 
 onMounted(() => {
   listRoles()
 })
 
-axios.defaults.transformResponse = [
+instance.defaults.transformResponse = [
   function (data) {
     const json = JSONBIG({
       storeAsString: true
@@ -122,7 +123,7 @@ const roles = ref([])
 
 const listRoles = () => {
   roles.value = []
-  axios({
+  instance({
     headers: {
       Authorization: localStorage.getItem('Authorization')
     },
@@ -136,7 +137,7 @@ const listRoles = () => {
 };
 
 const deleteRole = (roleId: string) => {
-  axios({
+  instance({
     method: 'post',
     url: '/system/role/deleteRole',
     headers: {
@@ -151,7 +152,7 @@ const deleteRole = (roleId: string) => {
 }
 
 const addRole = (roleName: string, auth: string) => {
-  axios({
+  instance({
     method: 'post',
     url: '/system/role/createRole',
     headers: {
@@ -167,7 +168,7 @@ const addRole = (roleName: string, auth: string) => {
 }
 
 const updateRole = (auth: string, roleId: number, roleName: string) => {
-  axios({
+  instance({
     method: 'post',
     url: '/system/role/updateRole',
     headers: {
@@ -234,7 +235,7 @@ const deleteRow = (row) => {
 const small = ref(false)
 const background = ref(true)
 const disabled = ref(false)
-const pageSize = ref(5)
+const pageSize = ref(10)
 const currentPage = ref(1)
 
 const handleSizeChange = (val: number) => {

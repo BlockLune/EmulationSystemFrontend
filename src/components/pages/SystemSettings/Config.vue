@@ -8,6 +8,7 @@
       :model="newConfigForm"
       label="70px"
       label-position="left"
+      label-width="auto"
     >
       <el-form-item label="配置项" prop="configItem">
         <el-input v-model="newConfigForm.configItem" placeholder="单行输入" />
@@ -71,7 +72,7 @@
     <el-pagination
         v-model:current-page="currentPage"
         v-model:page-size="pageSize"
-        :page-sizes="[5, 10, 20, 30, 40]"
+        :page-sizes="[10, 20, 30, 40]"
         :small="small"
         :disabled="disabled"
         :background="background"
@@ -89,6 +90,7 @@
       :model="editConfigForm"
       label="70px"
       label-position="left"
+      label-width="auto"
     >
       <el-form-item label="配置Id" prop="configId">
         <el-input v-model="editConfigForm.configId" disabled />
@@ -123,6 +125,7 @@
 import {ref, reactive, onMounted} from "vue";
 import {ElMessage} from "element-plus";
 import axios from "axios";
+import instance from "~/services/api";
 
 interface Config {
   configName: string;
@@ -140,7 +143,7 @@ const configs = ref<Config[]>([]);
 
 const listConfigs = () => {
   configs.value = []
-  axios({
+  instance({
     headers: {
       Authorization: localStorage.getItem('Authorization')
     },
@@ -154,7 +157,7 @@ const listConfigs = () => {
 };
 
 const addConfig = (configItem: string, configValue: string, remark: string) => {
-  axios({
+  instance({
     method: 'post',
     url: '/system/config/createConfig',
     headers: {
@@ -171,7 +174,7 @@ const addConfig = (configItem: string, configValue: string, remark: string) => {
 }
 
 const deleteConfig = (configId: string) => {
-  axios({
+  instance({
     method: 'post',
     url: '/system/config/deleteConfig',
     headers: {
@@ -186,7 +189,7 @@ const deleteConfig = (configId: string) => {
 }
 
 const updateConfig = (configId: string, configItem: string, configValue: string, remark: string) => {
-  axios({
+  instance({
     method: 'post',
     url: '/system/config/updateConfig',
     headers: {
@@ -259,7 +262,7 @@ const deleteRow = (row: Config) => {
 const small = ref(false)
 const background = ref(true)
 const disabled = ref(false)
-const pageSize = ref(5)
+const pageSize = ref(10)
 const currentPage = ref(1)
 
 const handleSizeChange = (val: number) => {
