@@ -14,6 +14,7 @@
               :options="options"
               placeholder="请选择"
               style="width: 300px"
+              clearable
           />
         </el-form-item>
       </el-form>
@@ -54,8 +55,7 @@
           <el-table-column prop="rangeName" label="靶场名称"></el-table-column>
           <el-table-column prop="digBugNums" label="挖掘漏洞个数"></el-table-column>
           <el-table-column prop="defendPercent" label="防御比例"></el-table-column>
-          <el-table-column prop="status" label="靶场状态">
-          </el-table-column>
+          <el-table-column prop="status" label="靶场状态"></el-table-column>
           <el-table-column prop="createTime" label="创建时间"></el-table-column>
           <el-table-column prop="startTime" label="开始时间"></el-table-column>
           <el-table-column prop="endTime" label="终止时间"></el-table-column>
@@ -66,7 +66,7 @@
         <el-pagination
             v-model:current-page="currentPage"
             v-model:page-size="pageSize"
-            :page-sizes="[2, 5, 10, 20, 30, 40]"
+            :page-sizes="[10, 20, 30, 40]"
             :small="small"
             :disabled="disabled"
             :background="background"
@@ -86,6 +86,7 @@
 import {ref, reactive, onMounted} from "vue";
 import {ElMessage} from "element-plus";
 import axios from "axios";
+import instance from "~/services/api";
 
 onMounted(() => {
   listData()
@@ -107,7 +108,6 @@ interface Data {
 }
 
 const options = [
-  { value: "-1", label: "请选择" },
   { value: "0", label: "运行中" },
   { value: "1", label: "已停止" }
 ];
@@ -116,7 +116,7 @@ const datas = ref<Data[]>([]);
 
 const listData = () => {
   datas.value = []
-  axios({
+  instance({
     headers: {
       Authorization: localStorage.getItem('Authorization')
     },
@@ -141,13 +141,13 @@ const listData = () => {
 };
 
 const query = () => {
-  if (queryForm.exerciseName === "" && queryForm.rangeName === "" && queryForm.rangeStatus === "-1") {
+  if (queryForm.exerciseName === "" && queryForm.rangeName === "" && !queryForm.rangeStatus) {
     window.setTimeout(() => {
       listData()
     }, 250)
   } else {
     datas.value = []
-    axios({
+    instance({
       headers: {
         Authorization: localStorage.getItem('Authorization')
       },
@@ -211,7 +211,7 @@ const queryForm = reactive({
 const small = ref(false)
 const background = ref(true)
 const disabled = ref(false)
-const pageSize = ref(5)
+const pageSize = ref(10)
 const currentPage = ref(1)
 
 const handleSizeChange = (val: number) => {

@@ -10,6 +10,7 @@
               v-model="queryForm.imageType"
               :options="mirrorOptions"
               placeholder="请选择"
+              clearable
               style="width: 300px"
           />
         </el-form-item>
@@ -22,7 +23,7 @@
       <el-button type="primary" @click="query" style="display: flex; float: right">查询</el-button>
       <el-dialog v-model="addDialogVisible" title="上传镜像" width="30%">
         <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
-        <el-form ref="newMirrorFormRef" :model="newMirrorForm" label-position="left">
+        <el-form ref="newMirrorFormRef" :model="newMirrorForm" label-position="left" label-width="auto">
           <el-form-item label="镜像名称" prop="imageName">
             <el-input v-model="newMirrorForm.imageName" placeholder="单行输入" />
           </el-form-item>
@@ -33,6 +34,7 @@
             <el-select-v2
                 v-model="newMirrorForm.imageType"
                 :options="mirrorOptions"
+                clearable
                 placeholder="请选择"
                 style="width: 300px"
             />
@@ -43,6 +45,7 @@
                 class="upload-demo"
                 action=""
                 :auto-upload="false"
+                ref="uploadrefs"
             >
               <template #trigger>
                 <el-button type="primary">选择文件</el-button>
@@ -70,7 +73,7 @@
       <div style="width: 100%">
         <el-table :data="mirrors.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
                   stripe style="width: 100%">
-          <el-table-column prop="id" label="镜像ID"></el-table-column>
+<!--          <el-table-column prop="id" label="镜像ID"></el-table-column>-->
           <el-table-column prop="imageName" label="镜像名称"></el-table-column>
           <el-table-column prop="version" label="版本名称"></el-table-column>
           <el-table-column prop="imageType" label="镜像类型"></el-table-column>
@@ -97,7 +100,7 @@
         <el-pagination
             v-model:current-page="currentPage"
             v-model:page-size="pageSize"
-            :page-sizes="[5, 10, 20, 30, 40]"
+            :page-sizes="[10, 20, 30, 40]"
             :small="small"
             :disabled="disabled"
             :background="background"
@@ -118,6 +121,7 @@ import {ref, reactive, onMounted, computed} from "vue";
 import {ElMessage, ElMessageBox, UploadInstance} from "element-plus";
 import axios from "axios";
 import type { UploadProps, UploadUserFile } from 'element-plus'
+import instance from "~/services/api";
 
 onMounted(() => {
   listMirrors()
@@ -134,7 +138,6 @@ interface Mirror {
 }
 
 const mirrorOptions = [
-  { value: "-1", label: "请选择" },
   { value: "0", label: "漏洞挖掘" },
   { value: "1", label: "包含漏洞数据镜像" },
   { value: "2", label: "网络攻击镜像" },
@@ -146,7 +149,7 @@ const mirrors = ref<Mirror[]>([]);
 
 const listMirrors = () => {
   mirrors.value = []
-  axios({
+  instance({
     headers: {
       Authorization: localStorage.getItem('Authorization')
     },
@@ -170,13 +173,13 @@ const listMirrors = () => {
 };
 
 const query = () => {
-  if (queryForm.imageType === "" && queryForm.imageName === "") {
+  if (!queryForm.imageType && queryForm.imageName === "") {
     window.setTimeout(() => {
       listMirrors()
     }, 250)
   } else {
     mirrors.value = []
-    axios({
+    instance({
       headers: {
         Authorization: localStorage.getItem('Authorization')
       },
@@ -203,7 +206,7 @@ const query = () => {
 }
 
 const deleteMirror = (id: string) => {
-  axios({
+  instance({
     method: 'post',
     url: '/image/deleteImage',
     headers: {
@@ -218,7 +221,7 @@ const deleteMirror = (id: string) => {
 }
 
 const addMirror = (formData) => {
-  axios.post('/image/uploadImage', formData, {
+  instance.post('/image/uploadImage', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
       'Authorization': localStorage.getItem('Authorization'),
@@ -243,13 +246,14 @@ const newMirrorForm = reactive({
 
 const uploadedFile = ref(null)
 
-const formData = new FormData();
+const uploadrefs = ref()
 
 const handleChange = (file) => {
   uploadedFile.value = file.raw
 }
 
 const closeAddDialogSubmitForm = () => {
+  const formData = new FormData();
   formData.append('file', uploadedFile.value)
   formData.append('imageName', newMirrorForm.imageName)
   formData.append('imageType', newMirrorForm.imageType)
@@ -257,11 +261,12 @@ const closeAddDialogSubmitForm = () => {
   addMirror(formData)
   window.setTimeout(() => {
     listMirrors()
-  }, 250)
+  }, 450)
   newMirrorForm.imageName = ''
   newMirrorForm.imageType = ''
   newMirrorForm.version = ''
   addDialogVisible.value = false
+  uploadrefs.value.clearFiles();
 }
 
 const deleteRow = (row) => {
@@ -274,7 +279,7 @@ const deleteRow = (row) => {
 const small = ref(false)
 const background = ref(true)
 const disabled = ref(false)
-const pageSize = ref(5)
+const pageSize = ref(10)
 const currentPage = ref(1)
 
 const handleSizeChange = (val: number) => {
