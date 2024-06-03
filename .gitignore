@@ -9,6 +9,8 @@ dist-ssr
 # lock
 yarn.lock
 package-lock.json
-pnpm-lock.yaml
+# pnpm-lock.yaml
 
 *.log
+
+components.d.ts

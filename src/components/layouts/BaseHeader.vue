@@ -1,12 +1,18 @@
 <template>
   <el-menu mode="horizontal">
-    <el-menu-item index="1">
+    <el-menu-item>
       <span>{{ EMULATION_SYSTEM_NAME }}</span>
     </el-menu-item>
-    <el-menu-item index="2">
-      <a href="https://modao.cc/app/6XdQIh9Es69j5wU7F934Ol#screen=slqm0sbodm347ro" target="_blank">原型</a>
+    <el-menu-item>
+      <el-link
+        :underline="false"
+        href="https://modao.cc/app/6XdQIh9Es69j5wU7F934Ol"
+        target="_blank"
+      >
+        <span>原型</span>
+      </el-link>
     </el-menu-item>
-    <el-menu-item index="3" disabled>
+    <el-menu-item disabled>
       <span>关于</span>
     </el-menu-item>
     <el-menu-item @click="toggleDark()">
@@ -20,15 +26,9 @@
   </el-menu>
 </template>
 
-<style scoped>
-a {
-  text-decoration-line: none;
-}
-</style>
-
 <script lang="ts" setup>
 import { toggleDark } from "~/composables";
 import { inject } from "vue";
 
-const EMULATION_SYSTEM_NAME = inject<string>('EMULATION_SYSTEM_NAME');
+const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
 </script>
