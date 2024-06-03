@@ -5,9 +5,9 @@
 ## 项目配置
 
 ```bash
-npm install
-npm run dev    # 开发
-npm run build  # 部署
+pnpm install
+pnpm run dev    # 开发
+pnpm run build  # 部署
 ```
 
 生成的部署文件位于 `./dist/`。
