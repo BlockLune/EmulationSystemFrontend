@@ -4,7 +4,7 @@
     <BaseHeader />
     <el-container>
       <BaseSide @changeDisplay="handleDisplayChange" />
-      <el-container class="p-2">
+      <el-container class="p-4">
         <RouterView />
       </el-container>
     </el-container>
