@@ -1,16 +1,14 @@
-import {
-    baseApiUrl,
-    token,
-} from "./keys";
 import axios from 'axios';
 import { ElMessage } from "element-plus";
 import { ref } from "vue";
 
+const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
+const token = import.meta.env.VITE_TOKEN;
 
 axios.defaults.baseURL = baseApiUrl;
 axios.defaults.timeout = 5000;
 
-export const apikey = {
+export const apiKey = {
     key: 'Authorization',
     value: '',
 };
@@ -57,8 +55,8 @@ export const loginReq = (loginName: string, password: string) => {
     }
     instance.post('/system/user/login', postData)
         .then((response) => {
-            apikey.value = token + response.data.data;
-            localStorage.setItem('Authorization', apikey.value);
+            apiKey.value = token + response.data.data;
+            localStorage.setItem('Authorization', apiKey.value);
             ElMessage(response.data.message);
             showHome.value = false;
         });
