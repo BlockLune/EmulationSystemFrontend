@@ -19,8 +19,8 @@ import { createWebHashHistory, createRouter } from "vue-router";
 
 import Home from "./components/pages/Home.vue";
 import SituationAwareness from "./components/pages/SituationAwareness.vue";
-import SimulationRangeMirror from "./components/pages/SimulationRange/Mirror.vue";
 import SimulationRangeContainer from "./components/pages/SimulationRange/Container.vue";
+import SimulationRangeImage from "./components/pages/SimulationRange/Image.vue";
 import SimulationRangeAttackDefenseExercise from "./components/pages/SimulationRange/AttackDefenseExercise.vue";
 import SimulationRangeRange from "./components/pages/SimulationRange/Range.vue";
 import SimulationRangeDig from "./components/pages/SimulationRange/LoopHoleDig.vue";
@@ -33,7 +33,7 @@ import SettingsConfig from "./components/pages/SystemSettings/Config.vue";
 const routes = [
   { path: "/", component: Home },
   { path: "/situation_awareness", component: SituationAwareness },
-  { path: "/simulation_range/mirror", component: SimulationRangeMirror },
+  { path: "/simulation_range/image", component: SimulationRangeImage },
   { path: "/simulation_range/container", component: SimulationRangeContainer },
   { path: "/simulation_range/attack_defense_exercise", component: SimulationRangeAttackDefenseExercise },
   { path: "/simulation_range/range", component: SimulationRangeRange },

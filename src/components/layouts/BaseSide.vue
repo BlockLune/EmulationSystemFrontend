@@ -11,7 +11,7 @@
         <el-icon><Management /></el-icon>
         <span>仿真靶场管理</span>
       </template>
-      <el-menu-item index="/simulation_range/mirror">
+      <el-menu-item index="/simulation_range/image">
         <template #title>
           <el-icon>
             <div class="i-fluent:cd-16-filled"></div>

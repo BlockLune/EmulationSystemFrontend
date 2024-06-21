@@ -8,27 +8,24 @@
         </el-button>
         <el-dialog v-model="addDialogVisible" title="上传镜像" width="30%">
           <el-form
-            ref="newMirrorFormRef"
-            :model="newMirrorForm"
+            ref="newImageFormRef"
+            :model="newImageForm"
             label-position="left"
             label-width="auto"
           >
             <el-form-item label="镜像名称" prop="imageName">
               <el-input
-                v-model="newMirrorForm.imageName"
+                v-model="newImageForm.imageName"
                 placeholder="单行输入"
               />
             </el-form-item>
             <el-form-item label="版本号" prop="version">
-              <el-input
-                v-model="newMirrorForm.version"
-                placeholder="单行输入"
-              />
+              <el-input v-model="newImageForm.version" placeholder="单行输入" />
             </el-form-item>
             <el-form-item label="资源类型" prop="imageType">
               <el-select-v2
-                v-model="newMirrorForm.imageType"
-                :options="mirrorOptions"
+                v-model="newImageForm.imageType"
+                :options="imageOptions"
                 clearable
                 placeholder="请选择"
                 style="width: 300px"
@@ -40,7 +37,7 @@
                 class="upload-demo"
                 action=""
                 :auto-upload="false"
-                ref="uploadrefs"
+                ref="uploadRefs"
               >
                 <template #trigger>
                   <el-button type="primary">选择文件</el-button>
@@ -70,7 +67,7 @@
         <el-form-item label="资源类型" prop="imageType">
           <el-select-v2
             v-model="queryForm.imageType"
-            :options="mirrorOptions"
+            :options="imageOptions"
             placeholder="请选择"
             clearable
             style="width: 200px"
@@ -89,7 +86,7 @@
     <div class="flex flex-col items-center space-y-2">
       <el-table
         :data="
-          mirrors.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+          images.slice((currentPage - 1) * pageSize, currentPage * pageSize)
         "
         stripe
         style="width: 100%"
@@ -126,7 +123,7 @@
         :disabled="disabled"
         :background="background"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="mirrors.length"
+        :total="images.length"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -135,17 +132,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, computed } from "vue";
-import { ElMessage, ElMessageBox, UploadInstance } from "element-plus";
-import axios from "axios";
-import type { UploadProps, UploadUserFile } from "element-plus";
+import { ref, reactive, onMounted } from "vue";
+import { ElMessage } from "element-plus";
 import instance from "~/services/api";
 
 onMounted(() => {
-  listMirrors();
+  listImages();
 });
 
-interface Mirror {
+interface Image {
   id: string;
   imageName: string;
   imageType: string;
@@ -155,7 +150,7 @@ interface Mirror {
   updateTime: string;
 }
 
-const mirrorOptions = [
+const imageOptions = [
   { value: "0", label: "漏洞挖掘" },
   { value: "1", label: "包含漏洞数据镜像" },
   { value: "2", label: "网络攻击镜像" },
@@ -163,10 +158,10 @@ const mirrorOptions = [
   { value: "4", label: "靶机镜像" },
 ];
 
-const mirrors = ref<Mirror[]>([]);
+const images = ref<Image[]>([]);
 
-const listMirrors = () => {
-  mirrors.value = [];
+const listImages = () => {
+  images.value = [];
   instance({
     headers: {
       Authorization: localStorage.getItem("Authorization"),
@@ -180,12 +175,12 @@ const listMirrors = () => {
       pageSize: 1000,
     },
   }).then((response) => {
-    for (const mirror of response.data.data.list) {
-      for (let i = 0; i < mirrorOptions.length; i++) {
-        if (mirror.imageType === mirrorOptions[i].value)
-          mirror.imageType = mirrorOptions[i].label;
+    for (const image of response.data.data.list) {
+      for (let i = 0; i < imageOptions.length; i++) {
+        if (image.imageType === imageOptions[i].value)
+          image.imageType = imageOptions[i].label;
       }
-      mirrors.value.push(mirror);
+      images.value.push(image);
     }
   });
 };
@@ -193,10 +188,10 @@ const listMirrors = () => {
 const query = () => {
   if (!queryForm.imageType && queryForm.imageName === "") {
     window.setTimeout(() => {
-      listMirrors();
+      listImages();
     }, 250);
   } else {
-    mirrors.value = [];
+    images.value = [];
     instance({
       headers: {
         Authorization: localStorage.getItem("Authorization"),
@@ -210,19 +205,19 @@ const query = () => {
         pageSize: 1000,
       },
     }).then((response) => {
-      for (const mirror of response.data.data.list) {
-        for (let i = 0; i < mirrorOptions.length; i++) {
-          if (mirror.imageType === mirrorOptions[i].value)
-            mirror.imageType = mirrorOptions[i].label;
+      for (const image of response.data.data.list) {
+        for (let i = 0; i < imageOptions.length; i++) {
+          if (image.imageType === imageOptions[i].value)
+            image.imageType = imageOptions[i].label;
         }
-        mirrors.value.push(mirror);
+        images.value.push(image);
       }
       ElMessage(response.data.message);
     });
   }
 };
 
-const deleteMirror = (id: string) => {
+const deleteImage = (id: string) => {
   instance({
     method: "post",
     url: "/image/deleteImage",
@@ -237,7 +232,7 @@ const deleteMirror = (id: string) => {
   });
 };
 
-const addMirror = (formData) => {
+const addImage = (formData) => {
   instance
     .post("/image/uploadImage", formData, {
       headers: {
@@ -257,7 +252,7 @@ const queryForm = reactive({
   imageType: "",
 });
 
-const newMirrorForm = reactive({
+const newImageForm = reactive({
   imageName: "",
   imageType: "",
   version: "",
@@ -265,7 +260,7 @@ const newMirrorForm = reactive({
 
 const uploadedFile = ref(null);
 
-const uploadrefs = ref();
+const uploadRefs = ref();
 
 const handleChange = (file) => {
   uploadedFile.value = file.raw;
@@ -274,24 +269,24 @@ const handleChange = (file) => {
 const closeAddDialogSubmitForm = () => {
   const formData = new FormData();
   formData.append("file", uploadedFile.value);
-  formData.append("imageName", newMirrorForm.imageName);
-  formData.append("imageType", newMirrorForm.imageType);
-  formData.append("version", newMirrorForm.version);
-  addMirror(formData);
+  formData.append("imageName", newImageForm.imageName);
+  formData.append("imageType", newImageForm.imageType);
+  formData.append("version", newImageForm.version);
+  addImage(formData);
   window.setTimeout(() => {
-    listMirrors();
+    listImages();
   }, 450);
-  newMirrorForm.imageName = "";
-  newMirrorForm.imageType = "";
-  newMirrorForm.version = "";
+  newImageForm.imageName = "";
+  newImageForm.imageType = "";
+  newImageForm.version = "";
   addDialogVisible.value = false;
-  uploadrefs.value.clearFiles();
+  uploadRefs.value.clearFiles();
 };
 
 const deleteRow = (row) => {
-  deleteMirror(row.id);
+  deleteImage(row.id);
   window.setTimeout(() => {
-    listMirrors();
+    listImages();
   }, 250);
 };
 
