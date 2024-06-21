@@ -1,3 +1,4 @@
+.env
 .vite-ssg-temp
 
 node_modules
