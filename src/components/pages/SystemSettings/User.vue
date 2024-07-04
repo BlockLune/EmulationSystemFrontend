@@ -128,7 +128,7 @@ interface User {
 
 const users = ref<User[]>([]);
 
-const options = [
+const options: { value: string, label: string, id: string }[] = [
   // { value: "0", label: "角色1" },
   // { value: "1", label: "角色2" },
 ];
@@ -271,20 +271,7 @@ const queryForm = reactive({
 });
 
 const query = () => {
-  users.value = []
-  axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem('Authorization')
-    },
-    method: 'post',
-    url: '/system/user/selectByPage/1/10000',
-    data: queryForm.userName
-  }).then((response) => {
-    for (const user of response.data.data.list) {
-      users.value.push(user);
-    }
-  });
-  queryForm.userName = ''
+  users.value = users.value.filter((user) => user.userName.includes(queryForm.userName));
 };
 
 const addDialogVisible = ref(false);
