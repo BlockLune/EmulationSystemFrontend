@@ -8,7 +8,7 @@
         <el-dialog v-model="addDialogVisible" title="新增角色" width="30%">
           <el-form ref="newRoleFormRef" :model="newRoleForm" label="70px" label-position="left" label-width="auto">
             <el-form-item label="角色名称" prop="name">
-              <el-input v-model="newRoleForm.name" placeholder="单行输入" />
+              <el-input v-model="newRoleForm.name" placeholder="单行输入" maxlength="16" show-word-limit />
             </el-form-item>
             <el-form-item label="权限">
               <el-radio-group v-model="newRoleForm.auth">
