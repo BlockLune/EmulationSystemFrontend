@@ -32,6 +32,15 @@
           </template>
         </el-dialog>
       </div>
+      <div class="flex flex-row gap-2">
+        <el-form ref="queryFormRef" :model="queryForm" label-position="left" class="flex flex-row gap-2">
+          <el-form-item label="用户名" prop="imageName">
+            <el-input v-model="queryForm.userName" placeholder="单行输入" />
+          </el-form-item>
+          <el-button :disabled="queryForm.userName === ''" type="primary" @click="query">查询</el-button>
+        </el-form>
+        <el-button @click="listUsers">清空查询结果</el-button>
+      </div>
     </div>
     <!-- table -->
     <div class="flex flex-col items-center space-y-2">
@@ -167,22 +176,6 @@ const listUsers = () => {
   });
 };
 
-const query = () => {
-  // users.value = []
-  // axios({
-  //   headers: {
-  //     Authorization: localStorage.getItem('Authorization')
-  //   },
-  //   method: 'post',
-  //   url: '/system/user/selectByPage/1/10000',
-  //   data: queryForm.userName
-  // }).then((response) => {
-  //   for (const user of response.data.data.list) {
-  //     users.value.push(user);
-  //   }
-  // });
-  // queryForm.userName = ''
-};
 
 const addUser = (loginName: string, roleId: string, userName: string) => {
   axiosInstance({
@@ -276,6 +269,23 @@ const newUserForm = reactive({
 const queryForm = reactive({
   userName: "",
 });
+
+const query = () => {
+  users.value = []
+  axiosInstance({
+    headers: {
+      Authorization: localStorage.getItem('Authorization')
+    },
+    method: 'post',
+    url: '/system/user/selectByPage/1/10000',
+    data: queryForm.userName
+  }).then((response) => {
+    for (const user of response.data.data.list) {
+      users.value.push(user);
+    }
+  });
+  queryForm.userName = ''
+};
 
 const addDialogVisible = ref(false);
 
