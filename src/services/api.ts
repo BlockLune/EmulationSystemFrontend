@@ -47,13 +47,6 @@ axiosInstance.interceptors.response.use(
 );
 export default axiosInstance;
 
-interface Role {
-    auth: string,
-    createdAt: string,
-    id: string,
-    name: string,
-    updatedAt: string,
-};
 
 export const loginReq = (loginName: string, password: string) => {
     const postData = {
