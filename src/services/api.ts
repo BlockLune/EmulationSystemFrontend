@@ -15,14 +15,21 @@ export const apiKey = {
 
 export const showHome = ref(localStorage.getItem('Authorization') === null);
 
-// 创建一个axios实例
-const instance = axios.create({
+const axiosInstance = axios.create({
     baseURL: baseApiUrl,
     timeout: 0,
 });
 
-instance.interceptors.response.use(
+axiosInstance.interceptors.request.use((config) => {
+    console.log('Requsted: ', config);
+    return config;
+}, error => {
+    return Promise.reject(error);
+});
+
+axiosInstance.interceptors.response.use(
     (response) => {
+        console.log('Response: ', response);
         if (response.data.code === 401) {
             localStorage.removeItem('Authorization');
             showHome.value = true;
@@ -38,7 +45,7 @@ instance.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-export default instance;
+export default axiosInstance;
 
 interface Role {
     auth: string,
@@ -53,7 +60,7 @@ export const loginReq = (loginName: string, password: string) => {
         loginName: loginName,
         password: password,
     }
-    instance.post('/system/user/login', postData)
+    axiosInstance.post('/system/user/login', postData)
         .then((response) => {
             apiKey.value = token + response.data.data;
             localStorage.setItem('Authorization', apiKey.value);

@@ -134,7 +134,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import instance from "~/services/api";
+import axiosInstance from "~/services/api";
 
 onMounted(() => {
   listImages();
@@ -162,7 +162,7 @@ const images = ref<Image[]>([]);
 
 const listImages = () => {
   images.value = [];
-  instance({
+  axiosInstance({
     headers: {
       Authorization: localStorage.getItem("Authorization"),
     },
@@ -192,7 +192,7 @@ const query = () => {
     }, 250);
   } else {
     images.value = [];
-    instance({
+    axiosInstance({
       headers: {
         Authorization: localStorage.getItem("Authorization"),
       },
@@ -218,7 +218,7 @@ const query = () => {
 };
 
 const deleteImage = (id: string) => {
-  instance({
+  axiosInstance({
     method: "post",
     url: "/image/deleteImage",
     headers: {
@@ -233,7 +233,7 @@ const deleteImage = (id: string) => {
 };
 
 const addImage = (formData) => {
-  instance
+  axiosInstance
     .post("/image/uploadImage", formData, {
       headers: {
         "Content-Type": "multipart/form-data",

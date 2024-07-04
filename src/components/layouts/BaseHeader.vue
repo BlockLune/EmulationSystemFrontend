@@ -23,6 +23,14 @@
         <i inline-flex i="dark:ep-moon ep-sunny" />
       </button>
     </el-menu-item>
+    <el-menu-item v-if="showClearLocalStorageButton">
+      <button
+        class="border-none w-full bg-transparent cursor-pointer"
+        @click="clearLocalStorage"
+      >
+        Clear localStorage
+      </button>
+    </el-menu-item>
   </el-menu>
 </template>
 
@@ -31,4 +39,9 @@ import { toggleDark } from "~/composables";
 import { inject } from "vue";
 
 const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
+const clearLocalStorage = () => {
+  localStorage.clear();
+  console.log("LocalStorage cleared.");
+};
+const showClearLocalStorageButton = import.meta.env.DEV;
 </script>

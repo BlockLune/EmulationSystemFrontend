@@ -151,7 +151,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import instance from "~/services/api";
+import axiosInstance from "~/services/api";
 
 onMounted(() => {
   listUsers();
@@ -178,7 +178,7 @@ const options = [
 ];
 
 const getRoleName = () => {
-  instance({
+  axiosInstance({
     headers: {
       Authorization: localStorage.getItem("Authorization"),
     },
@@ -207,7 +207,7 @@ const getId = () => {
 
 const listUsers = () => {
   users.value = [];
-  instance({
+  axiosInstance({
     headers: {
       Authorization: localStorage.getItem("Authorization"),
     },
@@ -238,7 +238,7 @@ const query = () => {
 };
 
 const addUser = (loginName: string, roleId: string, userName: string) => {
-  instance({
+  axiosInstance({
     method: "post",
     url: "/system/user/createUser",
     headers: {
@@ -255,7 +255,7 @@ const addUser = (loginName: string, roleId: string, userName: string) => {
 };
 
 const deleteUser = (userId: string) => {
-  instance({
+  axiosInstance({
     method: "post",
     url: "/system/user/deleteUser",
     headers: {
@@ -275,7 +275,7 @@ const updateUser = (
   userId: string,
   userName: string
 ) => {
-  instance({
+  axiosInstance({
     method: "post",
     url: "/system/user/updateUser",
     headers: {
@@ -293,7 +293,7 @@ const updateUser = (
 };
 
 const changeUserStatus = (status: string, userId: string) => {
-  instance({
+  axiosInstance({
     method: "post",
     url: "/system/user/changeUserStatus",
     headers: {

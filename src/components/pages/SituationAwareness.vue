@@ -17,9 +17,9 @@
 <script lang="ts" setup>
 import * as echarts from "echarts";
 import { onMounted } from "vue";
-import instance from "~/services/api";
+import axiosInstance from "~/services/api";
 onMounted(() => {
-  instance({
+  axiosInstance({
     headers: {
       Authorization: localStorage.getItem("Authorization"),
     },

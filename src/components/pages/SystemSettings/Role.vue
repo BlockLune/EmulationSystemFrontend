@@ -124,13 +124,13 @@ import { onMounted, ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import EmulationRangeCheckboxGroup from "./Role/EmulationRangeCheckboxGroup.vue";
 import JSONBIG from "json-bigint";
-import instance from "~/services/api";
+import axiosInstance from "~/services/api";
 
 onMounted(() => {
   listRoles();
 });
 
-instance.defaults.transformResponse = [
+axiosInstance.defaults.transformResponse = [
   function (data) {
     const json = JSONBIG({
       storeAsString: true,
@@ -144,7 +144,7 @@ const roles = ref<Role[]>([]);
 
 const listRoles = () => {
   roles.value = [];
-  instance({
+  axiosInstance({
     headers: {
       Authorization: localStorage.getItem("Authorization"),
     },
@@ -158,7 +158,7 @@ const listRoles = () => {
 };
 
 const deleteRole = (roleId: string) => {
-  instance({
+  axiosInstance({
     method: "post",
     url: "/system/role/deleteRole",
     headers: {
@@ -173,7 +173,7 @@ const deleteRole = (roleId: string) => {
 };
 
 const addRole = (roleName: string, auth: string) => {
-  instance({
+  axiosInstance({
     method: "post",
     url: "/system/role/createRole",
     headers: {
@@ -189,7 +189,7 @@ const addRole = (roleName: string, auth: string) => {
 };
 
 const updateRole = (auth: string, roleId: number, roleName: string) => {
-  instance({
+  axiosInstance({
     method: "post",
     url: "/system/role/updateRole",
     headers: {
