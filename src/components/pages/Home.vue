@@ -9,11 +9,12 @@
           <h3>账户登录</h3>
           <el-form ref="loginFormRef" :model="loginForm" :rules="rules" label-width="70px" label-position="top">
             <el-form-item label="用户名" prop="username">
-              <el-input v-model="loginForm.username" placeholder="输入用户名" aria-required="true" />
+              <el-input v-model="loginForm.username" placeholder="输入用户名" aria-required="true" maxlength="16"
+                show-word-limit />
             </el-form-item>
             <el-form-item label="密码" prop="password">
               <el-input v-model="loginForm.password" placeholder="输入密码" type="password" show-password
-                aria-required="true" />
+                aria-required="true" maxlength="16" show-word-limit />
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitForm(loginFormRef)">
