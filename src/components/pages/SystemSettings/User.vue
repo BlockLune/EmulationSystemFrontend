@@ -1,151 +1,107 @@
 <template>
-  <div style="display: flex; flex-direction: column; width: 100%">
-    <!--    <div>-->
-    <!--      <el-form ref="queryFormRef" :model="queryForm" label-position="left" style="display: flex; flex-direction: row">-->
-    <!--        <el-form-item label="用户名称" prop="userName">-->
-    <!--          <el-input style="margin-right: 50px" v-model="queryForm.userName" placeholder="单行输入" />-->
-    <!--        </el-form-item>-->
-    <!--      </el-form>-->
-    <!--    </div>-->
-
-    <div>
+  <div class="flex flex-col w-full">
+    <!-- banner -->
+    <div class="flex flex-row justify-between">
       <!-- 新增用户 -->
-      <el-button type="primary" @click="addDialogVisible = true"
-        >新增</el-button
-      >
-      <!--      <el-button type="primary" @click="query" style="display: flex; float: right">查询</el-button>-->
-      <el-dialog v-model="addDialogVisible" title="新增用户" width="30%">
-        <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
-        <el-form
-          ref="newUserFormRef"
-          :model="newUserForm"
-          label-position="left"
-          label-width="auto"
-        >
-          <el-form-item label="登录名" prop="loginName">
-            <el-input v-model="newUserForm.loginName" placeholder="单行输入" />
-          </el-form-item>
-          <el-form-item label="角色名称" prop="roleName">
-            <el-select-v2
-              v-model="newUserForm.roleName"
-              :options="options"
-              @change="getId"
-              placeholder="请选择"
-              clearable
-            />
-          </el-form-item>
-          <!--          如果不需要角色ID输入框可以把下面这三行代码注释掉-->
-          <!--          <el-form-item label="角色ID" prop="roleId">-->
-          <!--            <el-input v-model="newUserForm.roleId" placeholder="单行输入" disabled/>-->
-          <!--          </el-form-item>-->
+      <div>
+        <el-button type="primary" @click="addDialogVisible = true">新增</el-button>
+        <el-dialog v-model="addDialogVisible" title="新增用户" width="30%">
+          <el-form ref="newUserFormRef" :model="newUserForm" label-position="left" label-width="auto">
+            <el-form-item label="登录名" prop="loginName">
+              <el-input v-model="newUserForm.loginName" placeholder="单行输入" />
+            </el-form-item>
+            <el-form-item label="角色名称" prop="roleName">
+              <el-select-v2 v-model="newUserForm.roleName" :options="options" @change="getId" placeholder="请选择"
+                clearable />
+            </el-form-item>
+            <!--          如果不需要角色ID输入框可以把下面这三行代码注释掉-->
+            <!--          <el-form-item label="角色ID" prop="roleId">-->
+            <!--            <el-input v-model="newUserForm.roleId" placeholder="单行输入" disabled/>-->
+            <!--          </el-form-item>-->
 
+            <el-form-item label="用户名" prop="userName">
+              <el-input v-model="newUserForm.userName" placeholder="单行输入" />
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button type="primary" @click="closeAddDialogSubmitForm()">确定
+              </el-button>
+              <el-button @click="addDialogVisible = false">取消 </el-button>
+            </span>
+          </template>
+        </el-dialog>
+      </div>
+      <div class="flex flex-row gap-2">
+        <el-form ref="queryFormRef" :model="queryForm" label-position="left" class="flex flex-row gap-2">
+          <el-form-item label="用户名" prop="imageName">
+            <el-input v-model="queryForm.userName" placeholder="单行输入" />
+          </el-form-item>
+          <el-button :disabled="queryForm.userName === ''" type="primary" @click="query">查询</el-button>
+        </el-form>
+        <el-button @click="listUsers">清空查询结果</el-button>
+      </div>
+    </div>
+    <!-- table -->
+    <div class="flex flex-col items-center space-y-2">
+      <el-table :data="users.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+        " stripe style="width: 100%">
+        <el-table-column prop="id" label="用户ID"></el-table-column>
+        <el-table-column prop="userName" label="用户名"></el-table-column>
+        <el-table-column prop="loginName" label="登录名"></el-table-column>
+        <el-table-column prop="roleId" label="角色ID"></el-table-column>
+        <el-table-column prop="auth" label="权限"></el-table-column>
+        <el-table-column prop="password" label="密码"></el-table-column>
+        <el-table-column prop="status" label="用户状态" width="200">
+          <template #default="{ row }">
+            <el-switch active-value="1" inactive-value="0" v-model="row.status" active-text="启用" inactive-text="禁用"
+              @change="changeStatus(row)" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建时间"></el-table-column>
+        <el-table-column prop="updateTime" label="更新时间"></el-table-column>
+        <el-table-column label="操作">
+          <template #default="{ row }">
+            <el-button link type="primary" @click="showEditDialog(row)">编辑</el-button>
+            <el-popconfirm title="确认删除？" confirm-button-text="确认" cancel-button-text="取消" @confirm="deleteRow(row)">
+              <template #reference>
+                <el-button link type="danger">删除</el-button>
+              </template>
+            </el-popconfirm>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 编辑用户 -->
+      <el-dialog v-model="editDialogVisible" title="编辑用户" width="30%">
+        <el-form ref="editUserFormRef" :model="editUserForm" label="70px" label-position="left">
+          <el-form-item label="用户ID" prop="id">
+            <el-input v-model="editUserForm.id" disabled />
+          </el-form-item>
+          <el-form-item label="登录名" prop="loginName">
+            <el-input v-model="editUserForm.loginName" />
+          </el-form-item>
+          <el-form-item label="角色ID" prop="roleId">
+            <el-input v-model="editUserForm.roleId" />
+          </el-form-item>
           <el-form-item label="用户名" prop="userName">
-            <el-input v-model="newUserForm.userName" placeholder="单行输入" />
+            <el-input v-model="editUserForm.userName" />
           </el-form-item>
         </el-form>
         <template #footer>
           <span class="dialog-footer">
-            <el-button type="primary" @click="closeAddDialogSubmitForm()"
-              >确定
+            <el-button type="primary" @click="closeEditDialogSubmitForm()">
+              确定
             </el-button>
-            <el-button @click="addDialogVisible = false">取消 </el-button>
+            <el-button @click="editDialogVisible = false">取消</el-button>
           </span>
         </template>
       </el-dialog>
-
-      <!-- 表格主体 -->
-      <div style="width: 100%">
-        <el-table
-          :data="
-            users.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-          "
-          stripe
-          style="width: 100%"
-        >
-          <el-table-column prop="id" label="用户ID"></el-table-column>
-          <el-table-column prop="userName" label="用户名"></el-table-column>
-          <el-table-column prop="loginName" label="登录名"></el-table-column>
-          <el-table-column prop="roleId" label="角色ID"></el-table-column>
-          <el-table-column prop="auth" label="权限"></el-table-column>
-          <el-table-column prop="password" label="密码"></el-table-column>
-          <el-table-column prop="status" label="用户状态" width="200">
-            <template #default="{ row }">
-              <el-switch
-                active-value="1"
-                inactive-value="0"
-                v-model="row.status"
-                active-text="启用"
-                inactive-text="禁用"
-                @change="changeStatus(row)"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column prop="createTime" label="创建时间"></el-table-column>
-          <el-table-column prop="updateTime" label="更新时间"></el-table-column>
-          <el-table-column label="操作">
-            <template #default="{ row }">
-              <el-button link type="primary" @click="showEditDialog(row)"
-                >编辑</el-button
-              >
-              <el-popconfirm
-                title="确认删除？"
-                confirm-button-text="确认"
-                cancel-button-text="取消"
-                @confirm="deleteRow(row)"
-              >
-                <template #reference>
-                  <el-button link type="danger">删除</el-button>
-                </template>
-              </el-popconfirm>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-          v-model:current-page="currentPage"
-          v-model:page-size="pageSize"
-          :page-sizes="[10, 20, 30, 40]"
-          :small="small"
-          :disabled="disabled"
-          :background="background"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="users.length"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
-      </div>
+      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 30, 40]"
+        :small="small" :disabled="disabled" :background="background" layout="total, sizes, prev, pager, next, jumper"
+        :total="users.length" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
   </div>
 
-  <!-- 编辑用户 -->
-  <el-dialog v-model="editDialogVisible" title="编辑用户" width="30%">
-    <el-form
-      ref="editUserFormRef"
-      :model="editUserForm"
-      label="70px"
-      label-position="left"
-    >
-      <el-form-item label="用户ID" prop="id">
-        <el-input v-model="editUserForm.id" disabled />
-      </el-form-item>
-      <el-form-item label="登录名" prop="loginName">
-        <el-input v-model="editUserForm.loginName" />
-      </el-form-item>
-      <el-form-item label="角色ID" prop="roleId">
-        <el-input v-model="editUserForm.roleId" />
-      </el-form-item>
-      <el-form-item label="用户名" prop="userName">
-        <el-input v-model="editUserForm.userName" />
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="primary" @click="closeEditDialogSubmitForm()">
-          确定
-        </el-button>
-        <el-button @click="editDialogVisible = false">取消</el-button>
-      </span>
-    </template>
-  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -172,7 +128,7 @@ interface User {
 
 const users = ref<User[]>([]);
 
-const options = [
+const options: { value: string, label: string, id: string }[] = [
   // { value: "0", label: "角色1" },
   // { value: "1", label: "角色2" },
 ];
@@ -220,22 +176,6 @@ const listUsers = () => {
   });
 };
 
-const query = () => {
-  // users.value = []
-  // axios({
-  //   headers: {
-  //     Authorization: localStorage.getItem('Authorization')
-  //   },
-  //   method: 'post',
-  //   url: '/system/user/selectByPage/1/10000',
-  //   data: queryForm.userName
-  // }).then((response) => {
-  //   for (const user of response.data.data.list) {
-  //     users.value.push(user);
-  //   }
-  // });
-  // queryForm.userName = ''
-};
 
 const addUser = (loginName: string, roleId: string, userName: string) => {
   axiosInstance({
@@ -329,6 +269,10 @@ const newUserForm = reactive({
 const queryForm = reactive({
   userName: "",
 });
+
+const query = () => {
+  users.value = users.value.filter((user) => user.userName.includes(queryForm.userName));
+};
 
 const addDialogVisible = ref(false);
 
