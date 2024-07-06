@@ -237,7 +237,7 @@ import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
 import { ElMessage } from "element-plus";
 import JSONBIG from "json-bigint";
-import axiosInstance from "~/services/api";
+import axiosInstance from "~/utils/axiosInstance";
 
 onMounted(() => {
   listData();
@@ -281,9 +281,6 @@ const options1 = [
 const query1 = (str) => {
   datas.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "get",
     url: str,
   }).then((response) => {
@@ -325,9 +322,6 @@ const queryCategoryByOption = () => {
 const query2 = (str) => {
   datas2.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "get",
     url: str,
   }).then((response) => {
@@ -380,9 +374,6 @@ const metadatas = ref([]);
 const listData = () => {
   datas.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "get",
     url: "/loophole/get/all/1/1000",
   }).then((response) => {
@@ -398,9 +389,6 @@ const listData = () => {
 const listData2 = () => {
   datas2.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "get",
     url: "/loophole/category/getall/1/1000",
   }).then((response) => {
@@ -424,9 +412,6 @@ const add1 = (form) => {
   axiosInstance({
     method: "post",
     url: "/loophole/create",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       categoryId: form.categoryId,
       holeName: form.holeName,
@@ -450,9 +435,7 @@ const add2 = (form) => {
         descr: form.descr,
       },
       {
-        headers: {
-          Authorization: localStorage.getItem("Authorization"),
-        },
+        headers: {},
       }
     )
     .then((response) => {
@@ -503,9 +486,6 @@ const update1 = (form) => {
   axiosInstance({
     method: "post",
     url: "/loophole/update",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       categoryId: form.categoryId,
       holeName: form.holeName,
@@ -559,9 +539,6 @@ const update2 = (form) => {
   axiosInstance({
     method: "post",
     url: "/loophole/category/update",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       categoryName: form.categoryName,
       id: form.id,
@@ -597,9 +574,6 @@ const delete1 = (id: string) => {
   axiosInstance({
     method: "post",
     url: "/loophole/delete",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       id: id,
     },
@@ -619,9 +593,6 @@ const delete2 = (id: string) => {
   axiosInstance({
     method: "post",
     url: "/loophole/category/delete",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       id: id,
     },

@@ -118,7 +118,7 @@
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import axios from "axios";
-import axiosInstance from "~/services/api";
+import axiosInstance from "~/utils/axiosInstance";
 
 onMounted(() => {
   listData();
@@ -149,9 +149,6 @@ const datas = ref<Data[]>([]);
 const listData = () => {
   datas.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/range/selectByPage",
     data: {
@@ -182,9 +179,6 @@ const query = () => {
   } else {
     datas.value = [];
     axiosInstance({
-      headers: {
-        Authorization: localStorage.getItem("Authorization"),
-      },
       method: "post",
       url: "/range/selectByPage",
       data: {
@@ -210,9 +204,6 @@ const query = () => {
 //   axios({
 //     method: 'post',
 //     url: '/container/create',
-//     headers: {
-//       'Authorization': localStorage.getItem('Authorization')
-//     },
 //     data: {imageId: imageId}
 //   }).then((response) => {
 //     ElMessage(response.data.message)

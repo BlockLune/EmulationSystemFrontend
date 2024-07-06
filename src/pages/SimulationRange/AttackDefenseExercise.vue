@@ -319,7 +319,7 @@ import { ref, reactive } from "vue";
 import { ElMessage, ElSelect, FormInstance } from "element-plus";
 import { onMounted } from "vue";
 import axios from "axios";
-import axiosInstance from "~/services/api";
+import axiosInstance from "~/utils/axiosInstance";
 
 onMounted(() => {
   listData();
@@ -375,9 +375,6 @@ const getImage = () => {
   imageOptions2.splice(0, imageOptions2.length);
   imageOptions3.splice(0, imageOptions3.length);
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/exercise/selectTarget",
   }).then((response) => {
@@ -392,9 +389,6 @@ const getImage = () => {
     }
   });
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/exercise/selectDefenseImage",
   }).then((response) => {
@@ -409,9 +403,6 @@ const getImage = () => {
     }
   });
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/exercise/selectAttackImage",
   }).then((response) => {
@@ -451,9 +442,6 @@ const listData = () => {
   datas.value = [];
   attackAndDefendData.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/exercise/selectTarget",
   }).then((response) => {
@@ -462,9 +450,6 @@ const listData = () => {
     }
   });
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/exercise/selectDefenseImage",
   }).then((response) => {
@@ -473,9 +458,6 @@ const listData = () => {
     }
   });
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/exercise/selectAttackImage",
   }).then((response) => {
@@ -484,9 +466,6 @@ const listData = () => {
     }
   });
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/exercise/selectByPage",
     data: {
@@ -535,9 +514,6 @@ const query = () => {
   } else {
     datas.value = [];
     axios({
-      headers: {
-        Authorization: localStorage.getItem("Authorization"),
-      },
       method: "post",
       url: "/exercise/selectByPage",
       data: {
@@ -559,9 +535,6 @@ const add = (form) => {
   axiosInstance({
     method: "post",
     url: "/exercise/createExercise",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       exerciseName: form.exerciseName,
       targetImageId: form.targetImageId,

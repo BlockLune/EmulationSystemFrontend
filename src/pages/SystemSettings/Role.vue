@@ -4,11 +4,24 @@
     <div class="flex flex-row justify-between">
       <div>
         <!-- 新增角色 -->
-        <el-button type="primary" @click="addDialogVisible = true">新增</el-button>
+        <el-button type="primary" @click="addDialogVisible = true"
+          >新增</el-button
+        >
         <el-dialog v-model="addDialogVisible" title="新增角色" width="30%">
-          <el-form ref="newRoleFormRef" :model="newRoleForm" label="70px" label-position="left" label-width="auto">
+          <el-form
+            ref="newRoleFormRef"
+            :model="newRoleForm"
+            label="70px"
+            label-position="left"
+            label-width="auto"
+          >
             <el-form-item label="角色名称" prop="name">
-              <el-input v-model="newRoleForm.name" placeholder="单行输入" maxlength="16" show-word-limit />
+              <el-input
+                v-model="newRoleForm.name"
+                placeholder="单行输入"
+                maxlength="16"
+                show-word-limit
+              />
             </el-form-item>
             <el-form-item label="权限">
               <el-radio-group v-model="newRoleForm.auth">
@@ -33,19 +46,35 @@
       </div>
       <!-- 搜索框 -->
       <div>
-        <el-form ref="queryFormRef" :model="queryForm" label-position="left" class="flex flex-row gap-2">
+        <el-form
+          ref="queryFormRef"
+          :model="queryForm"
+          label-position="left"
+          class="flex flex-row gap-2"
+        >
           <el-form-item label="角色名称" prop="roleName">
             <el-input v-model="queryForm.roleName" placeholder="单行输入" />
           </el-form-item>
-          <el-button :disabled="queryForm.roleName === ''" type=" primary" @click="query"
-            style="display: flex; float: right">查询</el-button>
+          <el-button
+            :disabled="queryForm.roleName === ''"
+            type=" primary"
+            @click="query"
+            style="display: flex; float: right"
+            >查询</el-button
+          >
         </el-form>
       </div>
     </div>
 
     <div class="flex flex-col items-center space-y-2">
       <!-- 表格主体 -->
-      <el-table :data="roles.slice((currentPage - 1) * pageSize, currentPage * pageSize)" stripe style="width: 100%">
+      <el-table
+        :data="
+          roles.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+        "
+        stripe
+        style="width: 100%"
+      >
         <el-table-column prop="id" label="角色ID"></el-table-column>
         <el-table-column prop="name" label="角色名称"></el-table-column>
         <el-table-column prop="auth" label="权限">
@@ -57,8 +86,15 @@
         <el-table-column prop="updateTime" label="更新时间"></el-table-column>
         <el-table-column label="操作">
           <template #default="{ row }">
-            <el-button link type="primary" @click="showEditDialog(row)">编辑</el-button>
-            <el-popconfirm title="确认删除？" confirm-button-text="确认" cancel-button-text="取消" @confirm="deleteRow(row)">
+            <el-button link type="primary" @click="showEditDialog(row)"
+              >编辑</el-button
+            >
+            <el-popconfirm
+              title="确认删除？"
+              confirm-button-text="确认"
+              cancel-button-text="取消"
+              @confirm="deleteRow(row)"
+            >
               <template #reference>
                 <el-button link type="danger">删除</el-button>
               </template>
@@ -66,12 +102,26 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 30, 40]"
-        :small="small" :disabled="disabled" :background="background" layout="total, sizes, prev, pager, next, jumper"
-        :total="roles.length" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[10, 20, 30, 40]"
+        :small="small"
+        :disabled="disabled"
+        :background="background"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="roles.length"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
       <!-- 编辑角色 -->
       <el-dialog v-model="editDialogVisible" title="编辑角色" width="30%">
-        <el-form ref="editRoleFormRef" :model="editRoleForm" label="70px" label-position="left">
+        <el-form
+          ref="editRoleFormRef"
+          :model="editRoleForm"
+          label="70px"
+          label-position="left"
+        >
           <el-form-item label="角色名称" prop="name">
             <el-input v-model="editRoleForm.name" />
           </el-form-item>
@@ -105,7 +155,7 @@
 import { onMounted, ref, reactive } from "vue";
 import { ElMessage } from "element-plus";
 import JSONBIG from "json-bigint";
-import axiosInstance from "~/services/api";
+import axiosInstance from "~/utils/axiosInstance";
 import type { Role } from "~/types";
 
 onMounted(() => {
@@ -127,9 +177,6 @@ const roles = ref<Role[]>([]);
 const listRoles = () => {
   roles.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "get",
     url: "/system/role/listRoles",
   }).then((response) => {
@@ -143,9 +190,6 @@ const deleteRole = (roleId: string) => {
   axiosInstance({
     method: "post",
     url: "/system/role/deleteRole",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       roleId: roleId,
     },
@@ -158,9 +202,6 @@ const addRole = (roleName: string, auth: string) => {
   axiosInstance({
     method: "post",
     url: "/system/role/createRole",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       roleName: roleName,
       auth: auth,
@@ -174,9 +215,6 @@ const updateRole = (auth: string, roleId: number, roleName: string) => {
   axiosInstance({
     method: "post",
     url: "/system/role/updateRole",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       auth: auth,
       roleId: Number(roleId),
@@ -252,6 +290,8 @@ const queryForm = reactive({
   roleName: "",
 });
 const query = () => {
-  roles.value = roles.value.filter((role) => role.name.includes(queryForm.roleName));
+  roles.value = roles.value.filter((role) =>
+    role.name.includes(queryForm.roleName)
+  );
 };
 </script>

@@ -163,7 +163,7 @@ import { ElMessage, ElMessageBox, UploadInstance } from "element-plus";
 import axios from "axios";
 import type { UploadProps, UploadUserFile } from "element-plus";
 import JSONBIG from "json-bigint";
-import axiosInstance from "~/services/api";
+import axiosInstance from "~/utils/axiosInstance";
 
 onMounted(() => {
   listData();
@@ -239,10 +239,6 @@ const getIdByName = () => {
 const getPluginName = () => {
   pluginName.splice(0, pluginName.length);
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-      //Authorization: localStorage.getItem('Authorization')
-    },
     method: "get",
     url: "/qemu/getall/1/1000",
   }).then((response) => {
@@ -260,10 +256,6 @@ const getPluginName = () => {
 const listData = () => {
   datas.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-      //Authorization: localStorage.getItem('Authorization')
-    },
     method: "get",
     url: "/qemu/getalltasks/1/1000",
   }).then((response) => {
@@ -283,9 +275,6 @@ const query = (str: string) => {
     datas.value = [];
     if (value.value === "0") {
       axiosInstance({
-        headers: {
-          Authorization: localStorage.getItem("Authorization"),
-        },
         method: "get",
         url: str,
       }).then((response) => {
@@ -297,9 +286,6 @@ const query = (str: string) => {
     }
     if (value.value === "1") {
       axiosInstance({
-        headers: {
-          Authorization: localStorage.getItem("Authorization"),
-        },
         method: "post",
         url: str,
         data: { containerId: relateData.value },
@@ -317,9 +303,6 @@ const add = (pluginId: string) => {
   axiosInstance({
     method: "post",
     url: "/qemu/createqemutask",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: { pluginId: pluginId },
   }).then((response) => {
     ElMessage(response.data.message);
@@ -330,9 +313,6 @@ const startData = (containerId: string) => {
   axiosInstance({
     method: "post",
     url: "/qemu/runtask",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: { containerId: containerId },
   }).then((response) => {
     ElMessage(response.data.message);
@@ -342,9 +322,6 @@ const stopData = (containerId: string) => {
   axiosInstance({
     method: "post",
     url: "/qemu/stoptask",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: { containerId: containerId },
   }).then((response) => {
     ElMessage(response.data.message);
@@ -354,9 +331,6 @@ const flushData = (containerId: string) => {
   axiosInstance({
     method: "post",
     url: "/qemu/gettaskstatus",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: { containerId: containerId },
   }).then((response) => {
     ElMessage(response.data.message);
@@ -366,9 +340,6 @@ const deleteData = (taskId: string) => {
   axiosInstance({
     method: "post",
     url: "/qemu/deletetask",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: { taskId: taskId },
   }).then((response) => {
     ElMessage(response.data.message);
@@ -378,9 +349,6 @@ const destroyData = (containerId: string) => {
   axiosInstance({
     method: "post",
     url: "/qemu/destroytask",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: { containerId: containerId },
   }).then((response) => {
     ElMessage(response.data.message);

@@ -6,7 +6,7 @@ const getTokenAndStore = async (loginName: string, password: string) => {
       loginName: loginName,
       password: password,
     });
-    const token = response.data.token;
+    const token = response.data.data;
     console.log('获取 Token 成功：', token);
     localStorage.setItem('token', token);
     return token;

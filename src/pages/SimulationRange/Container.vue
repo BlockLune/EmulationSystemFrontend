@@ -165,7 +165,7 @@ import { ref, reactive, onMounted, computed } from "vue";
 import { ElMessage, ElMessageBox, UploadInstance } from "element-plus";
 import axios from "axios";
 import type { UploadProps, UploadUserFile } from "element-plus";
-import axiosInstance from "~/services/api";
+import axiosInstance from "~/utils/axiosInstance";
 
 onMounted(() => {
   listData();
@@ -211,9 +211,6 @@ const datas = ref<Data[]>([]);
 const getImageNameOptions = () => {
   imageOptions.splice(0, imageOptions.length);
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/container/selectTargetImage",
   }).then((response) => {
@@ -238,9 +235,6 @@ const getImageId = () => {
 const listData = () => {
   datas.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/container/selectByPage",
     data: {
@@ -276,9 +270,6 @@ const query = () => {
   } else {
     datas.value = [];
     axiosInstance({
-      headers: {
-        Authorization: localStorage.getItem("Authorization"),
-      },
       method: "post",
       url: "/container/selectByPage",
       data: {
@@ -305,9 +296,6 @@ const add = (imageId: string) => {
   axiosInstance({
     method: "post",
     url: "/container/create",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: { imageId: imageId },
   }).then((response) => {
     ElMessage(response.data.message);
