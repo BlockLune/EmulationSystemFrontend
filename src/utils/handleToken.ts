@@ -20,4 +20,8 @@ const deleteStoredToken = () => {
   localStorage.removeItem('token');
 }
 
-export { getTokenAndStore, deleteStoredToken };
+const isTokenAvailable = () => {
+  return !!localStorage.getItem('token');
+}
+
+export { getTokenAndStore, deleteStoredToken, isTokenAvailable };
