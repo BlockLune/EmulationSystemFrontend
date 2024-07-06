@@ -44,7 +44,7 @@
       stripe
       style="width: 100%"
     >
-      <el-table-column prop="id" label="配置ID"></el-table-column>
+      <el-table-column prop="id" label="配置 ID"></el-table-column>
       <el-table-column prop="configName" label="配置项"></el-table-column>
       <el-table-column prop="configValue" label="配置值"></el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>
@@ -91,7 +91,7 @@
       label-position="left"
       label-width="auto"
     >
-      <el-form-item label="配置Id" prop="configId">
+      <el-form-item label="配置 ID" prop="configId">
         <el-input v-model="editConfigForm.configId" disabled />
       </el-form-item>
       <el-form-item label="配置项" prop="configItem">
@@ -122,7 +122,7 @@ import axios from "axios";
 import axiosInstance from "~/utils/axiosInstance";
 
 interface Config {
-  configName: string;
+  configItem: string;
   configValue: string;
   createTime: string;
   id: string;
@@ -230,7 +230,7 @@ const editDialogVisible = ref(false);
 const showEditDialog = (row: Config) => {
   editDialogVisible.value = true;
   editConfigForm.configId = row.id;
-  editConfigForm.configItem = row.configName;
+  editConfigForm.configItem = row.configItem;
   editConfigForm.configValue = row.configValue;
   editConfigForm.remark = row.remark;
 };

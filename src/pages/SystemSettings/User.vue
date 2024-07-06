@@ -14,6 +14,9 @@
             label-position="left"
             label-width="auto"
           >
+            <el-form-item label="用户名" prop="userName">
+              <el-input v-model="newUserForm.userName" placeholder="单行输入" />
+            </el-form-item>
             <el-form-item label="登录名" prop="loginName">
               <el-input
                 v-model="newUserForm.loginName"
@@ -29,13 +32,22 @@
                 clearable
               />
             </el-form-item>
-            <!--          如果不需要角色ID输入框可以把下面这三行代码注释掉-->
-            <!--          <el-form-item label="角色ID" prop="roleId">-->
-            <!--            <el-input v-model="newUserForm.roleId" placeholder="单行输入" disabled/>-->
-            <!--          </el-form-item>-->
-
-            <el-form-item label="用户名" prop="userName">
-              <el-input v-model="newUserForm.userName" placeholder="单行输入" />
+            <el-form-item label="权限" prop="auth">
+              <el-radio-group v-model="newUserForm.auth">
+                <el-radio value="靶场管理">靶场管理</el-radio>
+                <el-radio value="容器管理">容器管理</el-radio>
+                <el-radio value="镜像管理">镜像管理</el-radio>
+                <el-radio value="攻防演练">攻防演练</el-radio>
+                <el-radio value="漏洞库管理">漏洞库管理</el-radio>
+                <el-radio value="系统管理">系统管理</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input
+                v-model="newUserForm.password"
+                placeholder="单行输入"
+                show-password
+              />
             </el-form-item>
           </el-form>
           <template #footer>
@@ -165,23 +177,12 @@
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import axiosInstance from "~/utils/axiosInstance";
+import type { User } from "~/types";
 
 onMounted(() => {
   listUsers();
   getRoleName();
 });
-
-interface User {
-  auth: string;
-  createTime: string;
-  id: string;
-  loginName: string;
-  password: string;
-  roleId: string;
-  status: string;
-  updateTime: string;
-  userName: string;
-}
 
 const users = ref<User[]>([]);
 
@@ -287,20 +288,20 @@ const changeUserStatus = (status: string, userId: string) => {
 };
 
 const changeStatus = (row: User) => {
-  changeUserStatus(row.status, row.id);
+  changeUserStatus(row.status, String(row.id));
 };
 
 // add new user
 const newUserForm = reactive({
   auth: "",
-  createTime: "",
+  createAt: "",
   id: "",
   loginName: "",
   password: "",
   roleId: "",
   roleName: "",
   status: "",
-  updateTime: "",
+  updateAt: "",
   userName: "",
 });
 
@@ -339,8 +340,8 @@ const editDialogVisible = ref(false);
 const showEditDialog = (row: User) => {
   editDialogVisible.value = true;
   editUserForm.loginName = row.loginName;
-  editUserForm.roleId = row.roleId;
-  editUserForm.id = row.id;
+  editUserForm.roleId = String(row.roleId);
+  editUserForm.id = String(row.id);
   editUserForm.userName = row.userName;
 };
 
@@ -359,7 +360,7 @@ const closeEditDialogSubmitForm = () => {
 
 // delete user
 const deleteRow = (row: User) => {
-  deleteUser(row.id);
+  deleteUser(String(row.id));
   window.setTimeout(() => {
     listUsers();
   }, 250);

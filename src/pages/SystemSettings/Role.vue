@@ -243,12 +243,16 @@ let rowData: Role;
 const showEditDialog = (row: Role) => {
   editDialogVisible.value = true;
   editRoleForm.name = row.name;
-  editRoleForm.auth = row.auth;
+  editRoleForm.auth = String(row.auth);
   rowData = row;
 };
 
 const closeEditDialogSubmitForm = () => {
-  updateRole(editRoleForm.auth, Number.parseInt(rowData.id), editRoleForm.name);
+  updateRole(
+    editRoleForm.auth,
+    Number.parseInt(String(rowData.id)),
+    editRoleForm.name
+  );
   window.setTimeout(() => {
     listRoles();
   }, 250);
@@ -266,7 +270,7 @@ const closeAddDialogSubmitForm = () => {
 };
 
 const deleteRow = (row: Role) => {
-  deleteRole(row.id);
+  deleteRole(String(row.id));
   window.setTimeout(() => {
     listRoles();
   }, 250);
