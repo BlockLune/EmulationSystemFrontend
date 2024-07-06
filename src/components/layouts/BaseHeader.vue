@@ -46,8 +46,8 @@
 <script lang="ts" setup>
 import { toggleDark } from "~/composables";
 import { inject } from "vue";
-import { useTokenStore } from "~/stores/modules/token";
 import { useRouter } from "vue-router";
+import { deleteStoredToken } from "~/utils/handleToken.ts";
 
 const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
 const clearLocalStorage = () => {
@@ -56,10 +56,9 @@ const clearLocalStorage = () => {
 };
 const showClearLocalStorageButton = import.meta.env.DEV;
 
-const token = useTokenStore();
 const router = useRouter();
 const logout = () => {
-  token.clear();
+  deleteStoredToken();
   router.push("/login");
 };
 </script>
