@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { useTokenStore } from '~/stores/modules/token';
+import { useTokenStoreHook } from '~/stores/modules/token';
 import { useRouter } from 'vue-router';
 
-const token = useTokenStore();
+const token = useTokenStoreHook();
 const router = useRouter();
 
 const axiosInstance = axios.create({
