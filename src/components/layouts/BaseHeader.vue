@@ -23,6 +23,15 @@
         <i inline-flex i="dark:ep-moon ep-sunny" />
       </button>
     </el-menu-item>
+    <el-menu-item>
+      <button
+        class="border-none w-full bg-transparent cursor-pointer"
+        style="height: var(--ep-menu-item-height)"
+        @click="logout"
+      >
+        <span>退出登录</span>
+      </button>
+    </el-menu-item>
     <el-menu-item v-if="showClearLocalStorageButton">
       <button
         class="border-none w-full bg-transparent cursor-pointer"
@@ -37,6 +46,8 @@
 <script lang="ts" setup>
 import { toggleDark } from "~/composables";
 import { inject } from "vue";
+import { useTokenStore } from "~/stores/modules/token";
+import { useRouter } from "vue-router";
 
 const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
 const clearLocalStorage = () => {
@@ -44,4 +55,11 @@ const clearLocalStorage = () => {
   console.log("LocalStorage cleared.");
 };
 const showClearLocalStorageButton = import.meta.env.DEV;
+
+const token = useTokenStore();
+const router = useRouter();
+const logout = () => {
+  token.clear();
+  router.push("/login");
+};
 </script>
