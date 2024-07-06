@@ -33,6 +33,9 @@
 import { ref, reactive } from "vue";
 import type { FormInstance } from "element-plus";
 import { getTokenAndStore } from "~/utils/handleToken";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const formRef = ref<FormInstance>();
 const form = reactive({
@@ -65,8 +68,10 @@ const loginRequest = async (loginName: string, password: string) => {
   try {
     await getTokenAndStore(loginName, password);
     console.log("登录成功！");
+    router.push("/dashboard");
   } catch (error) {
     console.error("登录失败！", error);
+    clearForm(formRef.value);
     return;
   }
 };
@@ -79,8 +84,8 @@ const clearForm = (formEl: FormInstance | undefined) => {
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
-    console.log("登录参数: ", fields);
     if (valid) {
+      console.log("登录参数：", form);
       loginRequest(form.loginName, form.password);
     } else {
       console.error("登录参数错误！");
