@@ -54,7 +54,7 @@ const loginNameValidator = (
 };
 
 const rules = {
-  username: [
+  loginName: [
     { required: true, message: "请输入合法的用户名", trigger: "blur" },
     { validator: loginNameValidator, trigger: "blur" },
   ],
