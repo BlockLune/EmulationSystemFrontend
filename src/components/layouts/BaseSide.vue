@@ -1,5 +1,5 @@
 <template>
-  <el-menu mode="vertical" :router="true">
+  <el-menu mode="vertical" :router="true" :default-openeds="openeds">
     <el-menu-item index="/dashboard/situation_awareness">
       <template #title>
         <el-icon><InfoFilled /></el-icon>
@@ -97,4 +97,6 @@ import {
   UserFilled,
   WarnTriangleFilled,
 } from "@element-plus/icons-vue";
+
+const openeds = ["/dashboard/simulation_range", "/dashboard/settings"];
 </script>
