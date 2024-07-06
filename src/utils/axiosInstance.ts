@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { deleteStoredToken } from './handleToken';
+import { useTokenStore } from '~/stores/modules/token';
+import { useRouter } from 'vue-router';
+
+const token = useTokenStore();
+const router = useRouter();
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL,
@@ -7,9 +11,8 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+    if (token.available()) {
+      config.headers['Authorization'] = `Bearer ${token.tokenVal}`;
     }
     // console.log(config);
     return config;
@@ -24,14 +27,16 @@ axiosInstance.interceptors.response.use(
   async response => {
     // console.log(response);
     if (response.data.code === 401) {
-      deleteStoredToken();
+      token.clear();
+      router.push("/login");
     }
     return response;
   },
   async error => {
     // console.error(error);
     if (error.response && error.response.status === 401) {
-      deleteStoredToken();
+      token.clear();
+      router.push("/login");
     }
     return Promise.reject(error);
   }
