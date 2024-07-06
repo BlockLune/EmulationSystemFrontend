@@ -134,7 +134,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import axiosInstance from "~/services/api";
+import axiosInstance from "~/utils/axiosInstance";
 
 onMounted(() => {
   listImages();
@@ -163,9 +163,6 @@ const images = ref<Image[]>([]);
 const listImages = () => {
   images.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "post",
     url: "/image/selectByPage",
     data: {
@@ -193,9 +190,6 @@ const query = () => {
   } else {
     images.value = [];
     axiosInstance({
-      headers: {
-        Authorization: localStorage.getItem("Authorization"),
-      },
       method: "post",
       url: "/image/selectByPage",
       data: {
@@ -221,9 +215,6 @@ const deleteImage = (id: string) => {
   axiosInstance({
     method: "post",
     url: "/image/deleteImage",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       id: id,
     },
@@ -237,7 +228,6 @@ const addImage = (formData) => {
     .post("/image/uploadImage", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: localStorage.getItem("Authorization"),
       },
     })
     .then((response) => {

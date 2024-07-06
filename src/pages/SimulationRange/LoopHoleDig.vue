@@ -132,7 +132,7 @@ import { ElMessage, ElMessageBox, UploadInstance } from "element-plus";
 import axios from "axios";
 import type { UploadProps, UploadUserFile } from "element-plus";
 import JSONBIG from "json-bigint";
-import axiosInstance from "~/services/api";
+import axiosInstance from "~/utils/axiosInstance";
 
 onMounted(() => {
   listData();
@@ -194,10 +194,6 @@ const datas = ref<Data[]>([]);
 const listData = () => {
   datas.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-      //Authorization: localStorage.getItem('Authorization')
-    },
     method: "get",
     url: "/qemu/getall/1/1000",
   }).then((response) => {
@@ -216,9 +212,6 @@ const query = (str: string) => {
   } else {
     datas.value = [];
     axiosInstance({
-      headers: {
-        Authorization: localStorage.getItem("Authorization"),
-      },
       method: "get",
       url: str,
     }).then((response) => {
@@ -249,9 +242,6 @@ const deleteCard = (id: string) => {
   axiosInstance({
     method: "post",
     url: "/qemu/delete",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       id: id,
     },
@@ -272,7 +262,6 @@ const add = (formData) => {
     .post("/qemu/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: localStorage.getItem("Authorization"),
       },
     })
     .then((response) => {
@@ -306,9 +295,6 @@ const startDig = (item) => {
   axiosInstance({
     method: "post",
     url: "/qemu/createqemutask",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: { pluginId: item.id },
   }).then((response) => {
     ElMessage(response.data.message);
@@ -318,9 +304,6 @@ const startDig = (item) => {
 //   instance({
 //     method: 'post',
 //     url: '/qemu/stoptask',
-//     headers: {
-//       'Authorization': localStorage.getItem('Authorization')
-//     },
 //     data: {containerId: item.imageId.slice(7)}
 //   }).then((response) => {
 //     ElMessage(response.data.message)

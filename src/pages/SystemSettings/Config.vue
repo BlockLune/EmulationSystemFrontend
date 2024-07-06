@@ -119,7 +119,7 @@
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import axios from "axios";
-import axiosInstance from "~/services/api";
+import axiosInstance from "~/utils/axiosInstance";
 
 interface Config {
   configName: string;
@@ -139,9 +139,6 @@ const configs = ref<Config[]>([]);
 const listConfigs = () => {
   configs.value = [];
   axiosInstance({
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     method: "get",
     url: "/system/config/selectByPage/1/10000",
   }).then((response) => {
@@ -155,9 +152,6 @@ const addConfig = (configItem: string, configValue: string, remark: string) => {
   axiosInstance({
     method: "post",
     url: "/system/config/createConfig",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       configItem: configItem,
       configValue: configValue,
@@ -172,9 +166,6 @@ const deleteConfig = (configId: string) => {
   axiosInstance({
     method: "post",
     url: "/system/config/deleteConfig",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       configId: configId,
     },
@@ -192,9 +183,6 @@ const updateConfig = (
   axiosInstance({
     method: "post",
     url: "/system/config/updateConfig",
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-    },
     data: {
       configId: configId,
       configItem: configItem,
