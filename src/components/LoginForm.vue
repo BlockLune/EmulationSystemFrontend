@@ -32,7 +32,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import type { FormInstance } from "element-plus";
-import { getTokenAndStore } from "~/utils/handleToken";
+import { useTokenStore } from "~/stores/modules/token";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -42,6 +42,7 @@ const form = reactive({
   loginName: "",
   password: "",
 });
+const token = useTokenStore();
 
 // validate if loginName contains whitespace
 const loginNameValidator = (
@@ -66,7 +67,7 @@ const rules = {
 
 const loginRequest = async (loginName: string, password: string) => {
   try {
-    await getTokenAndStore(loginName, password);
+    await token.getOrUpdate(loginName, password);
     console.log("登录成功！");
     router.push("/dashboard");
   } catch (error) {
