@@ -62,10 +62,12 @@ const useImagesStore = defineStore('images', () => {
     try {
       const formData = new FormData();
       formData.append("file", newImage.file);
-      formData.append('imageName', newImage.imageName);
-      formData.append('imageType', newImage.imageType);
-      formData.append('version', newImage.version);
-      const response = await axiosInstance.post("/image/uploadImage", formData, {
+
+      const url = `/image/uploadImage` +
+        `?imageName=${encodeURIComponent(newImage.imageName)}` +
+        `&imageType=${encodeURIComponent(newImage.imageType)}` +
+        `&version=${encodeURIComponent(newImage.version)}`
+      const response = await axiosInstance.post(url, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
