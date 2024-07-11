@@ -75,6 +75,11 @@ export interface NewExercise {
     defendEndTime: string,
 }
 
+export interface QueryExercise {
+    exerciseName: string,
+    status: string
+}
+
 // imageType:
 // 0: 漏洞挖掘镜像
 // 1: 包含漏洞数据镜像
