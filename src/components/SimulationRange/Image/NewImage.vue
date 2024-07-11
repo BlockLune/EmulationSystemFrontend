@@ -8,9 +8,16 @@
       label-width="auto"
     >
       <el-form-item label="资源压缩包">
-        <el-button type="primary" size="default" @click="open" class="w-full"
-          >选择文件</el-button
-        >
+        <div class="flex flex-row gap-2 justify-between w-full">
+          <el-button
+            type="primary"
+            size="default"
+            @click="open"
+            :class="files && files.length > 0 ? '' : 'w-full'"
+            >选择文件</el-button
+          >
+          <span v-if="files && files.length > 0">{{ files[0].name }}</span>
+        </div>
       </el-form-item>
       <el-form-item label="镜像名称">
         <el-input v-model="newForm.imageName" clearable />

@@ -71,7 +71,7 @@ const useImagesStore = defineStore('images', () => {
         }
       });
       if (response.data.code !== 200 || response.data.code !== 201) {
-        ElMessage.error("上传镜像失败:");
+        ElMessage.error("上传镜像失败");
         console.error(response.data);
       } else {
         ElMessage.success("上传镜像成功");
