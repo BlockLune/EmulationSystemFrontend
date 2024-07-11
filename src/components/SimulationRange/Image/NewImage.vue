@@ -8,7 +8,7 @@
       label-width="auto"
     >
       <el-form-item label="资源压缩包">
-        <el-button type="primary" size="default" @click="open"
+        <el-button type="primary" size="default" @click="open" class="w-full"
           >选择文件</el-button
         >
       </el-form-item>
