@@ -59,6 +59,22 @@ export interface Exercise {
     updateTime: string,
 }
 
+export interface NewExercise {
+    exerciseName: string,
+    startTime: string,
+    endTime: string,
+
+    targetImageId: string,
+
+    attackImageId: string,
+    attackStartTime: string,
+    attackEndTime: string,
+
+    defendImageId: string,
+    defendStartTime: string,
+    defendEndTime: string,
+}
+
 // imageType:
 // 0: 漏洞挖掘镜像
 // 1: 包含漏洞数据镜像
@@ -77,7 +93,7 @@ export interface Image {
     createTime: string,
     updateTime: string,
 }
-export interface ImageForUpload {
+export interface NewImage {
     file: string,
     imageName: string,
     imageType: string,
