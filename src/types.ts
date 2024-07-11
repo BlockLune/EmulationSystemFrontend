@@ -34,3 +34,52 @@ export interface Config {
     createTime: string | Date,
     updateTime: string | Date,
 }
+
+export interface Exercise {
+    id: string,
+    exerciseName: string,
+    network: string,
+    status: string,
+
+    targetImageId: string,
+
+    attackImageId: string,
+    attackStartTime: string,
+    attackEndTime: string,
+    attackTimes: string,
+
+    defendImageId: string,
+    defendStartTime: string,
+    defendEndTime: string,
+    defendTimes: string,
+
+    startTime: string,
+    endTime: string,
+    createTime: string,
+    updateTime: string,
+}
+
+// imageType:
+// 0: 漏洞挖掘镜像
+// 1: 包含漏洞数据镜像
+// 2: 网络攻击镜像
+// 3: 网络防御镜像
+// 4: 靶机镜像
+
+// AttackImage: POST /exercise/selectAttackImage
+// DefenseImage: POST /exercise/selectDefenseImage
+export interface Image {
+    id: string,
+    imageName: string,
+    imageType: string,
+    path: string,
+    version: string,
+    createTime: string,
+    updateTime: string,
+}
+export interface ImageForUpload {
+    file: string,
+    imageName: string,
+    imageType: string,
+    version: string,
+}
