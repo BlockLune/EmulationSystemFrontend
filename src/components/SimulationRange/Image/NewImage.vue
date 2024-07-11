@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import type { NewImage } from "~/types";
 import { ImageType } from "~/types";
 import type { FormInstance } from "element-plus";
@@ -72,7 +72,6 @@ const submit = async () => {
 
 // file handler
 import { useFileDialog } from "@vueuse/core";
-import { assert } from "console";
 const { files, open, onChange } = useFileDialog({
   multiple: false,
   accept: `application/x-freearc,

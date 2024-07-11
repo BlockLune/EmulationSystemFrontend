@@ -101,7 +101,6 @@ export enum ImageType {
 }
 
 
-
 // AttackImage: POST /exercise/selectAttackImage
 // DefenseImage: POST /exercise/selectDefenseImage
 export interface Image {
@@ -114,7 +113,7 @@ export interface Image {
     updateTime: string,
 }
 export interface NewImage {
-    file: string | File | Blob,
+    file: File,
     imageName: string,
     imageType: string,
     version: string,
