@@ -135,20 +135,11 @@
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import axiosInstance from "~/utils/axiosInstance";
+import type { Image, NewImage } from "~/types";
 
 onMounted(() => {
   listImages();
 });
-
-interface Image {
-  id: string;
-  imageName: string;
-  imageType: string;
-  version: string;
-  path: string;
-  createTime: string;
-  updateTime: string;
-}
 
 const imageOptions = [
   { value: "0", label: "漏洞挖掘" },
@@ -223,7 +214,7 @@ const deleteImage = (id: string) => {
   });
 };
 
-const addImage = (formData) => {
+const addImage = (formData: NewImage) => {
   axiosInstance
     .post("/image/uploadImage", formData, {
       headers: {
@@ -232,6 +223,9 @@ const addImage = (formData) => {
     })
     .then((response) => {
       ElMessage(response.data.message);
+    })
+    .catch((error) => {
+      ElMessage(error.response.data.message);
     });
 };
 
@@ -257,12 +251,12 @@ const handleChange = (file) => {
 };
 
 const closeAddDialogSubmitForm = () => {
-  const formData = new FormData();
-  formData.append("file", uploadedFile.value);
-  formData.append("imageName", newImageForm.imageName);
-  formData.append("imageType", newImageForm.imageType);
-  formData.append("version", newImageForm.version);
-  addImage(formData);
+  addImage({
+    file: uploadedFile.value,
+    imageName: newImageForm.imageName,
+    imageType: newImageForm.imageType,
+    version: newImageForm.version,
+  });
   window.setTimeout(() => {
     listImages();
   }, 450);
@@ -273,7 +267,7 @@ const closeAddDialogSubmitForm = () => {
   uploadRefs.value.clearFiles();
 };
 
-const deleteRow = (row) => {
+const deleteRow = (row: Image) => {
   deleteImage(row.id);
   window.setTimeout(() => {
     listImages();
