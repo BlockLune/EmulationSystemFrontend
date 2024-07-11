@@ -72,7 +72,21 @@ const useImagesStore = defineStore('images', () => {
       console.error(err);
     }
   }
-  return { images, allAttackImages, allDefenseImages, allTargetImages, selectImagesByPage, selectAttackImage, selectDefenseImage, selectTargetImage, uploadImage, deleteImage };
+  const getImageNameById = (imageId: string, imageType: string | undefined) => {
+    if (imageType === "2") {
+      // attack image
+      return allAttackImages.value?.find(image => image.id === imageId)?.imageName;
+    } else if (imageType === "3") {
+      // defense image
+      return allDefenseImages.value?.find(image => image.id === imageId)?.imageName;
+    } else if (imageType === "4") {
+      // target image
+      return allTargetImages.value?.find(image => image.id === imageId)?.imageName;
+    } else {
+      return images.value?.find(image => image.id === imageId)?.imageName;
+    }
+  }
+  return { images, allAttackImages, allDefenseImages, allTargetImages, selectImagesByPage, selectAttackImage, selectDefenseImage, selectTargetImage, uploadImage, deleteImage, getImageNameById };
 });
 
 export default useImagesStore;
