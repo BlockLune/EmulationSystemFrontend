@@ -1,5 +1,5 @@
 <template>
-  <el-button @click="showNewExerciseDialog">新增演练</el-button>
+  <el-button @click="showNewExerciseDialog" type="primary">新增演练</el-button>
   <el-dialog v-model="newExerciseDialogVisible" title="新增演练" width="30%">
     <el-form
       ref="newExerciseFormRef"
