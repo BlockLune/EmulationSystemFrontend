@@ -2,7 +2,7 @@
   <el-button @click="showNewExerciseDialog">新增演练</el-button>
   <el-dialog v-model="newExerciseDialogVisible" title="新增演练" width="30%">
     <el-form
-      ref="newFormRef"
+      ref="newExerciseFormRef"
       :model="newExerciseForm"
       label-position="left"
       label-width="auto"
@@ -13,10 +13,15 @@
           placeholder="单行输入"
         />
       </el-form-item>
-      <el-form-item label="演练靶机 ID" prop="imageName">
+      <el-form-item label="演练靶机" prop="targetImageId">
         <el-select-v2
           v-model="newExerciseForm.targetImageId"
-          :options="allTargetImages?.map((image) => image.id)"
+          :options="
+            allTargetImages?.map((image) => ({
+              label: image.imageName,
+              value: image.id,
+            }))
+          "
           placeholder="请选择"
           clearable
         />
@@ -37,10 +42,15 @@
           value-format="YYYY-MM-DD HH:mm:ss"
         />
       </el-form-item>
-      <el-form-item label="攻击镜像 ID" prop="imageName">
+      <el-form-item label="攻击镜像" prop="attackImageId">
         <el-select-v2
           v-model="newExerciseForm.attackImageId"
-          :options="allAttackImages?.map((image) => image.id)"
+          :options="
+            allAttackImages?.map((image) => ({
+              label: `${image.imageName} (${image.id})`,
+              value: image.id,
+            }))
+          "
           placeholder="请选择"
           clearable
         />
@@ -61,10 +71,15 @@
           value-format="YYYY-MM-DD HH:mm:ss"
         />
       </el-form-item>
-      <el-form-item label="防御镜像 ID" prop="imageName">
+      <el-form-item label="防御镜像" prop="defenseImageId">
         <el-select-v2
           v-model="newExerciseForm.defendImageId"
-          :options="allDefenseImages?.map((image) => image.id)"
+          :options="
+            allDefenseImages?.map((image) => ({
+              label: `${image.imageName} (${image.id})`,
+              value: image.id,
+            }))
+          "
           placeholder="请选择"
           clearable
         />
@@ -88,10 +103,10 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <!-- <el-button type="primary" @click="closeAddDialogSubmitForm()">
-          确定
-        </el-button>
-        <el-button @click="newExerciseDialogVisible = false">取消</el-button> -->
+        <el-button type="primary" @click="submit"> 确定 </el-button>
+        <el-button @click="hideAndClearNewExerciseDialog(newExerciseFormRef)"
+          >取消</el-button
+        >
       </span>
     </template>
   </el-dialog>
@@ -100,6 +115,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
 import type { NewExercise } from "~/types";
+import type { FormInstance } from "element-plus";
 import { storeToRefs } from "pinia";
 import useExercisesStore from "~/stores/exercises";
 import useImagesStore from "~/stores/images";
@@ -122,8 +138,18 @@ onMounted(async () => {
 
 const newExerciseDialogVisible = ref(false);
 const newExerciseForm = reactive<NewExercise>({} as NewExercise);
+const newExerciseFormRef = ref<FormInstance>();
 
 const showNewExerciseDialog = () => {
   newExerciseDialogVisible.value = true;
+};
+const hideAndClearNewExerciseDialog = (formEl: FormInstance | undefined) => {
+  newExerciseDialogVisible.value = false;
+  if (!formEl) return;
+  formEl.resetFields();
+};
+
+const submit = async () => {
+  await createExercise(newExerciseForm);
 };
 </script>
