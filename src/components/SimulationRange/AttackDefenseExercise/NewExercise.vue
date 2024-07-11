@@ -18,7 +18,7 @@
           v-model="newExerciseForm.targetImageId"
           :options="
             allTargetImages?.map((image) => ({
-              label: image.imageName,
+              label: `${image.imageName}:${image.version} (${image.id})`,
               value: image.id,
             }))
           "
@@ -47,7 +47,7 @@
           v-model="newExerciseForm.attackImageId"
           :options="
             allAttackImages?.map((image) => ({
-              label: `${image.imageName} (${image.id})`,
+              label: `${image.imageName}:${image.version} (${image.id})`,
               value: image.id,
             }))
           "
@@ -76,7 +76,7 @@
           v-model="newExerciseForm.defendImageId"
           :options="
             allDefenseImages?.map((image) => ({
-              label: `${image.imageName} (${image.id})`,
+              label: `${image.imageName}:${image.version} (${image.id})`,
               value: image.id,
             }))
           "
