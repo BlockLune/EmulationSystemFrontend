@@ -140,6 +140,8 @@ const newExerciseDialogVisible = ref(false);
 const newExerciseForm = reactive<NewExercise>({} as NewExercise);
 const newExerciseFormRef = ref<FormInstance>();
 
+const newExerciseCreated = defineModel();
+
 const showNewExerciseDialog = () => {
   newExerciseDialogVisible.value = true;
 };
@@ -150,6 +152,8 @@ const hideAndClearNewExerciseDialog = (formEl: FormInstance | undefined) => {
 };
 
 const submit = async () => {
+  newExerciseDialogVisible.value = false;
   await createExercise(newExerciseForm);
+  newExerciseCreated.value = true;
 };
 </script>

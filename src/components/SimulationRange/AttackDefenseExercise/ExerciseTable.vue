@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full">
     <div class="flex flex-row justify-between">
-      <new-exercise />
+      <new-exercise v-model="newExerciseCreated" />
       <el-form :model="queryExerciseForm" class="flex flex-row gap-2">
         <el-form-item label="演练名称">
           <el-input v-model="queryExerciseForm.exerciseName" clearable />
@@ -275,4 +275,10 @@ const viewDetails = (row: Exercise) => {
   selectedRow.value = row;
   detailsDialogVisible.value = true;
 };
+
+const newExerciseCreated = ref(false);
+watch(newExerciseCreated, () => {
+  fetchExercises();
+  newExerciseCreated.value = false;
+});
 </script>
