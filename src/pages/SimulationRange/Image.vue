@@ -1,4 +1,5 @@
 <template>
+  <image-table></image-table>
   <div class="flex flex-col w-full">
     <!-- banner -->
     <div class="flex flex-row justify-between">

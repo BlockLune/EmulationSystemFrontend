@@ -119,3 +119,8 @@ export interface NewImage {
     imageType: string,
     version: string,
 }
+
+export interface QueryImage {
+    imageName: string,
+    imageType: string,
+}
