@@ -1,11 +1,12 @@
 <template>
   <div class="flex flex-row gap-2">
-    <el-form :model="queryForm">
-      <el-form-item label="镜像名称">
-        <el-input v-model="queryForm.imageName" clearable />
+    <el-form :model="queryForm" class="flex flex-row gap-2 w-full">
+      <el-form-item label="镜像名称" class="w-full">
+        <el-input v-model="queryForm.imageName" clearable class="w-full" />
       </el-form-item>
-      <el-form-item label="镜像类型">
+      <el-form-item label="镜像类型" class="w-full">
         <el-select-v2
+          class="w-full"
           v-model="queryForm.imageType"
           placeholder="请选择"
           clearable
@@ -17,7 +18,7 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="query"></el-button>
+        <el-button type="primary" @click="query">查询</el-button>
       </el-form-item>
     </el-form>
   </div>

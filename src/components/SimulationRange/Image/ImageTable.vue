@@ -1,34 +1,60 @@
 <template>
-  <div class="flex flex-col w-full">
-    <div class="flex flex-row justify-between">
-      <new-image v-model="newImageCreated" />
+  <div class="flex flex-col items-center w-full">
+    <div class="flex flex-row justify-between w-full gap-2">
+      <new-image />
+      <query-image
+        class="grow"
+        v-model:page-num="pageNum"
+        v-model:page-size="pageSize"
+      />
     </div>
     <div class="flex flex-col items-center w-full gap-2">
       <el-table :data="images" class="w-full">
-        <el-table-column prop="id" label="ID" show-overflow-tooltip />
+        <el-table-column
+          prop="id"
+          label="ID"
+          show-overflow-tooltip
+          fixed
+          width="200"
+        />
         <el-table-column
           prop="imageName"
           label="镜像名称"
           show-overflow-tooltip
+          fixed
+          width="100"
         />
         <el-table-column
           prop="imageType"
           label="镜像类型"
           show-overflow-tooltip
+          width="100"
         />
-        <el-table-column prop="path" label="文件路径" show-overflow-tooltip />
-        <el-table-column prop="version" label="版本" show-overflow-tooltip />
+        <el-table-column
+          prop="path"
+          label="文件路径"
+          show-overflow-tooltip
+          min-width="200"
+        />
+        <el-table-column
+          prop="version"
+          label="版本"
+          show-overflow-tooltip
+          width="100"
+        />
         <el-table-column
           prop="createTime"
           label="创建时间"
           show-overflow-tooltip
+          width="200"
         />
         <el-table-column
           prop="updateTime"
           label="更新时间"
           show-overflow-tooltip
+          width="200"
         />
-        <el-table-column label="操作">
+        <el-table-column label="操作" fixed="right" width="70">
           <template #default="{ row }">
             <el-popconfirm
               title="确认删除？"
