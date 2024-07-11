@@ -17,16 +17,21 @@
     <div class="flex flex-col items-center w-full gap-2">
       <el-table :data="exercises" class="w-full">
         <el-table-column
+          fixed="left"
+          width="100"
           show-overflow-tooltip
           prop="id"
           label="ID"
         ></el-table-column>
         <el-table-column
+          fixed="left"
+          width="150"
           show-overflow-tooltip
           prop="exerciseName"
           label="演练名称"
         ></el-table-column>
         <el-table-column
+          width="200"
           show-overflow-tooltip
           prop="network"
           label="网络"
@@ -38,74 +43,91 @@
         ></el-table-column>
 
         <el-table-column
+          width="200"
           show-overflow-tooltip
           prop="targetImageId"
           label="靶机镜像 ID"
         ></el-table-column>
 
-        <el-table-column
-          show-overflow-tooltip
-          prop="attackImageId"
-          label="攻击镜像 ID"
-        ></el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-          prop="attackTimes"
-          label="攻击次数"
-        ></el-table-column>
-        <!-- <el-table-column
-        show-overflow-tooltip
-        prop="attackStartTime"
-        label="攻击开始时间"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="attackEndTime"
-        label="攻击结束时间"
-      ></el-table-column> -->
+        <el-table-column label="攻击">
+          <el-table-column
+            width="200"
+            show-overflow-tooltip
+            prop="attackImageId"
+            label="攻击镜像 ID"
+          ></el-table-column>
+          <el-table-column
+            width="100"
+            show-overflow-tooltip
+            prop="attackTimes"
+            label="攻击次数"
+          ></el-table-column>
+          <el-table-column
+            width="200"
+            show-overflow-tooltip
+            prop="attackStartTime"
+            label="攻击开始时间"
+          ></el-table-column>
+          <el-table-column
+            width="200"
+            show-overflow-tooltip
+            prop="attackEndTime"
+            label="攻击结束时间"
+          ></el-table-column>
+        </el-table-column>
+
+        <el-table-column label="防御">
+          <el-table-column
+            width="200"
+            show-overflow-tooltip
+            prop="defendImageId"
+            label="防御镜像 ID"
+          ></el-table-column>
+          <el-table-column
+            width="100"
+            show-overflow-tooltip
+            prop="defendTimes"
+            label="防御次数"
+          ></el-table-column>
+          <el-table-column
+            width="200"
+            show-overflow-tooltip
+            prop="defendStartTime"
+            label="防御开始时间"
+          ></el-table-column>
+          <el-table-column
+            width="200"
+            show-overflow-tooltip
+            prop="defendEndTime"
+            label="防御结束时间"
+          ></el-table-column>
+        </el-table-column>
 
         <el-table-column
+          width="200"
           show-overflow-tooltip
-          prop="defendImageId"
-          label="防御镜像 ID"
+          prop="startTime"
+          label="开始时间"
         ></el-table-column>
         <el-table-column
+          width="200"
           show-overflow-tooltip
-          prop="defendTimes"
-          label="防御次数"
+          prop="endTime"
+          label="结束时间"
         ></el-table-column>
-        <!-- <el-table-column
-        show-overflow-tooltip
-        prop="defendStartTime"
-        label="防御开始时间"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="defendEndTime"
-        label="防御结束时间"
-      ></el-table-column> -->
-
-        <!-- <el-table-column
-        show-overflow-tooltip
-        prop="startTime"
-        label="开始时间"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="endTime"
-        label="结束时间"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="createTime"
-        label="创建时间"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="updateTime"
-        label="更新时间"
-      ></el-table-column> -->
-        <el-table-column label="操作" width="100">
+        <el-table-column
+          width="200"
+          show-overflow-tooltip
+          prop="createTime"
+          label="创建时间"
+        ></el-table-column>
+        <el-table-column
+          width="200"
+          show-overflow-tooltip
+          prop="updateTime"
+          label="更新时间"
+        ></el-table-column>
+        <el-table-column label="操作" fixed="right" width="100">
           <template #default="{ row }">
             <el-button size="small" type="primary" @click="viewDetails(row)"
               >查看详情</el-button
