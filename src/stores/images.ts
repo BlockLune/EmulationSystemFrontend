@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import axiosInstance from "../utils/axiosInstance";
 import type { Image, NewImage } from "../types";
+import { ElMessage } from "element-plus";
 
 const useImagesStore = defineStore('images', () => {
   const images = ref<Image[] | undefined>(undefined);
@@ -33,6 +34,7 @@ const useImagesStore = defineStore('images', () => {
       allAttackImages.value = response.data.data;
       return response;
     } catch (err) {
+      ElMessage.error("获取攻击镜像失败: " + err);
       console.error(err);
     }
   }
@@ -42,6 +44,7 @@ const useImagesStore = defineStore('images', () => {
       allDefenseImages.value = response.data.data;
       return response;
     } catch (err) {
+      ElMessage.error("获取防御镜像失败: " + err);
       console.error(err);
     }
   }
@@ -51,14 +54,37 @@ const useImagesStore = defineStore('images', () => {
       allTargetImages.value = response.data.data;
       return response;
     } catch (err) {
+      ElMessage.error("获取靶机镜像失败: " + err);
       console.error(err);
     }
   }
   const uploadImage = async (newImage: NewImage) => {
     try {
-      const response = await axiosInstance.post("/image/uploadImage", newImage);
+      const formData = new FormData();
+      formData.append("file", newImage.file);
+
+      const url = `/image/uploadImage` +
+        `?imageName=${encodeURIComponent(newImage.imageName)}` +
+        `&imageType=${encodeURIComponent(newImage.imageType)}` +
+        `&version=${encodeURIComponent(newImage.version)}`
+      const response = await axiosInstance.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      // i'm not sure what the code should be
+      // i suppose here to be 201 since it represents created
+      // however, the backend returns 200 when i was testing
+      // so i just put 200 and 201 here
+      if (response.data.code !== 200 && response.data.code !== 201) {
+        ElMessage.error("上传镜像失败");
+        console.error(response.data);
+      } else {
+        ElMessage.success("上传镜像成功");
+      }
       return response;
     } catch (err) {
+      ElMessage.error("上传镜像失败: " + err);
       console.error(err);
     }
   }
@@ -69,6 +95,7 @@ const useImagesStore = defineStore('images', () => {
       });
       return response;
     } catch (err) {
+      ElMessage.error("删除镜像失败: " + err);
       console.error(err);
     }
   }

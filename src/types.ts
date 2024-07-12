@@ -86,6 +86,20 @@ export interface QueryExercise {
 // 2: 网络攻击镜像
 // 3: 网络防御镜像
 // 4: 靶机镜像
+// Code snippet to generate { label: string, value: string }[] from enum
+/*
+Object.entries(ImageType)
+    .filter(([key, value]) => typeof value === 'number')
+    .map(([label, value]) => ({ label, value }))
+*/
+export enum ImageType {
+    "漏洞挖掘镜像" = 0,
+    "包含漏洞数据镜像" = 1,
+    "网络攻击镜像" = 2,
+    "网络防御镜像" = 3,
+    "靶机镜像" = 4,
+}
+
 
 // AttackImage: POST /exercise/selectAttackImage
 // DefenseImage: POST /exercise/selectDefenseImage
@@ -99,8 +113,13 @@ export interface Image {
     updateTime: string,
 }
 export interface NewImage {
-    file: string,
+    file: File,
     imageName: string,
     imageType: string,
     version: string,
+}
+
+export interface QueryImage {
+    imageName: string,
+    imageType: string,
 }
