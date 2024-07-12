@@ -2,11 +2,7 @@
   <div class="flex flex-col items-center w-full">
     <div class="flex flex-row justify-between w-full gap-2">
       <new-image />
-      <query-image
-        class="grow"
-        v-model:page-num="pageNum"
-        v-model:page-size="pageSize"
-      />
+      <query-image v-model:page-num="pageNum" v-model:page-size="pageSize" />
     </div>
     <div class="flex flex-col items-center w-full gap-2">
       <el-table :data="images" class="w-full">

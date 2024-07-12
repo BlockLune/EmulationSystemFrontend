@@ -4,9 +4,9 @@
       <el-form-item label="镜像名称" class="w-full">
         <el-input v-model="queryForm.imageName" clearable class="w-full" />
       </el-form-item>
-      <el-form-item label="镜像类型" class="w-full">
+      <el-form-item label="镜像类型">
         <el-select-v2
-          class="w-full"
+          class="w-64"
           v-model="queryForm.imageType"
           placeholder="请选择"
           clearable
