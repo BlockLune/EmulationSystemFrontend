@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import axiosInstance from "../utils/axiosInstance";
 import type { Image, Container, NewContainer } from "../types";
+import { ElMessage } from "element-plus";
 
 const useContainersStore = defineStore('containers', () => {
     const containers = ref<Container[] | undefined>(undefined);
@@ -30,6 +31,11 @@ const useContainersStore = defineStore('containers', () => {
     const createContainer = async (newContainer: NewContainer) => {
         try {
             const response = await axiosInstance.post("/container/create", newContainer)
+            if (response.data.code === 200 || response.data.code === 201) {
+                ElMessage.success("创建成功");
+            } else {
+                ElMessage.error("创建失败");
+            }
             return response;
         } catch (err) {
             console.error(err);
