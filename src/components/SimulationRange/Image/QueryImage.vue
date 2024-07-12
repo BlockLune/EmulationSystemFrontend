@@ -36,8 +36,8 @@ const { selectImagesByPage } = useImagesStore();
 
 const query = async () => {
   const response = await selectImagesByPage(
-    String(pageNum.value),
-    String(pageSize.value),
+    queryForm.value.imageName,
+    queryForm.value.imageType,
     String(pageNum.value),
     String(pageSize.value)
   );
