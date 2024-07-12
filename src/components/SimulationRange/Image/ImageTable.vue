@@ -1,130 +1,106 @@
 <template>
-  <div class="flex flex-col items-center w-full">
-    <div class="flex flex-row justify-between w-full gap-2">
-      <new-image />
-      <query-image v-model:page-num="pageNum" v-model:page-size="pageSize" />
-    </div>
-    <div class="flex flex-col items-center w-full gap-2">
-      <el-table :data="images" class="w-full">
-        <el-table-column
-          prop="id"
-          label="ID"
-          show-overflow-tooltip
-          fixed
-          width="200"
-        />
-        <el-table-column
-          prop="imageName"
-          label="镜像名称"
-          show-overflow-tooltip
-          fixed
-          width="100"
-        />
-        <el-table-column
-          prop="imageType"
-          label="镜像类型"
-          show-overflow-tooltip
-          width="100"
-        />
-        <el-table-column
-          prop="path"
-          label="文件路径"
-          show-overflow-tooltip
-          min-width="200"
-        />
-        <el-table-column
-          prop="version"
-          label="版本"
-          show-overflow-tooltip
-          width="100"
-        />
-        <el-table-column
-          prop="createTime"
-          label="创建时间"
-          show-overflow-tooltip
-          width="200"
-        />
-        <el-table-column
-          prop="updateTime"
-          label="更新时间"
-          show-overflow-tooltip
-          width="200"
-        />
-        <el-table-column label="操作" fixed="right" width="70">
-          <template #default="{ row }">
-            <el-popconfirm
-              title="确认删除？"
-              confirm-button-text="确认"
-              cancel-button-text="取消"
-              @confirm="deleteRow(row)"
-            >
-              <template #reference>
-                <el-button link type="danger">删除</el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        v-model:current-page="pageNum"
-        v-model:page-size="pageSize"
-        :page-sizes="pageSizes"
-        :background="true"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
+  <div class="flex flex-col items-center w-full gap-2">
+    <el-table :data="images" class="w-full">
+      <el-table-column
+        prop="id"
+        label="ID"
+        show-overflow-tooltip
+        fixed
+        width="200"
       />
-    </div>
+      <el-table-column
+        prop="imageName"
+        label="镜像名称"
+        show-overflow-tooltip
+        fixed
+        width="100"
+      />
+      <el-table-column
+        prop="imageType"
+        label="镜像类型"
+        show-overflow-tooltip
+        width="100"
+      />
+      <el-table-column
+        prop="path"
+        label="文件路径"
+        show-overflow-tooltip
+        min-width="200"
+      />
+      <el-table-column
+        prop="version"
+        label="版本"
+        show-overflow-tooltip
+        width="100"
+      />
+      <el-table-column
+        prop="createTime"
+        label="创建时间"
+        show-overflow-tooltip
+        width="200"
+      />
+      <el-table-column
+        prop="updateTime"
+        label="更新时间"
+        show-overflow-tooltip
+        width="200"
+      />
+      <el-table-column label="操作" fixed="right" width="70">
+        <template #default="{ row }">
+          <el-popconfirm
+            title="确认删除？"
+            confirm-button-text="确认"
+            cancel-button-text="取消"
+            @confirm="deleteRow(row)"
+          >
+            <template #reference>
+              <el-button link type="danger">删除</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      v-model:current-page="paginationInfo.pageNum"
+      v-model:page-size="paginationInfo.pageSize"
+      :page-sizes="pageSizes"
+      :background="true"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="paginationInfo.total"
+      @size-change="
+        (val: number) => {
+          paginationInfo.pageSize = val;
+          selectImagesByPage();
+        }
+      "
+      @current-change="
+        (val: number) => {
+          paginationInfo.pageNum = val;
+          selectImagesByPage();
+        }
+      "
+    />
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+<script lang="ts" setup>
+import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import useImagesStore from "~/stores/images";
-import type { Image } from "~/types";
+import { Image } from "~/types";
 
 const imagesStore = useImagesStore();
-const { images } = storeToRefs(imagesStore);
+const { images, paginationInfo, deleteImageParams } = storeToRefs(imagesStore);
 const { selectImagesByPage, deleteImage } = imagesStore;
 
 const pageSizes = ref([10, 20, 30, 40]);
-const pageNum = ref(1);
-const pageSize = ref(10);
-const total = ref<number | undefined>(undefined);
-
-const fetchImages = async () => {
-  const response = await selectImagesByPage(
-    "",
-    "",
-    String(pageNum.value),
-    String(pageSize.value)
-  );
-  total.value = response?.data.data.total;
-};
 
 onMounted(() => {
-  fetchImages();
+  selectImagesByPage();
 });
 
-const handleSizeChange = (val: number) => {
-  pageSize.value = val;
-};
-const handleCurrentChange = (val: number) => {
-  pageNum.value = val;
-};
-
-// created
-const newImageCreated = ref(false);
-watch(newImageCreated, () => {
-  fetchImages();
-  newImageCreated.value = false;
-});
-
-// deleted
-const deleteRow = async (row: Image) => {
-  await deleteImage(row.id);
-  fetchImages();
+const deleteRow = (row: Image) => {
+  deleteImageParams.value.id = row.id;
+  deleteImage();
 };
 </script>

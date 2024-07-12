@@ -115,15 +115,19 @@ export interface Image {
     updateTime: string,
 }
 export interface NewImage {
-    file: File,
-    imageName: string,
-    imageType: string,
-    version: string,
+    file: File | undefined,
+    imageName: string | undefined,
+    imageType: string | undefined,
+    version: string | undefined,
 }
 
 export interface QueryImage {
-    imageName: string,
-    imageType: string,
+    imageName: string | undefined,
+    imageType: string | undefined,
+}
+
+export interface DeleteImage {
+    id: string | undefined,
 }
 
 // char(1)
@@ -163,13 +167,13 @@ export interface Container {
 }
 
 export interface NewContainer {
-    imageId: string,
+    imageId: string | undefined,
 }
 
 export interface QueryContainer {
-    containerName: string,
-    // status: string,
-    targetName: string,
+    containerName: string | undefined,
+    status: string | undefined,
+    targetName: string | undefined,
 }
 
 // char(1)
@@ -177,4 +181,10 @@ export enum RangeStatus {
     "待启动" = 0,
     "进行中" = 1,
     "已停止" = 2,
+}
+
+export interface PaginationInfo {
+    pageNum: number | string,
+    pageSize: number | string,
+    total: number | string | undefined,
 }
