@@ -19,15 +19,8 @@
 
 <script lang="ts" setup>
 import { inject, onMounted } from "vue";
-import { isTokenAvailable } from "~/utils/handleToken.ts";
-import { useRouter } from "vue-router";
 
 const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
-const router = useRouter();
 
-onMounted(() => {
-  if (isTokenAvailable()) {
-    router.push("/dashboard");
-  }
-});
+onMounted(async () => {});
 </script>
