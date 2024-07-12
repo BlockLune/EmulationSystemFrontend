@@ -10,8 +10,8 @@ export interface Role {
     id: string | number,
     name: string,
     auth: string | Auth,
-    createdAt: string | Date,
-    updatedAt: string | Date,
+    createTime: string | Date,
+    updateTime: string | Date,
 };
 
 export interface User {
@@ -80,18 +80,20 @@ export interface QueryExercise {
     status: string
 }
 
-// imageType:
-// 0: 漏洞挖掘镜像
-// 1: 包含漏洞数据镜像
-// 2: 网络攻击镜像
-// 3: 网络防御镜像
-// 4: 靶机镜像
+export enum ExerciseStatus {
+    "未开始" = 0,
+    "进行中" = 1,
+    "已停止" = 2,
+}
+
+
 // Code snippet to generate { label: string, value: string }[] from enum
 /*
 Object.entries(ImageType)
     .filter(([key, value]) => typeof value === 'number')
     .map(([label, value]) => ({ label, value }))
 */
+// varchar(1)
 export enum ImageType {
     "漏洞挖掘镜像" = 0,
     "包含漏洞数据镜像" = 1,
@@ -122,4 +124,29 @@ export interface NewImage {
 export interface QueryImage {
     imageName: string,
     imageType: string,
+}
+
+// char(1)
+export enum ContainerType {
+    "漏洞挖掘容器" = 1,
+    "漏洞元数据容器" = 2,
+    "网络攻击容器" = 3,
+    "网络防御容器" = 4,
+    "靶机容器" = 5,
+}
+
+// varchar(500)
+export enum ContainerStatus {
+    "created",
+    "restarting",
+    "running",
+    "paused",
+    "exited",
+}
+
+// char(1)
+export enum RangeStatus {
+    "待启动" = 0,
+    "进行中" = 1,
+    "已停止" = 2,
 }
