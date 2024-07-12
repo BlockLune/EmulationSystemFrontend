@@ -144,6 +144,28 @@ export enum ContainerStatus {
     "exited",
 }
 
+export interface Container {
+    id: string,
+    containerId: string, // sha256
+    containerName: string,
+    containerType: string,
+    status: string,
+    imageId: string,
+    imageName: string,
+    rangeName: string,
+    attackTime: string,
+    defendTime: string,
+    startTime: string,
+    endTime: string,
+    lastTime: string,
+    createTime: string,
+    updateTime: string,
+}
+
+export interface NewContainer {
+    imageId: string,
+}
+
 // char(1)
 export enum RangeStatus {
     "待启动" = 0,
