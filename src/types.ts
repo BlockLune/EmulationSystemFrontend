@@ -166,6 +166,12 @@ export interface NewContainer {
     imageId: string,
 }
 
+export interface QueryContainer {
+    containerName: string,
+    // status: string,
+    targetName: string,
+}
+
 // char(1)
 export enum RangeStatus {
     "待启动" = 0,
