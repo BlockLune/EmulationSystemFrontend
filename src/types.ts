@@ -115,15 +115,19 @@ export interface Image {
     updateTime: string,
 }
 export interface NewImage {
-    file: File,
-    imageName: string,
-    imageType: string,
-    version: string,
+    file: File | undefined,
+    imageName: string | undefined,
+    imageType: string | undefined,
+    version: string | undefined,
 }
 
 export interface QueryImage {
-    imageName: string,
-    imageType: string,
+    imageName: string | undefined,
+    imageType: string | undefined,
+}
+
+export interface DeleteImage {
+    id: string | undefined,
 }
 
 // char(1)
