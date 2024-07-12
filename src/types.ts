@@ -81,9 +81,9 @@ export interface QueryExercise {
 }
 
 export enum ExerciseStatus {
-    "未开始" = 0,
-    "进行中" = 1,
-    "已停止" = 2,
+    "未开始" = 1,
+    "进行中" = 2,
+    "已停止" = 3,
 }
 
 

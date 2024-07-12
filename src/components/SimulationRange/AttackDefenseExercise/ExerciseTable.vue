@@ -7,7 +7,17 @@
           <el-input v-model="queryExerciseForm.exerciseName" clearable />
         </el-form-item>
         <el-form-item label="状态">
-          <el-input v-model="queryExerciseForm.status" clearable />
+          <el-select-v2
+            class="w-48"
+            v-model="queryExerciseForm.status"
+            placeholder="请选择"
+            clearable
+            :options="
+              Object.entries(ExerciseStatus)
+                .filter(([key, value]) => typeof value === 'number')
+                .map(([label, value]) => ({ label, value }))
+            "
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="query">查询</el-button>
@@ -36,11 +46,11 @@
           prop="network"
           label="网络"
         ></el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-          prop="status"
-          label="状态"
-        ></el-table-column>
+        <el-table-column show-overflow-tooltip label="状态" width="100">
+          <template #default="scope">
+            <span>{{ ExerciseStatus[scope.row.status] }}</span>
+          </template>
+        </el-table-column>
 
         <el-table-column
           width="200"
@@ -164,7 +174,7 @@
         selectedRow.network
       }}</el-descriptions-item>
       <el-descriptions-item label="状态">{{
-        selectedRow.status
+        ExerciseStatus[Number.parseInt(selectedRow.status)]
       }}</el-descriptions-item>
 
       <el-descriptions-item label="靶机镜像 ID">{{
@@ -223,6 +233,7 @@ import { ref, onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 import useExercisesStore from "~/stores/exercises";
 import type { Exercise, QueryExercise } from "~/types";
+import { ExerciseStatus } from "~/types";
 
 const exercisesStore = useExercisesStore();
 const { exercises } = storeToRefs(exercisesStore);
@@ -254,6 +265,7 @@ watch([pageNum, pageSize], () => {
 });
 
 const query = () => {
+  console.log(queryExerciseForm.value);
   fetchExercises();
 };
 
@@ -266,7 +278,7 @@ const handleCurrentChange = (val: number) => {
 };
 
 const detailsDialogVisible = ref(false);
-const selectedRow = ref({} as Exercise);
+const selectedRow = ref<Exercise>({} as Exercise);
 const closeDetailsDialog = () => {
   detailsDialogVisible.value = false;
   selectedRow.value = {} as Exercise;
