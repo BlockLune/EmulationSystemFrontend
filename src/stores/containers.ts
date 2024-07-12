@@ -1,10 +1,11 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import axiosInstance from "../utils/axiosInstance";
-import type { Container, NewContainer } from "../types";
+import type { Image, Container, NewContainer } from "../types";
 
 const useContainersStore = defineStore('containers', () => {
     const containers = ref<Container[] | undefined>(undefined);
+    const allTargetImages = ref<Image[] | undefined>(undefined);
     const selectContainersByPage = async (
         containerName: string,
         pageNum: string,
@@ -47,12 +48,13 @@ const useContainersStore = defineStore('containers', () => {
     const selectTargetImage = async () => {
         try {
             const response = await axiosInstance.post("/container/selectTargetImage");
+            allTargetImages.value = response.data.data;
             return response;
         } catch (err) {
             console.error(err);
         }
     }
-    return { containers, selectContainersByPage, createContainer, selectContainerStatus, selectTargetImage }
+    return { containers, allTargetImages, selectContainersByPage, createContainer, selectContainerStatus, selectTargetImage }
 });
 
 export default useContainersStore;
