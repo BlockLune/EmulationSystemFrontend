@@ -72,7 +72,11 @@ const useImagesStore = defineStore('images', () => {
           'Content-Type': 'multipart/form-data'
         }
       });
-      if (response.data.code !== 200 || response.data.code !== 201) {
+      // i'm not sure what the code should be
+      // i suppose here to be 201 since it represents created
+      // however, the backend returns 200 when i was testing
+      // so i just put 200 and 201 here
+      if (response.data.code !== 200 && response.data.code !== 201) {
         ElMessage.error("上传镜像失败");
         console.error(response.data);
       } else {

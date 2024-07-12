@@ -12,6 +12,10 @@ pnpm run build  # 部署
 
 生成的部署文件位于 `./dist/`。
 
+## 一些备忘录
+
+- `/image/uploadImage` 的文件需要通过 form-data 进行传递，且 **必须是特定格式**（压缩包内必须包含特定的内容后端才能正确响应）。
+
 ## 贡献者
 
 - [@10PAULODYBALA](https://github.com/10PAULODYBALA)
