@@ -163,13 +163,13 @@ export interface Container {
 }
 
 export interface NewContainer {
-    imageId: string,
+    imageId: string | undefined,
 }
 
 export interface QueryContainer {
-    containerName: string,
-    // status: string,
-    targetName: string,
+    containerName: string | undefined,
+    status: string | undefined,
+    targetName: string | undefined,
 }
 
 // char(1)
@@ -177,4 +177,10 @@ export enum RangeStatus {
     "待启动" = 0,
     "进行中" = 1,
     "已停止" = 2,
+}
+
+export interface PaginationInfo {
+    pageNum: number | string,
+    pageSize: number | string,
+    total: number | string | undefined,
 }
