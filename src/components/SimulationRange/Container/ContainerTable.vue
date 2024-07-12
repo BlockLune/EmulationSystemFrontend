@@ -1,7 +1,8 @@
 <template>
   <div class="flex flex-col gap-2 w-full">
-    <div class="flex flex-row gap-2 w-full">
+    <div class="flex flex-row gap-2 w-full justify-between">
       <new-container v-model="newContainerCreated" />
+      <query-container v-model:pageNum="pageNum" v-model:pageSize="pageSize" />
     </div>
     <div class="flex flex-col gap-2 items-center w-full">
       <el-table :data="containers" stripe>
