@@ -3,7 +3,7 @@ import { deleteStoredToken } from './handleToken';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL,
-  timeout: 5000,
+  timeout: import.meta.env.VITE_AXIOS_TIMEOUT || 0,
 });
 
 axiosInstance.interceptors.request.use(
