@@ -4,7 +4,7 @@
     :model="form"
     :rules="rules"
     label-width="70px"
-    label-position="top"
+    label-position="left"
   >
     <el-form-item label="用户名" prop="loginName">
       <el-input

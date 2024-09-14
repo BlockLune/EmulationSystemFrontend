@@ -1,26 +1,29 @@
+<script lang="ts" setup>
+import { inject } from "vue";
+import LoginForm from "~/components/LoginForm.vue";
+
+const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
+</script>
+
 <template>
-  <div class="flex flex-row w-full">
-    <div style="width: 70%; margin-top: 5%; margin-left: 1%">
-      <h1>{{ EMULATION_SYSTEM_NAME }}</h1>
-    </div>
-    <div class="w-40%" style="height: 99.5vh">
-      <el-card
-        style="width: 99.5%; height: 99.9%"
-        body-style="margin-top: 40%;"
+  <div
+    class="w-full min-h-screen bg-gray-100 dark:bg-slate-800 flex items-center justify-center"
+  >
+    <div
+      class="flex w-full max-w-3xl flex-col md:flex-row items-center md:items-stretch"
+    >
+      <!-- 紫色区域 -->
+      <div
+        class="w-5/6 sm:w-2/3 md:w-1/2 bg-indigo-500 dark:bg-indigo-700 p-12 text-white flex flex-col justify-center"
       >
-        <div style="width: 80%; margin-left: 10%">
-          <h3>账户登录</h3>
-          <login-form />
-        </div>
-      </el-card>
+        <h1 class="text-4xl font-bold">欢迎使用</h1>
+        <p class="text-2xl">{{ EMULATION_SYSTEM_NAME }}</p>
+      </div>
+
+      <!-- 表单区域 -->
+      <div class="w-5/6 sm:w-2/3 md:w-1/2 bg-white dark:bg-slate-900 p-12">
+        <LoginForm />
+      </div>
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { inject, onMounted } from "vue";
-
-const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
-
-onMounted(async () => {});
-</script>
