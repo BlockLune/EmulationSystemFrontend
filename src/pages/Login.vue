@@ -1,8 +1,18 @@
 <script lang="ts" setup>
-import { inject } from "vue";
+import { inject, onMounted } from "vue";
 import LoginForm from "~/components/LoginForm.vue";
+import { useDarkStore } from "~/stores/dark";
 
 const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
+
+/**
+ * 初次加载登录页面时可能无法正确触发主题切换，
+ * 在这里手动触发一次，以确保主题切换功能正常。
+ */
+useDarkStore(); // trigger the useDark function
+onMounted(() => {
+  // do nothing, just trigger the useDark function
+});
 </script>
 
 <template>
