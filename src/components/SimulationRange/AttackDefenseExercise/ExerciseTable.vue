@@ -158,74 +158,76 @@
     </div>
   </div>
 
-  <el-dialog
-    v-model="detailsDialogVisible"
-    width="90%"
-    @close="closeDetailsDialog"
-  >
-    <el-descriptions title="演练信息" border>
-      <el-descriptions-item label="演练 ID">{{
-        selectedRow.id
-      }}</el-descriptions-item>
-      <el-descriptions-item label="演练名称">{{
-        selectedRow.exerciseName
-      }}</el-descriptions-item>
-      <el-descriptions-item label="网络">{{
-        selectedRow.network
-      }}</el-descriptions-item>
-      <el-descriptions-item label="状态">{{
-        ExerciseStatus[Number.parseInt(selectedRow.status)]
-      }}</el-descriptions-item>
+  <Teleport to="body">
+    <el-dialog
+      v-model="detailsDialogVisible"
+      width="90%"
+      @close="closeDetailsDialog"
+    >
+      <el-descriptions title="演练信息" border>
+        <el-descriptions-item label="演练 ID">{{
+          selectedRow.id
+        }}</el-descriptions-item>
+        <el-descriptions-item label="演练名称">{{
+          selectedRow.exerciseName
+        }}</el-descriptions-item>
+        <el-descriptions-item label="网络">{{
+          selectedRow.network
+        }}</el-descriptions-item>
+        <el-descriptions-item label="状态">{{
+          ExerciseStatus[Number.parseInt(selectedRow.status)]
+        }}</el-descriptions-item>
 
-      <el-descriptions-item label="靶机镜像 ID">{{
-        selectedRow.targetImageId
-      }}</el-descriptions-item>
+        <el-descriptions-item label="靶机镜像 ID">{{
+          selectedRow.targetImageId
+        }}</el-descriptions-item>
 
-      <el-descriptions-item label="攻击镜像 ID">{{
-        selectedRow.attackImageId
-      }}</el-descriptions-item>
-      <el-descriptions-item label="攻击次数">{{
-        selectedRow.attackTimes
-      }}</el-descriptions-item>
-      <el-descriptions-item label="攻击开始时间">{{
-        selectedRow.attackStartTime
-      }}</el-descriptions-item>
-      <el-descriptions-item label="攻击结束时间">{{
-        selectedRow.attackEndTime
-      }}</el-descriptions-item>
+        <el-descriptions-item label="攻击镜像 ID">{{
+          selectedRow.attackImageId
+        }}</el-descriptions-item>
+        <el-descriptions-item label="攻击次数">{{
+          selectedRow.attackTimes
+        }}</el-descriptions-item>
+        <el-descriptions-item label="攻击开始时间">{{
+          selectedRow.attackStartTime
+        }}</el-descriptions-item>
+        <el-descriptions-item label="攻击结束时间">{{
+          selectedRow.attackEndTime
+        }}</el-descriptions-item>
 
-      <el-descriptions-item label="防御镜像">{{
-        selectedRow.defendImageId
-      }}</el-descriptions-item>
-      <el-descriptions-item label="防御次数">{{
-        selectedRow.defendTimes
-      }}</el-descriptions-item>
-      <el-descriptions-item label="防御开始时间">{{
-        selectedRow.defendStartTime
-      }}</el-descriptions-item>
-      <el-descriptions-item label="防御结束时间">{{
-        selectedRow.defendEndTime
-      }}</el-descriptions-item>
+        <el-descriptions-item label="防御镜像">{{
+          selectedRow.defendImageId
+        }}</el-descriptions-item>
+        <el-descriptions-item label="防御次数">{{
+          selectedRow.defendTimes
+        }}</el-descriptions-item>
+        <el-descriptions-item label="防御开始时间">{{
+          selectedRow.defendStartTime
+        }}</el-descriptions-item>
+        <el-descriptions-item label="防御结束时间">{{
+          selectedRow.defendEndTime
+        }}</el-descriptions-item>
 
-      <el-descriptions-item label="开始时间">{{
-        selectedRow.startTime
-      }}</el-descriptions-item>
-      <el-descriptions-item label="结束时间">{{
-        selectedRow.endTime
-      }}</el-descriptions-item>
-      <el-descriptions-item label="创建时间">{{
-        selectedRow.createTime
-      }}</el-descriptions-item>
-      <el-descriptions-item label="更新时间">{{
-        selectedRow.updateTime
-      }}</el-descriptions-item>
-    </el-descriptions>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="detailsDialogVisible = false">关闭</el-button>
-      </span>
-    </template>
-  </el-dialog>
+        <el-descriptions-item label="开始时间">{{
+          selectedRow.startTime
+        }}</el-descriptions-item>
+        <el-descriptions-item label="结束时间">{{
+          selectedRow.endTime
+        }}</el-descriptions-item>
+        <el-descriptions-item label="创建时间">{{
+          selectedRow.createTime
+        }}</el-descriptions-item>
+        <el-descriptions-item label="更新时间">{{
+          selectedRow.updateTime
+        }}</el-descriptions-item>
+      </el-descriptions>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="detailsDialogVisible = false">关闭</el-button>
+        </span>
+      </template>
+    </el-dialog>
+  </Teleport>
 </template>
 
 <script lang="ts" setup>

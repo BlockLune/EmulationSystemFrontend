@@ -31,37 +31,39 @@
         >新增任务</el-button
       >
       <!--      <el-button type="primary" @click="query" style="display: flex; float: right">查询</el-button>-->
-      <el-dialog v-model="addDialogVisible" title="新增任务" width="30%">
-        <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
-        <el-form
-          ref="newFormRef"
-          :model="newForm"
-          label-position="left"
-          label-width="auto"
-        >
-          <el-form-item label="插件名称" prop="qemuPluginName">
-            <el-select-v2
-              v-model="newForm.qemuPluginName"
-              :options="pluginName"
-              placeholder="请选择"
-              clearable
-              style="width: 100%"
-              @change="getIdByName"
-            />
-          </el-form-item>
-          <!--          <el-form-item label="插件ID" prop="pluginId">-->
-          <!--            <el-input v-model="newForm.pluginId" placeholder="单行输入" />-->
-          <!--          </el-form-item>-->
-        </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button type="primary" @click="closeAddDialogSubmitForm()">
-              添加
-            </el-button>
-            <el-button @click="addDialogVisible = false">取消</el-button>
-          </span>
-        </template>
-      </el-dialog>
+      <Teleport to="body">
+        <el-dialog v-model="addDialogVisible" title="新增任务" width="30%">
+          <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
+          <el-form
+            ref="newFormRef"
+            :model="newForm"
+            label-position="left"
+            label-width="auto"
+          >
+            <el-form-item label="插件名称" prop="qemuPluginName">
+              <el-select-v2
+                v-model="newForm.qemuPluginName"
+                :options="pluginName"
+                placeholder="请选择"
+                clearable
+                style="width: 100%"
+                @change="getIdByName"
+              />
+            </el-form-item>
+            <!--          <el-form-item label="插件ID" prop="pluginId">-->
+            <!--            <el-input v-model="newForm.pluginId" placeholder="单行输入" />-->
+            <!--          </el-form-item>-->
+          </el-form>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button type="primary" @click="closeAddDialogSubmitForm()">
+                添加
+              </el-button>
+              <el-button @click="addDialogVisible = false">取消</el-button>
+            </span>
+          </template>
+        </el-dialog>
+      </Teleport>
 
       <!-- 表格主体 -->
       <div style="width: 100%">

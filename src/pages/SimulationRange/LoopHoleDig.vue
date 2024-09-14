@@ -32,43 +32,48 @@
         >查询</el-button
       >
       <!--      <el-button type="primary" @click="query" style="display: flex; float: right">查询</el-button>-->
-      <el-dialog v-model="addDialogVisible" title="上传插件" width="30%">
-        <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
-        <el-form
-          ref="newFormRef"
-          :model="newForm"
-          label-position="left"
-          label-width="auto"
-        >
-          <el-form-item label="插件名称" prop="qemuPluginName">
-            <el-input v-model="newForm.qemuPluginName" placeholder="单行输入" />
-          </el-form-item>
-          <el-form-item label="版本号" prop="version">
-            <el-input v-model="newForm.version" placeholder="单行输入" />
-          </el-form-item>
-          <el-form-item label="资源文件" prop="resourceType">
-            <el-upload
-              ref="uploadrefs"
-              :on-change="handleChange"
-              class="upload-demo"
-              action=""
-              :auto-upload="false"
-            >
-              <template #trigger>
-                <el-button type="primary">选择文件</el-button>
-              </template>
-            </el-upload>
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button type="primary" @click="closeAddDialogSubmitForm()">
-              上传
-            </el-button>
-            <el-button @click="addDialogVisible = false">取消</el-button>
-          </span>
-        </template>
-      </el-dialog>
+      <Teleport to="body">
+        <el-dialog v-model="addDialogVisible" title="上传插件" width="30%">
+          <!-- TODO: 当前的行为是点击空白处关闭新建框会保留之前的填写记录, 是否要清除? -->
+          <el-form
+            ref="newFormRef"
+            :model="newForm"
+            label-position="left"
+            label-width="auto"
+          >
+            <el-form-item label="插件名称" prop="qemuPluginName">
+              <el-input
+                v-model="newForm.qemuPluginName"
+                placeholder="单行输入"
+              />
+            </el-form-item>
+            <el-form-item label="版本号" prop="version">
+              <el-input v-model="newForm.version" placeholder="单行输入" />
+            </el-form-item>
+            <el-form-item label="资源文件" prop="resourceType">
+              <el-upload
+                ref="uploadrefs"
+                :on-change="handleChange"
+                class="upload-demo"
+                action=""
+                :auto-upload="false"
+              >
+                <template #trigger>
+                  <el-button type="primary">选择文件</el-button>
+                </template>
+              </el-upload>
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button type="primary" @click="closeAddDialogSubmitForm()">
+                上传
+              </el-button>
+              <el-button @click="addDialogVisible = false">取消</el-button>
+            </span>
+          </template>
+        </el-dialog>
+      </Teleport>
 
       <!-- 主体 -->
       <div

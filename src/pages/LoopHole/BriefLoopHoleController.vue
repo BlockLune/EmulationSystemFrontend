@@ -114,89 +114,99 @@
         >新增漏洞</el-button
       >
 
-      <el-dialog v-model="addDialogVisible2" title="新增分类" width="30%">
-        <el-form
-          ref="newCategoryFormRef"
-          :model="newCategoryForm"
-          label-position="left"
-          label-width="auto"
-        >
-          <el-form-item label="分类名称" prop="categoryName">
-            <el-input
-              v-model="newCategoryForm.categoryName"
-              placeholder="单行输入"
-            />
-          </el-form-item>
-          <el-form-item label="分类描述" prop="descr">
-            <el-input v-model="newCategoryForm.descr" placeholder="单行输入" />
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button type="primary" @click="closeAddDialogSubmitForm2()"
-              >新增
-            </el-button>
-            <el-button @click="addDialogVisible2 = false">取消</el-button>
-          </span>
-        </template>
-      </el-dialog>
+      <Teleport to="body">
+        <el-dialog v-model="addDialogVisible2" title="新增分类" width="30%">
+          <el-form
+            ref="newCategoryFormRef"
+            :model="newCategoryForm"
+            label-position="left"
+            label-width="auto"
+          >
+            <el-form-item label="分类名称" prop="categoryName">
+              <el-input
+                v-model="newCategoryForm.categoryName"
+                placeholder="单行输入"
+              />
+            </el-form-item>
+            <el-form-item label="分类描述" prop="descr">
+              <el-input
+                v-model="newCategoryForm.descr"
+                placeholder="单行输入"
+              />
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button type="primary" @click="closeAddDialogSubmitForm2()"
+                >新增
+              </el-button>
+              <el-button @click="addDialogVisible2 = false">取消</el-button>
+            </span>
+          </template>
+        </el-dialog>
+      </Teleport>
 
-      <el-dialog v-model="addDialogVisible1" title="新增漏洞" width="30%">
-        <el-form
-          ref="newLoopHoleFormRef"
-          :model="newLoopHoleForm"
-          label-position="left"
-          label-width="auto"
-        >
-          <el-form-item label="分类ID" prop="categoryId">
-            <el-input
-              v-model="newLoopHoleForm.categoryId"
-              placeholder="单行输入"
-            />
-          </el-form-item>
-          <el-form-item label="漏洞名称" prop="holeName">
-            <el-input
-              v-model="newLoopHoleForm.holeName"
-              placeholder="单行输入"
-            />
-          </el-form-item>
-          <el-form-item label="漏洞级别" prop="level">
-            <el-input v-model="newLoopHoleForm.level" placeholder="单行输入" />
-          </el-form-item>
-          <el-form-item label="元数据" prop="metadata">
-            <el-input
-              v-model="newLoopHoleForm.metadata"
-              placeholder="单行输入"
-            />
-          </el-form-item>
-          <el-form-item label="相关容器ID" prop="relateContainerId">
-            <el-input
-              v-model="newLoopHoleForm.relateContainerId"
-              placeholder="单行输入"
-            />
-          </el-form-item>
-          <el-form-item label="相关演练ID" prop="relateExerciseId">
-            <el-input
-              v-model="newLoopHoleForm.relateExerciseId"
-              placeholder="单行输入"
-            />
-          </el-form-item>
-          <el-form-item label="相关镜像ID" prop="relateImageId">
-            <el-input
-              v-model="newLoopHoleForm.relateImageId"
-              placeholder="单行输入"
-            />
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button type="primary" @click="closeAddDialogSubmitForm1()"
-              >新增
-            </el-button>
-            <el-button @click="addDialogVisible1 = false">取消</el-button>
-          </span>
-        </template>
-      </el-dialog>
+      <Teleport to="body">
+        <el-dialog v-model="addDialogVisible1" title="新增漏洞" width="30%">
+          <el-form
+            ref="newLoopHoleFormRef"
+            :model="newLoopHoleForm"
+            label-position="left"
+            label-width="auto"
+          >
+            <el-form-item label="分类ID" prop="categoryId">
+              <el-input
+                v-model="newLoopHoleForm.categoryId"
+                placeholder="单行输入"
+              />
+            </el-form-item>
+            <el-form-item label="漏洞名称" prop="holeName">
+              <el-input
+                v-model="newLoopHoleForm.holeName"
+                placeholder="单行输入"
+              />
+            </el-form-item>
+            <el-form-item label="漏洞级别" prop="level">
+              <el-input
+                v-model="newLoopHoleForm.level"
+                placeholder="单行输入"
+              />
+            </el-form-item>
+            <el-form-item label="元数据" prop="metadata">
+              <el-input
+                v-model="newLoopHoleForm.metadata"
+                placeholder="单行输入"
+              />
+            </el-form-item>
+            <el-form-item label="相关容器ID" prop="relateContainerId">
+              <el-input
+                v-model="newLoopHoleForm.relateContainerId"
+                placeholder="单行输入"
+              />
+            </el-form-item>
+            <el-form-item label="相关演练ID" prop="relateExerciseId">
+              <el-input
+                v-model="newLoopHoleForm.relateExerciseId"
+                placeholder="单行输入"
+              />
+            </el-form-item>
+            <el-form-item label="相关镜像ID" prop="relateImageId">
+              <el-input
+                v-model="newLoopHoleForm.relateImageId"
+                placeholder="单行输入"
+              />
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button type="primary" @click="closeAddDialogSubmitForm1()"
+                >新增
+              </el-button>
+              <el-button @click="addDialogVisible1 = false">取消</el-button>
+            </span>
+          </template>
+        </el-dialog>
+      </Teleport>
 
       <div
         v-show="loopHoleShow"
@@ -340,75 +350,79 @@
       </div>
     </div>
 
-    <el-dialog v-model="editDialogVisible1" title="编辑漏洞" width="30%">
-      <el-form
-        ref="editForm1Ref"
-        :model="editForm1"
-        label="70px"
-        label-position="left"
-        label-width="auto"
-      >
-        <el-form-item label="分类ID" prop="categoryId">
-          <el-input v-model="editForm1.categoryId" />
-        </el-form-item>
-        <el-form-item label="漏洞名称" prop="holeName">
-          <el-input v-model="editForm1.holeName" />
-        </el-form-item>
-        <el-form-item label="ID" prop="id">
-          <el-input v-model="editForm1.id" disabled />
-        </el-form-item>
-        <el-form-item label="级别" prop="level">
-          <el-input v-model="editForm1.level" />
-        </el-form-item>
-        <el-form-item label="元数据" prop="metadata">
-          <el-input v-model="editForm1.metadata" />
-        </el-form-item>
-        <el-form-item label="相关容器ID" prop="relateContainerId">
-          <el-input v-model="editForm1.relateContainerId" />
-        </el-form-item>
-        <el-form-item label="相关演练ID" prop="relateExerciseId">
-          <el-input v-model="editForm1.relateExerciseId" />
-        </el-form-item>
-        <el-form-item label="相关镜像ID" prop="relateImageId">
-          <el-input v-model="editForm1.relateImageId" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button type="primary" @click="closeEditDialogSubmitForm1">
-            确定
-          </el-button>
-          <el-button @click="editDialogVisible1 = false">取消</el-button>
-        </span>
-      </template>
-    </el-dialog>
+    <Teleport to="body">
+      <el-dialog v-model="editDialogVisible1" title="编辑漏洞" width="30%">
+        <el-form
+          ref="editForm1Ref"
+          :model="editForm1"
+          label="70px"
+          label-position="left"
+          label-width="auto"
+        >
+          <el-form-item label="分类ID" prop="categoryId">
+            <el-input v-model="editForm1.categoryId" />
+          </el-form-item>
+          <el-form-item label="漏洞名称" prop="holeName">
+            <el-input v-model="editForm1.holeName" />
+          </el-form-item>
+          <el-form-item label="ID" prop="id">
+            <el-input v-model="editForm1.id" disabled />
+          </el-form-item>
+          <el-form-item label="级别" prop="level">
+            <el-input v-model="editForm1.level" />
+          </el-form-item>
+          <el-form-item label="元数据" prop="metadata">
+            <el-input v-model="editForm1.metadata" />
+          </el-form-item>
+          <el-form-item label="相关容器ID" prop="relateContainerId">
+            <el-input v-model="editForm1.relateContainerId" />
+          </el-form-item>
+          <el-form-item label="相关演练ID" prop="relateExerciseId">
+            <el-input v-model="editForm1.relateExerciseId" />
+          </el-form-item>
+          <el-form-item label="相关镜像ID" prop="relateImageId">
+            <el-input v-model="editForm1.relateImageId" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button type="primary" @click="closeEditDialogSubmitForm1">
+              确定
+            </el-button>
+            <el-button @click="editDialogVisible1 = false">取消</el-button>
+          </span>
+        </template>
+      </el-dialog>
+    </Teleport>
 
-    <el-dialog v-model="editDialogVisible2" title="编辑分类" width="30%">
-      <el-form
-        ref="editForm2Ref"
-        :model="editForm2"
-        label="70px"
-        label-position="left"
-      >
-        <el-form-item label="分类名称" prop="categoryName">
-          <el-input v-model="editForm2.categoryName" />
-        </el-form-item>
-        <el-form-item label="描述" prop="descr">
-          <el-input v-model="editForm2.descr" />
-        </el-form-item>
-        <el-form-item label="ID" prop="id">
-          <el-input v-model="editForm2.id" disabled />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button type="primary" @click="closeEditDialogSubmitForm2">
-            确定
-          </el-button>
-          <el-button @click="editDialogVisible2 = false">取消</el-button>
-        </span>
-      </template>
-    </el-dialog>
+    <Teleport to="body">
+      <el-dialog v-model="editDialogVisible2" title="编辑分类" width="30%">
+        <el-form
+          ref="editForm2Ref"
+          :model="editForm2"
+          label="70px"
+          label-position="left"
+        >
+          <el-form-item label="分类名称" prop="categoryName">
+            <el-input v-model="editForm2.categoryName" />
+          </el-form-item>
+          <el-form-item label="描述" prop="descr">
+            <el-input v-model="editForm2.descr" />
+          </el-form-item>
+          <el-form-item label="ID" prop="id">
+            <el-input v-model="editForm2.id" disabled />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button type="primary" @click="closeEditDialogSubmitForm2">
+              确定
+            </el-button>
+            <el-button @click="editDialogVisible2 = false">取消</el-button>
+          </span>
+        </template>
+      </el-dialog>
+    </Teleport>
   </div>
 </template>
 

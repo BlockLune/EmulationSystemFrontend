@@ -7,42 +7,44 @@
         <el-button type="primary" @click="addDialogVisible = true"
           >新增</el-button
         >
-        <el-dialog v-model="addDialogVisible" title="新增角色" width="30%">
-          <el-form
-            ref="newRoleFormRef"
-            :model="newRoleForm"
-            label="70px"
-            label-position="left"
-            label-width="auto"
-          >
-            <el-form-item label="角色名称" prop="name">
-              <el-input
-                v-model="newRoleForm.name"
-                placeholder="单行输入"
-                maxlength="16"
-                show-word-limit
-              />
-            </el-form-item>
-            <el-form-item label="权限">
-              <el-radio-group v-model="newRoleForm.auth">
-                <el-radio value="靶场管理">靶场管理</el-radio>
-                <el-radio value="容器管理">容器管理</el-radio>
-                <el-radio value="镜像管理">镜像管理</el-radio>
-                <el-radio value="攻防演练">攻防演练</el-radio>
-                <el-radio value="漏洞库管理">漏洞库管理</el-radio>
-                <el-radio value="系统管理">系统管理</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-form>
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button type="primary" @click="closeAddDialogSubmitForm">
-                确定
-              </el-button>
-              <el-button @click="addDialogVisible = false">取消</el-button>
-            </span>
-          </template>
-        </el-dialog>
+        <Teleport to="body">
+          <el-dialog v-model="addDialogVisible" title="新增角色" width="30%">
+            <el-form
+              ref="newRoleFormRef"
+              :model="newRoleForm"
+              label="70px"
+              label-position="left"
+              label-width="auto"
+            >
+              <el-form-item label="角色名称" prop="name">
+                <el-input
+                  v-model="newRoleForm.name"
+                  placeholder="单行输入"
+                  maxlength="16"
+                  show-word-limit
+                />
+              </el-form-item>
+              <el-form-item label="权限">
+                <el-radio-group v-model="newRoleForm.auth">
+                  <el-radio value="靶场管理">靶场管理</el-radio>
+                  <el-radio value="容器管理">容器管理</el-radio>
+                  <el-radio value="镜像管理">镜像管理</el-radio>
+                  <el-radio value="攻防演练">攻防演练</el-radio>
+                  <el-radio value="漏洞库管理">漏洞库管理</el-radio>
+                  <el-radio value="系统管理">系统管理</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-form>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button type="primary" @click="closeAddDialogSubmitForm">
+                  确定
+                </el-button>
+                <el-button @click="addDialogVisible = false">取消</el-button>
+              </span>
+            </template>
+          </el-dialog>
+        </Teleport>
       </div>
       <!-- 搜索框 -->
       <div>

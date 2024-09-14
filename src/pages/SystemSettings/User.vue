@@ -128,35 +128,37 @@
         </el-table-column>
       </el-table>
       <!-- 编辑用户 -->
-      <el-dialog v-model="editDialogVisible" title="编辑用户" width="30%">
-        <el-form
-          ref="editUserFormRef"
-          :model="editUserForm"
-          label="70px"
-          label-position="left"
-        >
-          <el-form-item label="用户ID" prop="id">
-            <el-input v-model="editUserForm.id" disabled />
-          </el-form-item>
-          <el-form-item label="登录名" prop="loginName">
-            <el-input v-model="editUserForm.loginName" />
-          </el-form-item>
-          <el-form-item label="角色ID" prop="roleId">
-            <el-input v-model="editUserForm.roleId" />
-          </el-form-item>
-          <el-form-item label="用户名" prop="userName">
-            <el-input v-model="editUserForm.userName" />
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button type="primary" @click="closeEditDialogSubmitForm()">
-              确定
-            </el-button>
-            <el-button @click="editDialogVisible = false">取消</el-button>
-          </span>
-        </template>
-      </el-dialog>
+      <Teleport to="body">
+        <el-dialog v-model="editDialogVisible" title="编辑用户" width="30%">
+          <el-form
+            ref="editUserFormRef"
+            :model="editUserForm"
+            label="70px"
+            label-position="left"
+          >
+            <el-form-item label="用户ID" prop="id">
+              <el-input v-model="editUserForm.id" disabled />
+            </el-form-item>
+            <el-form-item label="登录名" prop="loginName">
+              <el-input v-model="editUserForm.loginName" />
+            </el-form-item>
+            <el-form-item label="角色ID" prop="roleId">
+              <el-input v-model="editUserForm.roleId" />
+            </el-form-item>
+            <el-form-item label="用户名" prop="userName">
+              <el-input v-model="editUserForm.userName" />
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button type="primary" @click="closeEditDialogSubmitForm()">
+                确定
+              </el-button>
+              <el-button @click="editDialogVisible = false">取消</el-button>
+            </span>
+          </template>
+        </el-dialog>
+      </Teleport>
       <el-pagination
         v-model:current-page="currentPage"
         v-model:page-size="pageSize"

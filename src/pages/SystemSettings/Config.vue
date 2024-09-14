@@ -7,44 +7,46 @@
         <el-button type="primary" @click="addDialogVisible = true"
           >新增</el-button
         >
-        <el-dialog v-model="addDialogVisible" title="新增配置" width="30%">
-          <el-form
-            ref="newConfigFormRef"
-            :model="newConfigForm"
-            label="70px"
-            label-position="left"
-            label-width="auto"
-          >
-            <el-form-item label="配置项" prop="configItem">
-              <el-input
-                v-model="newConfigForm.configItem"
-                placeholder="单行输入"
-              />
-            </el-form-item>
-            <el-form-item label="配置值" prop="configValue">
-              <el-input
-                v-model="newConfigForm.configValue"
-                placeholder="单行输入"
-              />
-            </el-form-item>
-            <el-form-item label="备注" prop="note">
-              <el-input
-                v-model="newConfigForm.remark"
-                placeholder="多行输入"
-                :rows="4"
-                type="textarea"
-              />
-            </el-form-item>
-          </el-form>
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button type="primary" @click="closeAddDialogSubmitForm()">
-                确定
-              </el-button>
-              <el-button @click="addDialogVisible = false">取消</el-button>
-            </span>
-          </template>
-        </el-dialog>
+        <Teleport to="body">
+          <el-dialog v-model="addDialogVisible" title="新增配置" width="30%">
+            <el-form
+              ref="newConfigFormRef"
+              :model="newConfigForm"
+              label="70px"
+              label-position="left"
+              label-width="auto"
+            >
+              <el-form-item label="配置项" prop="configItem">
+                <el-input
+                  v-model="newConfigForm.configItem"
+                  placeholder="单行输入"
+                />
+              </el-form-item>
+              <el-form-item label="配置值" prop="configValue">
+                <el-input
+                  v-model="newConfigForm.configValue"
+                  placeholder="单行输入"
+                />
+              </el-form-item>
+              <el-form-item label="备注" prop="note">
+                <el-input
+                  v-model="newConfigForm.remark"
+                  placeholder="多行输入"
+                  :rows="4"
+                  type="textarea"
+                />
+              </el-form-item>
+            </el-form>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button type="primary" @click="closeAddDialogSubmitForm()">
+                  确定
+                </el-button>
+                <el-button @click="addDialogVisible = false">取消</el-button>
+              </span>
+            </template>
+          </el-dialog>
+        </Teleport>
       </div>
       <div class="flex flex-row gap-2">
         <el-input v-model="queryKey" />
