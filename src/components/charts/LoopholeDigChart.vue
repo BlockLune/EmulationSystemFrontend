@@ -8,6 +8,11 @@ import { ref } from "vue";
 
 use([TitleComponent, GridComponent, BarChart, CanvasRenderer]);
 
+const DUMMY_DATA = Array.from({ length: 7 }, (_, i) => ({
+  date: `1 月 ${19 + i} 日`,
+  value: Math.floor(Math.random() * 250),
+}));
+
 const option = ref({
   title: {
     text: "漏洞挖掘态势",
@@ -15,7 +20,7 @@ const option = ref({
   },
   xAxis: {
     type: "category",
-    data: ["1/16", "1/17", "1/18", "1/19", "1/20", "1/21", "1/22"],
+    data: DUMMY_DATA.map((item) => item.date),
   },
   yAxis: {
     type: "value",
@@ -23,9 +28,11 @@ const option = ref({
   series: [
     {
       type: "bar",
-      data: Array.from({ length: 7 }, (_, i) =>
-        Math.floor(Math.random() * 250)
-      ), // dummy data
+      data: DUMMY_DATA.map((item) => item.value),
+      label: {
+        show: true,
+        position: "top",
+      },
     },
   ],
 });

@@ -19,7 +19,7 @@ const DUMMY_NAMES = [
 const DUMMY_DATA = DUMMY_NAMES.map((name) => ({
   name,
   value: Math.floor(Math.random() * 200),
-})).sort((a, b) => a.value - b.value);
+}));
 
 const option = ref({
   title: {
@@ -32,11 +32,17 @@ const option = ref({
   yAxis: {
     type: "category",
     data: DUMMY_DATA.map((item) => item.name),
+    inverse: true,
   },
   series: [
     {
-      data: DUMMY_DATA.map((item) => item.value),
       type: "bar",
+      data: DUMMY_DATA.map((item) => item.value),
+      realtimeSort: true,
+      label: {
+        show: true,
+        position: "right",
+      },
     },
   ],
 });
