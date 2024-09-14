@@ -20,16 +20,16 @@
         <span>原型</span>
       </el-link>
     </el-menu-item>
-    <el-menu-item index="3">
+    <el-menu-item index="3" @click="handleOpen">
       <button
         class="border-none w-full bg-transparent cursor-pointer"
         style="height: var(--ep-menu-item-height)"
-        @click="handleOpen"
       >
         退出登录
       </button>
       <Teleport to="body">
-        <el-dialog v-model="showModal" title="确认退出登录？">
+        <el-dialog v-model="showModal" width="300px">
+          <span>确认退出登录？</span>
           <template #footer>
             <el-button @click="handleCancel">取消</el-button>
             <el-button type="primary" @click="handleConfirm">确认</el-button>
