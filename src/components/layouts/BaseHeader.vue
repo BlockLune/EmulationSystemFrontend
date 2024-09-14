@@ -42,13 +42,11 @@
 
 <script lang="ts" setup>
 import { inject, ref } from "vue";
-import { useRouter } from "vue-router";
 import { useDarkStore } from "~/stores/dark";
-import { deleteStoredToken } from "~/utils/handleToken.ts";
+import useAuthStore from "~/stores/auth";
 
 const { toggleDark } = useDarkStore();
 const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
-const router = useRouter();
 
 const showModal = ref(false);
 function handleOpen() {
@@ -59,8 +57,8 @@ function handleCancel() {
 }
 function handleConfirm() {
   showModal.value = false;
-  deleteStoredToken();
-  router.push("/login");
+  const { logout } = useAuthStore();
+  logout();
 }
 </script>
 

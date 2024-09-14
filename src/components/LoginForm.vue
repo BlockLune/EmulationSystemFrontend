@@ -32,11 +32,8 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import type { FormInstance } from "element-plus";
-import { getTokenAndStore } from "~/utils/handleToken";
-import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
-
-const router = useRouter();
+import useAuthStore from "~/stores/auth";
 
 const formRef = ref<FormInstance>();
 const form = reactive({
@@ -67,9 +64,9 @@ const rules = {
 
 const loginRequest = async (loginName: string, password: string) => {
   try {
-    await getTokenAndStore(loginName, password);
+    const { login } = useAuthStore();
+    await login(loginName, password);
     ElMessage.success("登录成功");
-    router.push("/dashboard");
   } catch (error) {
     ElMessage.error("登录失败，请检查用户名和密码");
     clearForm(formRef.value);

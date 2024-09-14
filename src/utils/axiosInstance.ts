@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { deleteStoredToken } from './handleToken';
+import useAuthStore from '~/stores/auth';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL,
@@ -8,35 +8,29 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+    const { user } = useAuthStore();
+    if (user?.token) {
+      config.headers.Authorization = `Bearer ${user.token}`;
     }
-    // console.log(config);
     return config;
   },
   error => {
-    // console.log(error);
     return Promise.reject(error);
   }
 );
 
 axiosInstance.interceptors.response.use(
   async response => {
-    // console.log(response);
-    if (response.data.code === 401) {
-      deleteStoredToken();
-    }
     return response;
   },
   async error => {
-    // console.error(error);
-    if (error.code === 'ECONNABORTED') {
-      console.error('请求超时：', error);
-      // throw error;
-    }
-    if (error.response && error.response.status === 401) {
-      deleteStoredToken();
+    const { logout } = useAuthStore();
+    if (error.response) {
+      if ([401, 403].includes(error.response.status)) {
+        logout();
+      }
+      const errorMessage = error.response.data?.message || error.response.statusText || 'Unknown error';
+      return Promise.reject(errorMessage);
     }
     return Promise.reject(error);
   }
