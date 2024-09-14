@@ -3,15 +3,15 @@ import { use } from "echarts/core";
 import { BarChart } from "echarts/charts";
 import { TitleComponent, GridComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
-import VChart, { THEME_KEY } from "vue-echarts";
-import { ref, provide } from "vue";
+import VChart from "vue-echarts";
+import { ref } from "vue";
 
 use([TitleComponent, GridComponent, BarChart, CanvasRenderer]);
-provide(THEME_KEY, "dark");
 
 const option = ref({
   title: {
     text: "漏洞挖掘态势",
+    padding: 20,
   },
   xAxis: {
     type: "category",
@@ -32,5 +32,5 @@ const option = ref({
 </script>
 
 <template>
-  <VChart :option="option" autoresize />
+  <VChart class="h-64" :option="option" autoresize />
 </template>

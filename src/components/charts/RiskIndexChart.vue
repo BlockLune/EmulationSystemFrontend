@@ -7,9 +7,9 @@ import {
   LegendComponent,
 } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
-import VChart, { THEME_KEY } from "vue-echarts";
-import { ref, provide } from "vue";
-provide(THEME_KEY, "dark");
+import VChart from "vue-echarts";
+import { ref } from "vue";
+
 use([
   TitleComponent,
   TooltipComponent,
@@ -27,14 +27,15 @@ const DUMMY_DATA = [
 const option = ref({
   title: {
     text: "风险指数",
-    left: "center",
+    padding: 20,
   },
   tooltip: {
     trigger: "item",
   },
   legend: {
     orient: "vertical",
-    left: "left",
+    left: "right",
+    padding: 20,
   },
   series: [
     {
@@ -63,5 +64,5 @@ const option = ref({
 </script>
 
 <template>
-  <VChart :option="option" autoresize />
+  <VChart class="h-64" :option="option" autoresize />
 </template>

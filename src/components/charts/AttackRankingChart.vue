@@ -3,9 +3,9 @@ import { use } from "echarts/core";
 import { BarChart } from "echarts/charts";
 import { TitleComponent, GridComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
-import VChart, { THEME_KEY } from "vue-echarts";
-import { ref, provide } from "vue";
-provide(THEME_KEY, "dark");
+import VChart from "vue-echarts";
+import { ref } from "vue";
+
 use([TitleComponent, GridComponent, BarChart, CanvasRenderer]);
 
 const DUMMY_NAMES = [
@@ -24,6 +24,7 @@ const DUMMY_DATA = DUMMY_NAMES.map((name) => ({
 const option = ref({
   title: {
     text: "TOP5 潜在攻击类型",
+    padding: 20,
   },
   xAxis: {
     type: "value",
@@ -42,5 +43,5 @@ const option = ref({
 </script>
 
 <template>
-  <VChart :option="option" autoresize />
+  <VChart class="h-64" :option="option" autoresize />
 </template>

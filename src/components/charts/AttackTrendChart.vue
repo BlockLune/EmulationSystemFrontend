@@ -9,9 +9,9 @@ import {
   GridComponent,
 } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
-import VChart, { THEME_KEY } from "vue-echarts";
-import { ref, provide } from "vue";
-provide(THEME_KEY, "dark");
+import VChart from "vue-echarts";
+import { ref } from "vue";
+
 use([
   TitleComponent,
   TooltipComponent,
@@ -32,12 +32,15 @@ const DUMMY_DATA = Array.from({ length: 7 }, (_, i) => ({
 const option = ref({
   title: {
     text: "危险事件发展态势",
+    padding: 20,
   },
   tooltip: {
     trigger: "axis",
   },
   legend: {
     data: ["一般风险", "中等风险", "高危风险"],
+    left: "right",
+    padding: 20,
   },
   grid: {
     left: "3%",
@@ -74,5 +77,5 @@ const option = ref({
 </script>
 
 <template>
-  <VChart :option="option" autoresize />
+  <VChart class="h-64" :option="option" autoresize />
 </template>
