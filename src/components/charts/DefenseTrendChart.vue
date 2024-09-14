@@ -22,6 +22,13 @@ use([
   CanvasRenderer,
 ]);
 
+const DUMMY_DATA = Array.from({ length: 7 }, (_, i) => ({
+  date: `1 月 ${19 + i} 日`,
+  low: Math.floor(Math.random() * 100),
+  mid: Math.floor(Math.random() * 100),
+  high: Math.floor(Math.random() * 100),
+}));
+
 const option = ref({
   title: {
     text: "安全事件防御态势",
@@ -38,23 +45,10 @@ const option = ref({
     bottom: "3%",
     containLabel: true,
   },
-  toolbox: {
-    feature: {
-      saveAsImage: {},
-    },
-  },
   xAxis: {
     type: "category",
     boundaryGap: false,
-    data: [
-      "1月19日",
-      "1月20日",
-      "1月21日",
-      "1月22日",
-      "1月23日",
-      "1月24日",
-      "1月25日",
-    ],
+    data: DUMMY_DATA.map((item) => item.date),
   },
   yAxis: {
     type: "value",
@@ -63,25 +57,22 @@ const option = ref({
     {
       name: "一般风险",
       type: "line",
-      stack: "Total",
-      data: [100, 140, 230, 100, 130, 174, 121],
+      data: DUMMY_DATA.map((item) => item.low),
     },
     {
       name: "中等风险",
       type: "line",
-      stack: "Total",
-      data: [150, 100, 200, 140, 100, 211, 187],
+      data: DUMMY_DATA.map((item) => item.mid),
     },
     {
       name: "高危风险",
       type: "line",
-      stack: "Total",
-      data: [194, 186, 120, 228, 133, 193, 105],
+      data: DUMMY_DATA.map((item) => item.high),
     },
   ],
 });
 </script>
 
 <template>
-  <VChart :option="option" />
+  <VChart :option="option" autoresize />
 </template>

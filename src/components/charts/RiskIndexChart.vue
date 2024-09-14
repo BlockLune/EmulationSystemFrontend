@@ -18,6 +18,12 @@ use([
   CanvasRenderer,
 ]);
 
+const DUMMY_DATA = [
+  { value: 300, name: "一般风险" },
+  { value: 150, name: "中等风险" },
+  { value: 107, name: "高危风险" },
+];
+
 const option = ref({
   title: {
     text: "风险指数",
@@ -34,7 +40,7 @@ const option = ref({
     {
       name: "风险等级",
       type: "pie",
-      radius: ["40%", "70%"], // 这里调整内半径和外半径制作环形图
+      radius: ["40%", "70%"],
       avoidLabelOverlap: false,
       label: {
         show: false,
@@ -50,16 +56,12 @@ const option = ref({
       labelLine: {
         show: false,
       },
-      data: [
-        { value: 107, name: "高危风险" },
-        { value: 150, name: "中等风险" },
-        { value: 300, name: "一般风险" },
-      ],
+      data: DUMMY_DATA,
     },
   ],
 });
 </script>
 
 <template>
-  <VChart :option="option" />
+  <VChart :option="option" autoresize />
 </template>

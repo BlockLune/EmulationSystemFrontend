@@ -32,5 +32,5 @@ const option = ref({
 </script>
 
 <template>
-  <VChart :option="option" />
+  <VChart :option="option" autoresize />
 </template>

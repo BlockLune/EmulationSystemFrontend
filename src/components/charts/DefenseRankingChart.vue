@@ -8,27 +8,31 @@ import { ref, provide } from "vue";
 provide(THEME_KEY, "dark");
 use([TitleComponent, GridComponent, BarChart, CanvasRenderer]);
 
+const DUMMY_DATA = Array.from({ length: 5 }, (_, i) => ({
+  name: `镜像 ${i + 1}`,
+  value: Math.floor(Math.random() * 200),
+})).sort((a, b) => a.value - b.value);
+
 const option = ref({
   title: {
-    text: "TOP5防御情况",
+    text: "TOP5 防御情况",
   },
   xAxis: {
     type: "value",
   },
   yAxis: {
     type: "category",
-    data: ["镜像1", "镜像2", "镜像3", "镜像4", "镜像5"],
+    data: DUMMY_DATA.map((item) => item.name),
   },
   series: [
     {
-      data: [30, 45, 60, 80, 160],
       type: "bar",
-      itemStyle: { color: "green" },
+      data: DUMMY_DATA.map((item) => item.value),
     },
   ],
 });
 </script>
 
 <template>
-  <VChart :option="option" />
+  <VChart :option="option" autoresize />
 </template>
