@@ -20,32 +20,48 @@
         <span>原型</span>
       </el-link>
     </el-menu-item>
-    <el-menu-item index="3" @click="logout()">
+    <el-menu-item index="3">
       <button
         class="border-none w-full bg-transparent cursor-pointer"
         style="height: var(--ep-menu-item-height)"
+        @click="handleOpen"
       >
-        <span>退出登录</span>
+        退出登录
       </button>
+      <Teleport to="body">
+        <el-dialog v-model="showModal" title="确认退出登录？">
+          <template #footer>
+            <el-button @click="handleCancel">取消</el-button>
+            <el-button type="primary" @click="handleConfirm">确认</el-button>
+          </template>
+        </el-dialog>
+      </Teleport>
     </el-menu-item>
   </el-menu>
 </template>
 
 <script lang="ts" setup>
-import { inject } from "vue";
+import { inject, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useDarkStore } from "~/stores/dark";
 import { deleteStoredToken } from "~/utils/handleToken.ts";
 
 const { toggleDark } = useDarkStore();
-
 const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
-
 const router = useRouter();
-const logout = () => {
+
+const showModal = ref(false);
+function handleOpen() {
+  showModal.value = true;
+}
+function handleCancel() {
+  showModal.value = false;
+}
+function handleConfirm() {
+  showModal.value = false;
   deleteStoredToken();
   router.push("/login");
-};
+}
 </script>
 
 <style>
