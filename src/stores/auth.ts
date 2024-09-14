@@ -10,6 +10,7 @@ interface User {
 
 const useAuthStore = defineStore("auth", () => {
   const user = ref<User | null>(JSON.parse(localStorage.getItem("user") ?? "null"));
+
   const login = async (loginName: string, password: string) => {
     try {
       const response = await axiosInstance.post('/system/user/login', {
@@ -35,11 +36,22 @@ const useAuthStore = defineStore("auth", () => {
     router.push('/login');
   }
 
-  const isTokenAvailable = () => {
-    return !!user.value?.token;
+  const isTokenValid = () => {
+    const token = user.value?.token;
+    if (!token) {
+      return false
+    }
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      const exp = payload.exp
+      const currentTime = Math.floor(Date.now() / 1000)
+      return exp > currentTime
+    } catch (error) {
+      return false
+    }
   }
 
-  return { user, login, logout, isTokenAvailable };
+  return { user, login, logout, isTokenValid };
 });
 
 export default useAuthStore;

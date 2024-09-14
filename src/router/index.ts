@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import useAuthStore from "~/stores/auth";
+import { ElMessage } from "element-plus";
 
 import DashboardLayout from "~/layouts/DashboardLayout.vue";
 import LoginLayout from "~/layouts/LoginLayout.vue";
@@ -103,13 +104,20 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
-  const publicPages = ['/login'];
-  const authRequired = !publicPages.includes(to.path);
-  const { user } = useAuthStore();
+  const { isTokenValid } = useAuthStore();
 
-  if (authRequired && !user) {
-    return '/login';
+  if (!(isTokenValid())) {
+    if (to.path !== '/login') {
+      ElMessage.error("尚未登录或登录状态已过期，请重新登录");
+      return { path: '/login' }
+    }
+  } else {
+    if (to.path === '/login') {
+      ElMessage.success("已使用本地 Token 登录");
+      return { path: '/dashboard' }
+    }
   }
+  return true
 });
 
 export default router;
