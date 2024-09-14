@@ -44,10 +44,12 @@
 </template>
 
 <script lang="ts" setup>
-import { toggleDark } from "~/composables";
 import { inject } from "vue";
 import { useRouter } from "vue-router";
+import { useDarkStore } from "~/stores/dark";
 import { deleteStoredToken } from "~/utils/handleToken.ts";
+
+const { toggleDark } = useDarkStore();
 
 const EMULATION_SYSTEM_NAME = inject<string>("EMULATION_SYSTEM_NAME");
 const clearLocalStorage = () => {
